@@ -9,7 +9,7 @@
                     <img src="{{$product->image}}" class="w-100" alt="...">
                 </div>
                 <div class="col-md-6 position-static p-4 pl-md-0">
-                    <h2 class="mt-0">{{$product->title}}</h2>
+                    <h2 class="mt-3 mb-4">{{$product->title}}</h2>
                         <p><b>Category:</b> {{$product->category}}</p>
                         <p><b>Price:</b> {{$product->price / 100}} Eur</p>
                         <p>{{$product->description}}</p>

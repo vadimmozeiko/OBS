@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,24 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
 Auth::routes();
 
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'customers'], function(){
+    Route::get('', [CustomerController::class, 'index'])->name('customer.index');
+    Route::get('create', [CustomerController::class, 'create'])->name('customer.create');
+    Route::post('store', [CustomerController::class, 'store'])->name('customer.store');
+    Route::get('edit/{customer}', [CustomerController::class, 'edit'])->name('customer.edit');
+    Route::post('update/{customer}', [CustomerController::class, 'update'])->name('customer.update');
+    Route::post('delete/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+    Route::get('show/{customer}', [CustomerController::class, 'show'])->name('customer.show');
+});
+
 
 Route::group(['prefix' => 'products'], function(){
     Route::get('', [ProductController::class, 'index'])->name('product.index');
