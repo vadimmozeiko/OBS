@@ -13,7 +13,7 @@
                         <p><b>Category:</b> {{$product->category}}</p>
                         <p><b>Price:</b> {{$product->price / 100}} Eur</p>
                         <p>{{$product->description}}</p>
-                    <a class="card-lin km-1 btn btn-primary" href="#">BOOK NOW</a>
+                    <a class="card-lin km-1 btn btn-primary" href="{{route('order.create', $product)}}">BOOK NOW</a>
                 </div>
             </div>
         </div>

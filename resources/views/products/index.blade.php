@@ -16,7 +16,10 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <a class="card-link btn btn-primary" href="#">BOOK NOW</a>
+                        <form action="{{route('order.create', $product)}}">
+                            <input type="hidden" name="order_date" value="2021-06-22">
+                        <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
+                        </form>
                     </div>
                 </div>
             </div>

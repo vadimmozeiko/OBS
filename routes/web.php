@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,14 +25,14 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix' => 'customers'], function(){
-    Route::get('', [CustomerController::class, 'index'])->name('customer.index');
-    Route::get('create', [CustomerController::class, 'create'])->name('customer.create');
-    Route::post('store', [CustomerController::class, 'store'])->name('customer.store');
-    Route::get('edit/{customer}', [CustomerController::class, 'edit'])->name('customer.edit');
-    Route::post('update/{customer}', [CustomerController::class, 'update'])->name('customer.update');
-    Route::post('delete/{customer}', [CustomerController::class, 'destroy'])->name('customer.destroy');
-    Route::get('show/{customer}', [CustomerController::class, 'show'])->name('customer.show');
+Route::group(['prefix' => 'users'], function(){
+    Route::get('', [UserController::class, 'index'])->name('user.index');
+    Route::get('create', [UserController::class, 'create'])->name('user.create');
+    Route::post('store', [UserController::class, 'store'])->name('user.store');
+    Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('update/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::post('delete/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('show/{user}', [UserController::class, 'show'])->name('user.show');
 });
 
 
@@ -43,4 +44,14 @@ Route::group(['prefix' => 'products'], function(){
     Route::post('update/{product}', [ProductController::class, 'update'])->name('product.update');
     Route::post('delete/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::get('show/{product}', [ProductController::class, 'show'])->name('product.show');
+});
+
+Route::group(['prefix' => 'orders'], function(){
+    Route::get('', [OrderController::class, 'index'])->name('order.index');
+    Route::get('create/{product}', [OrderController::class, 'create'])->name('order.create');
+    Route::post('store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('edit/{order}', [OrderController::class, 'edit'])->name('order.edit');
+    Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
+    Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
+    Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
 });
