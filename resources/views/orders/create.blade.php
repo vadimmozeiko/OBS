@@ -23,6 +23,7 @@
                                 <small class="d-block mb-3">* Required info</small>
                                 <input type="hidden" name="user_id" value="{{$user[0]->id}}">
                                 <input type="hidden" name="product_id" value="{{$product}}">
+                                <input type="hidden" name="order_date" value="{{$request->order_date}}">
                                 <button class="btn btn-primary btn-m" type="submit">BOOK</button>
                                 @csrf
                             </form>

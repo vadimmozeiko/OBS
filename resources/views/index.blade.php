@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form action="{{route('product.index')}}">
                             <label for="date">Pick the date: </label>
-                            <input type="date" id="date" name="date" placeholder="your date here">
+                            <input type="date" id="date" name="order_date" placeholder="your date here">
                             <button type="submit">Check availability</button>
                             @csrf
                         </form>

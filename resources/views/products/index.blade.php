@@ -17,8 +17,9 @@
                     </div>
                     <div class="card-body">
                         <form action="{{route('order.create', $product)}}">
-                            <input type="hidden" name="order_date" value="2021-06-22">
+                            <input type="hidden" name="order_date" value="{{$request->order_date}}">
                         <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
+                            @csrf
                         </form>
                     </div>
                 </div>

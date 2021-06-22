@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $products = Product::all();
 
-        return view('products.index', ['products'=> $products]);
+        return view('products.index', ['products' => $products, 'request' => $request]);
     }
 
 

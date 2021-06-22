@@ -24,7 +24,7 @@ class OrderController extends Controller
         if(!Auth::user()){
             return view('auth.login');
         }
-       return view('orders.create', ['user' => $user, 'product' => $product]);
+       return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
     }
 
 
@@ -36,6 +36,7 @@ class OrderController extends Controller
         $order->user_email = $request->user_email;
         $order->user_phone = $request->user_phone;
         $order->user_message = $request->user_message;
+        $order->date = $request->order_date;
         $order->user_id = $request->user_id;
         $order->product_id = $request->product_id;
         $order->status = 'not confirmed';
