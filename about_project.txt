@@ -16,7 +16,7 @@ During this project my tasks are:
 #### FrontEnd:
 
  - implement customer registration and login
- - page with available products to book from DB rendered with JS
+ - page with available products to book rendered with JS
  - booking form with validations
  - booking calendar for selected product with available dates
  - booking confirmation on screen and send by email

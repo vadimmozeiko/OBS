@@ -1,22 +1,48 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
 Auth::routes();
 
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'users'], function(){
+    Route::get('', [UserController::class, 'index'])->name('user.index');
+    Route::get('create', [UserController::class, 'create'])->name('user.create');
+    Route::post('store', [UserController::class, 'store'])->name('user.store');
+    Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('update/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::post('delete/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('show/{user}', [UserController::class, 'show'])->name('user.show');
+});
+
+
+Route::group(['prefix' => 'products'], function(){
+    Route::get('', [ProductController::class, 'index'])->name('product.index');
+    Route::get('create', [ProductController::class, 'create'])->name('product.create');
+    Route::post('store', [ProductController::class, 'store'])->name('product.store');
+    Route::get('edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::post('update/{product}', [ProductController::class, 'update'])->name('product.update');
+    Route::post('delete/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+    Route::get('show/{product}', [ProductController::class, 'show'])->name('product.show');
+});
+
+Route::group(['prefix' => 'orders'], function(){
+    Route::get('', [OrderController::class, 'index'])->name('order.index');
+    Route::get('create/{product}', [OrderController::class, 'create'])->name('order.create');
+    Route::post('store', [OrderController::class, 'store'])->name('order.store');
+    Route::get('edit/{order}', [OrderController::class, 'edit'])->name('order.edit');
+    Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
+    Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
+    Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
+});
