@@ -7,12 +7,15 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{route('product.index')}}">
-                            <label for="date">Pick the date: </label>
-                            <input type="date" id="date" name="order_date" placeholder="your date here">
-                            <button type="submit">Check availability</button>
-                            @csrf
-                        </form>
+                        <div class="input-group justify-content-center mt-5 mb-5">
+                            <form style="width: 50%;" action="{{route('product.index')}}">
+                                <span class="input-group-addon" id="basic-addon1">Pick the date:</span>
+                                <input class="form-control mb-3 text-center" type="text"
+                                       name="order_date" required>
+                                <button class="card-link m-1 btn btn-primary" type="submit">Check availability</button>
+                                @csrf
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
