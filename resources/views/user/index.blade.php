@@ -6,6 +6,7 @@
             <div class="col-sm-10 col-md-8 col-lg-8 mb-5">
                 <div class="card text-center">
                     <div class="card-body">
+                        <i style="font-size: 80px;" class="fas fa-user-circle mb-3"></i>
                         <h2>{{$person->name}}</h2>
                         <p>{{$person->email}}</p>
                         <p>{{$person->address}}</p>

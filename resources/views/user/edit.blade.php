@@ -8,7 +8,7 @@
                     <div class="card-header"></div>
                     <div class="card-body">
                         <h2 class="">Edit details</h2>
-                        <div class="input-group ">
+                        <div class="input-group">
                             <form style="width: 100%;" method="POST" action="{{route('user.update', $user)}}" enctype="multipart/form-data">
                                 <span class="input-group-addon" id="basic-addon1">Full name *</span>
                                 <input class="form-control mb-3"  type="text" name="user_name" value="{{old('user_name', $user->name)}}" required>

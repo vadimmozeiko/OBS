@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('assets/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 </head>
 <body>
@@ -87,7 +88,7 @@
     <main class="py-4">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @if ($errors->any())
                         <div class="alert">
                             <ul class="list-group">
@@ -117,7 +118,6 @@
                 </div>
             </div>
         </div>
-
         @yield('content')
     </main>
 </div>
