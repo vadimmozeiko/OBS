@@ -12,11 +12,17 @@
                             <h2>{{$product->title}}</h2>
                             <p>{{$product->category}}</p>
                             <p>{{$product->price / 100}} Eur</p>
-                            <p>{{$product->short_description}} Eur</p>
+                            <p>{{$product->short_description}}</p>
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="{{route('order.create', $product)}}">
+                        <form action="
+                            @if(!empty($request->order_date))
+                        {{route('order.create', $product)}}"
+                        @else
+                            {{route('index')}}"
+                            @endif
+                        >
                             <input type="hidden" name="order_date" value="{{$request->order_date}}">
                             <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
                             @csrf

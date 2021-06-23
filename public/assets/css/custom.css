@@ -12,3 +12,7 @@ p {
 img {
     max-width: 500px;
 }
+
+.fontAwesome {
+    font-family: 'Font Awesome 5 Free', sans-serif;
+}

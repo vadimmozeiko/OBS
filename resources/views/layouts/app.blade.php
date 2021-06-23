@@ -9,17 +9,16 @@
 
     <title>OBS</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/all.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/datepicker.css')}}">
 </head>
 <body>
 <div id="app">
@@ -122,4 +121,6 @@
     </main>
 </div>
 </body>
+<script src="{{ asset('assets/js/datepicker.js') }}"></script>
+<script src="{{ asset('js/app.js') }}" defer></script>
 </html>
