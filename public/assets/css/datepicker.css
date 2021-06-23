@@ -16,6 +16,7 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     border-radius: 6px;
     padding: 8px;
+    background-color: #fff;
 }
 .calender > .sp-cal-title {
     padding-bottom: 10px;
@@ -76,5 +77,5 @@
     color: rgb(252, 67, 67);
 }
 .sp-cal-today {
-    color: #333;
+    color: #3490dc;
 }

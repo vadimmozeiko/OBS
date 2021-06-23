@@ -17,8 +17,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 </head>
 <body>
 <div id="app">

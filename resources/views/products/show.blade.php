@@ -13,7 +13,13 @@
                     <p><b>Category:</b> {{$product->category}}</p>
                     <p><b>Price:</b> {{$product->price / 100}} Eur</p>
                     <p>{{$product->description}}</p>
-                    <a class="card-link m-1 btn btn-primary" href="{{route('order.create', $product)}}">BOOK NOW</a>
+                    <a class="card-link m-1 btn btn-primary" href="
+                    @if(!empty($request->order_date))
+                        {{route('order.create', $product)}}"
+                    @else
+                        {{route('index')}}"
+                        >BOOK NOW</a>
+                    @endif
                 </div>
             </div>
         </div>
