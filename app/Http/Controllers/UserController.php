@@ -47,7 +47,7 @@ class UserController extends Controller
                 'user_name' => ['required', 'string', 'max:255'],
                 'user_address' => ['required', 'string', 'max:255'],
                 'user_phone' => ['required', 'numeric', 'min:11'],
-//                'user_email' => ['required', 'string', 'email:rfc', 'max:255', 'unique:users']
+                'user_email' => ['required', 'string', 'email', 'max:255', 'unique:users,email']
             ]);
 
         if ($validator->fails()) {
