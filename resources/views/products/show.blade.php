@@ -17,13 +17,11 @@
                     @if(!empty($request->order_date))
                         {{route('order.create', $product)}}"
                     @else
-                        {{route('index')}}"
+                        {{route('product.index')}}"
                         >BOOK NOW</a>
                     @endif
                 </div>
             </div>
         </div>
     </div>
-
-
 @endsection
