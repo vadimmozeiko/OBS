@@ -44,11 +44,20 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'user_name' => ['required', 'string', 'max:255'],
-                'user_address' => ['required', 'string', 'max:255'],
-                'user_phone' => ['required', 'numeric', 'min:11'],
-                'user_email' => ['required', 'string', 'email', 'max:255', 'unique:users,email']
-            ]);
+                'user_name' => 'required | string | max:255',
+                'user_address' => 'required | string | max:255',
+                'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
+                'user_email' => 'required | string | email | max:255'
+            ],
+            [
+                'user_name.required' => 'Please fill the name field',
+                'user_name.max' => 'Name is too long',
+                'user_address.required' => 'Please fill the address field',
+                'user_address.max' => 'Address is too long',
+                'user_phone.required' => 'Please fill the phone no. field',
+                'user_phone.regex' => 'Invalid phone no.',
+            ]
+        );
 
         if ($validator->fails()) {
             $request->flash();
@@ -60,7 +69,7 @@ class UserController extends Controller
         $user->address = $request->user_address;
         $user->phone = $request->user_phone;
         $user->save();
-        return redirect()->route('user.index');
+        return redirect()->route('user.index')->with('success_message', 'Changes saved successfully');
     }
 
 
