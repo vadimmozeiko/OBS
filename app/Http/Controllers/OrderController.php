@@ -21,15 +21,18 @@ class OrderController extends Controller
     {
         $product = $product->id;
         $user = User::where('name', Auth::user()->name ?? null)->get();
-        if(!Auth::user()){
+        if (!Auth::user()) {
             return view('auth.login');
         }
-       return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
+        return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
     }
 
 
     public function store(Request $request)
     {
+        $product = Product::where('id', $request->product_id)->get();
+
+// TODO validatation here
 
         $order = new Order;
         $order->user_name = $request->user_name;
@@ -41,7 +44,7 @@ class OrderController extends Controller
         $order->product_id = $request->product_id;
         $order->status = 'not confirmed';
         $order->save();
-        return redirect()->route('order.index')->with('order', $order);
+        return redirect()->route('order.index')->with(['order' => $order, 'product' => $product]);
     }
 
 

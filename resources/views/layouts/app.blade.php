@@ -17,8 +17,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="app">
@@ -121,6 +123,16 @@
     </main>
 </div>
 </body>
-<script src="{{ asset('assets/js/datepicker.js') }}"></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
+<script>
+    $('#datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        minDate: function() {
+            var date = new Date();
+            date.setDate(date.getDate()+1);
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
+        uiLibrary: 'bootstrap4',
+    });
+</script>
 </html>

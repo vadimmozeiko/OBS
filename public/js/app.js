@@ -1904,9 +1904,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 //   el: '#app'
 // });
 
-if(document.getElementById('datepicker')){
-  let datepicker = new DatePicker(document.getElementById('datepicker'));
-}
 
 /***/ }),
 

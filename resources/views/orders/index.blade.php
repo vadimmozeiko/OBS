@@ -6,8 +6,12 @@
             <div class="card text-center">
                 <div class="card-body">
                     @if(session()->get('order'))
-                    <h2>Booking was successful</h2>
-                    <h4>Your booking details: </h4>
+                        <h2>Booking was successful</h2>
+                        @foreach(session()->get('product') as $product)
+                            <h3>{{$product->title}}</h3>
+                            <img src="{{$product->image}}" alt="booking image">
+                        @endforeach
+                        <h4>Your booking details: </h4>
                         <p><b>Name: </b>{{session()->get('order')->user_name}}</p>
                         <p><b>Email: </b>{{session()->get('order')->user_email}}</p>
                         <p><b>Date: </b>{{session()->get('order')->date}}</p>

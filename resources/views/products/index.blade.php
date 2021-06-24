@@ -21,7 +21,7 @@
     <div class="container d-flex flex-wrap justify-content-around">
         @foreach($products as $product)
             <div style="cursor: pointer;" class="col-sm-6 col-md-4 col-lg-4 mb-5">
-                <div class="card text-center">
+                <div class="card text-center p-5 h-100">
                     <div onclick="window.location='{{route('product.show', $product)}}'">
                         <img class="card-img-top w-75" src="{{$product->image}}" alt="Bounce Image">
                         <div class="card-body">

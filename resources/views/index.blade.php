@@ -9,7 +9,7 @@
                     <div class="card-body ">
                         <div class="input-group justify-content-center mt-5 mb-5">
                             <form style="width: 30%;" action="{{route('product.index')}}">
-                                <input id="datepicker" class="form-control mb-3 text-center fontAwesome" type="text"
+                                <input id="datepicker" width="270" class="form-control mb-3 text-center fontAwesome" type="text"
                                        name="order_date" placeholder="&#xf133; Pick the date" required>
                                 <button class="card-link m-1 btn btn-primary" type="submit">Check availability</button>
                                 @csrf

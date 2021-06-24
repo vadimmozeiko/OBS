@@ -16,3 +16,8 @@ img {
 .fontAwesome {
     font-family: 'Font Awesome 5 Free', sans-serif;
 }
+
+
+.gj-datepicker-bootstrap [role=right-icon] button {
+    height: 37px;
+}

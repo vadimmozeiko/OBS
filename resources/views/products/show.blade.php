@@ -18,7 +18,7 @@
                         {{route('order.create', $product)}}"
                     @else
                         {{route('product.index')}}"
-                        >BOOK NOW</a>
+                        >Check availability</a>
                     @endif
                 </div>
             </div>
