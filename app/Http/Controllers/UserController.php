@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +33,10 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $userOrders = Order::where('user_id', Auth::user()->id)->get();
+        $products = Product::all();
 
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products]);
     }
 
     public function edit(User $user)

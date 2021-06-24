@@ -14,7 +14,9 @@ class ProductController extends Controller
     {
         if ($request->order_date) {
             $unavailable = [];
-            $products = Order::where('date', $request->order_date)->get();
+            $products = Order::where('date', $request->order_date)
+                ->where('status', 'confirmed')
+                ->get();
             foreach ($products as $product) {
                 $unavailable[] = $product->product_id;
             }

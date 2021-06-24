@@ -23,7 +23,7 @@ Route::group(['prefix' => 'users'], function(){
     Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
     Route::post('update/{user}', [UserController::class, 'update'])->name('user.update');
     Route::post('delete/{user}', [UserController::class, 'destroy'])->name('user.destroy');
-    Route::get('show/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('orders/{user}', [UserController::class, 'show'])->name('user.orders');
 });
 
 

@@ -59,7 +59,7 @@ class OrderController extends Controller
             return redirect()->back()->withErrors($validator);
         }
         $isBooked = Order::where('product_id', $request->product_id)->where('date', $request->order_date)->first();
-        if(!empty($isBooked)){
+        if (!empty($isBooked)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
@@ -80,22 +80,37 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        //
+
     }
 
 
-    public function edit(Order $order)
+    public function edit(Order $order, User $user)
     {
-        //
+        return view('orders.edit', ['order' => $order, 'user' => $user]);
     }
 
     public function update(Request $request, Order $order)
     {
-        //
+        $isBooked = Order::where('product_id', $order->product_id)->where('date', $request->order_date)->first();
+        if (!empty($isBooked)) {
+            return redirect()->back()->with('info_message', 'Not available for selected date');
+        }
+
+        $user = User::where('name', Auth::user()->name ?? null)->first();
+
+        $order->user_name = $request->user_name;
+        $order->user_email = $request->user_email;
+        $order->user_phone = $request->user_phone;
+        $order->date = $request->order_date;;
+        $order->save();
+        return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
     }
 
     public function destroy(Order $order)
     {
-        //
+        $order->status = 'cancelled (awaiting confimation)';
+        $order->save();
+        return redirect()->back()->with('success_message', 'Order cancellation submitted successfully');
+
     }
 }
