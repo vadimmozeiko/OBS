@@ -18,6 +18,11 @@ class ProductController extends Controller
             $unavailable = [];
             $products = Order::where('date', $request->order_date)
                 ->where('status', 'confirmed')
+
+                ->get();
+            $reserved = Order::where('date', $request->order_date)
+                ->where('status', '!=' ,'confirmed')
+                ->where('status','!=' ,'completed')
                 ->get();
             foreach ($products as $product) {
                 $unavailable[] = $product->product_id;
@@ -26,7 +31,7 @@ class ProductController extends Controller
         } else {
             $products = Product::all();
         }
-        return view('products.index', ['products' => $products, 'request' => $request]);
+        return view('products.index', ['products' => $products, 'request' => $request, 'reserved' => $reserved ?? []]);
     }
 
 

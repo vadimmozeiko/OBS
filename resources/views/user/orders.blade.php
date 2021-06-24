@@ -22,7 +22,7 @@
                                 @foreach($userOrders as $key => $order)
                                 <tr
                                     @if($order->status != 'completed')
-                                    style="cursor:pointer; line-height: 3;"
+                                    style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif>
                                     <td>{{$key + 1}}</td>

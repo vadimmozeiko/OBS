@@ -29,6 +29,13 @@
                             <p>{{$product->category}}</p>
                             <p>{{$product->price / 100}} Eur</p>
                             <p>{{$product->short_description}}</p>
+
+                            @foreach($reserved as $item)
+                                @if($item->product_id == $product->id )
+                                    <p><b>RESERVED</b></p>
+                                @endif
+                            @endforeach
+
                         </div>
                     </div>
                     <div class="card-body">
