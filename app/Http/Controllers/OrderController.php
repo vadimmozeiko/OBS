@@ -58,6 +58,10 @@ class OrderController extends Controller
             $request->flash();
             return redirect()->back()->withErrors($validator);
         }
+        $isBooked = Order::where('product_id', $request->product_id)->where('date', $request->order_date)->first();
+        if(!empty($isBooked)){
+            return redirect()->back()->with('info_message', 'Not available for selected date');
+        }
 
 
         $order = new Order;
