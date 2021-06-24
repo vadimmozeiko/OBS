@@ -5,21 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use Carbon\Carbon;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Validation\Validator;
 
 class OrderController extends Controller
 {
 
-    public function index()
+    public function index(): Factory|View|Application
     {
         return view('orders.index');
     }
 
 
-    public function create(Product $product, Request $request)
+    public function create(Product $product, Request $request): Factory|View|Application
     {
         $product = $product->id;
         $user = User::where('name', Auth::user()->name ?? null)->get();
@@ -30,7 +34,7 @@ class OrderController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $product = Product::where('id', $request->product_id)->get();
 
@@ -84,12 +88,12 @@ class OrderController extends Controller
     }
 
 
-    public function edit(Order $order, User $user)
+    public function edit(Order $order, User $user): Factory|View|Application
     {
         return view('orders.edit', ['order' => $order, 'user' => $user]);
     }
 
-    public function update(Request $request, Order $order)
+    public function update(Request $request, Order $order): RedirectResponse
     {
         $isBooked = Order::where('product_id', $order->product_id)->where('date', $request->order_date)->first();
         if (!empty($isBooked)) {
@@ -101,12 +105,12 @@ class OrderController extends Controller
         $order->user_name = $request->user_name;
         $order->user_email = $request->user_email;
         $order->user_phone = $request->user_phone;
-        $order->date = $request->order_date;;
+        $order->date = $request->order_date;
         $order->save();
         return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
     }
 
-    public function destroy(Order $order)
+    public function destroy(Order $order): RedirectResponse
     {
         $order->status = 'cancelled (awaiting confimation)';
         $order->save();

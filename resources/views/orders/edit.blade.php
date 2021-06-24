@@ -19,7 +19,6 @@
                                 <span class="input-group-addon" id="basic-addon1">Booking date: *</span>
                                 <input id="datepicker"  class="form-control mb-3" type="text" name="order_date" value="{{$order->date}}">
                                 <small class="d-block mb-3">* Required info</small>
-                                <input type="hidden" name="user_id" value="{{$user->id}}">
                                 <button class="btn btn-primary btn-m" type="submit">Save</button>
                                 @csrf
                             </form>

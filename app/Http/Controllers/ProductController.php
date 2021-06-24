@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
-use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(Request $request): Factory|View|Application
     {
         if ($request->order_date) {
             $unavailable = [];
@@ -39,7 +41,7 @@ class ProductController extends Controller
         //
     }
 
-    public function show(Product $product)
+    public function show(Product $product): Factory|View|Application
     {
         return view('products.show', ['product' => $product]);
     }
