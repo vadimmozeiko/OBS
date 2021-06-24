@@ -13,7 +13,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        //
+        return view('orders.index');
     }
 
 
@@ -41,7 +41,7 @@ class OrderController extends Controller
         $order->product_id = $request->product_id;
         $order->status = 'not confirmed';
         $order->save();
-        return redirect()->route('order.index');
+        return redirect()->route('order.index')->with('order', $order);
     }
 
 
