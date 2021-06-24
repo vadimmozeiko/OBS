@@ -18,12 +18,12 @@ class ProductController extends Controller
                 return redirect()->route('product.index')
                     ->with('info_message', 'Incorrect date (for today bookings contact directly)');
             }
-            $unavailable = '';
+            $unavailable = [];
             $products = Order::where('date', $request->order_date)->get();
             foreach ($products as $product) {
-                $unavailable = $product->product_id;
+                $unavailable[] = $product->product_id;
             }
-            $products = Product::where('id', '!=', $unavailable)->get();
+            $products = Product::whereNotIn('id', $unavailable)->get();
         } else {
             $products = Product::all();
         }
