@@ -6,10 +6,10 @@
         <form action="{{route('product.index')}}">
             <div class="form-row text-center">
                 <div class="pl-4 col-6 col-sm-6 col-md-6 col-lg-6">
-                    <input id="datepicker" class="datepicker form-control mb-3 text-center fontAwesome" type="text"
+                    <input id="datepicker" class="datepicker form-control mb-3 text-center" type="text"
                            name="order_date"
                            @if(!empty($request->order_date)) value="{{$request->order_date}}"
-                           @else placeholder="&#xf133; Pick the date" @endif required>
+                           @else placeholder="Pick the date" @endif autocomplete="off" required>
                 </div>
                 <div class="col-6 col-sm-6 col-md-6 col-lg-6">
                     <button class="btn btn-primary" type="submit">Check availability</button>
@@ -37,8 +37,7 @@
                         {{route('order.create', $product)}}"
                         @else
                             {{route('product.index')}}"
-                        @endif
-                        >
+                        @endif>
                         <input type="hidden" name="order_date" value="{{$request->order_date}}">
                         <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
                         @csrf

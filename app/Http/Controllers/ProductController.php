@@ -13,11 +13,6 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->order_date) {
-            $time = Carbon::now();
-            if ($time->greaterThan($request->order_date)) {
-                return redirect()->route('product.index')
-                    ->with('info_message', 'Incorrect date (for today bookings contact directly)');
-            }
             $unavailable = [];
             $products = Order::where('date', $request->order_date)->get();
             foreach ($products as $product) {

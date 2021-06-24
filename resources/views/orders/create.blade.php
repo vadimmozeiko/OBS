@@ -19,7 +19,7 @@
                                 <span class="input-group-addon" id="basic-addon1">Phone no. *</span>
                                 <input class="form-control mb-3" type="number" name="user_phone" value="{{$user[0]->phone}}" required>
                                 <span class="input-group-addon" id="basic-addon1">Booking date: *</span>
-                                <input class="form-control mb-3" type="text" name="order_date" value="{{$request->order_date}}">
+                                <input id="datepicker"  class="form-control mb-3" type="text" name="order_date" value="{{$request->order_date}}">
                                 <span class="input-group-addon" id="basic-addon1">Message</span>
                                 <textarea class="form-control mb-3" name="user_message"></textarea>
                                 <small class="d-block mb-3">* Required info</small>

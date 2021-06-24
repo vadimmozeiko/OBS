@@ -127,9 +127,15 @@
 <script>
     $('#datepicker').datepicker({
         format: 'yyyy-mm-dd',
+        weekStartDay: 1,
         minDate: function() {
-            var date = new Date();
+            const date = new Date();
             date.setDate(date.getDate()+1);
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
+        maxDate: function() {
+            const date = new Date();
+            date.setDate(date.getDate()+90);
             return new Date(date.getFullYear(), date.getMonth(), date.getDate());
         },
         uiLibrary: 'bootstrap4',

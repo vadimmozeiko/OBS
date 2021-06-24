@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class OrderController extends Controller
 {
@@ -32,7 +34,31 @@ class OrderController extends Controller
     {
         $product = Product::where('id', $request->product_id)->get();
 
-// TODO validatation here
+        $validator = Validator::make($request->all(),
+            [
+                'user_name' => 'required | string | max:255',
+                'user_email' => 'required | string | email | max:255',
+                'user_address' => 'required | string | max:255',
+                'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
+                'order_date' => 'required | date | after: today'
+
+            ],
+            [
+                'user_name.required' => 'Please fill the name field',
+                'user_name.max' => 'Name is too long',
+                'user_address.required' => 'Please fill the address field',
+                'user_address.max' => 'Address is too long',
+                'user_phone.required' => 'Please fill the phone no. field',
+                'user_phone.regex' => 'Invalid phone no.',
+                'order_date.after' => 'Incorrect date (for today bookings contact directly)'
+            ]
+        );
+
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($validator);
+        }
+
 
         $order = new Order;
         $order->user_name = $request->user_name;

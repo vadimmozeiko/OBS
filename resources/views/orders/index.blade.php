@@ -5,7 +5,7 @@
         <div class="col-sm-10 col-md-8 col-lg-8 mb-5">
             <div class="card text-center">
                 <div class="card-body">
-                    @if(session()->get('order'))
+                    @if(session()->has('order'))
                         <h2>Booking was successful</h2>
                         @foreach(session()->get('product') as $product)
                             <h3>{{$product->title}}</h3>
