@@ -20,7 +20,11 @@
                                 </thead>
                                 <tbody>
                                 @foreach($userOrders as $key => $order)
-                                <tr style="cursor:pointer; line-height: 3;" onclick="window.location='{{route('order.edit', $order)}}'">
+                                <tr
+                                    @if($order->status != 'completed')
+                                    style="cursor:pointer; line-height: 3;"
+                                    onclick="window.location='{{route('order.edit', $order)}}'"
+                                    @endif>
                                     <td>{{$key + 1}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
@@ -28,7 +32,9 @@
                                     <td>
                                         <form method="POST" action="{{route('order.destroy', $order)}}">
                                             @csrf
-                                            <button class="btn btn-danger btn-sm" type="submit">CANCEL</button>
+                                            <button class="btn btn-danger btn-sm" type="submit"
+                                            {{$order->status == 'completed' ? 'disabled' : ''}}
+                                            >CANCEL</button>
                                         </form>
                                     </td>
                                 </tr>
