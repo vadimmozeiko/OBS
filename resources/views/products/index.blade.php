@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('content')
     <div class="d-flex flex-wrap justify-content-around">
         <form action="{{route('product.index')}}">
@@ -29,8 +28,6 @@
                             <p>{{$product->category}}</p>
                             <p>{{$product->price / 100}} Eur</p>
                             <p>{{$product->short_description}}</p>
-
-
                         </div>
                     </div>
                     <div class="card-body">
@@ -41,16 +38,13 @@
                             {{route('product.index')}}"
                         @endif>
                         <input type="hidden" name="order_date" value="{{$request->order_date}}">
-                        @forelse($reserved as $item)
-                            @if($item->product_id == $product->id )
-                                <button disabled type="submit" class="card-link btn btn-primary">RESERVED</button>
+                        <button type="submit" class="card-link btn btn-primary"
+                            @if(($reserved->contains('product_id', $product->id)))
+                                disabled>RESERVED</button>
                             @else
-                                <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
+                                >BOOK NOW</button>
                             @endif
-                            @empty
-                                <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
-                            @endforelse
-                            @csrf
+                        @csrf
                         </form>
                     </div>
                 </div>
