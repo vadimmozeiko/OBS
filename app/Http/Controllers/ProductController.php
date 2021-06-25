@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
 
-    public function index(Request $request): Factory|View|Application
+    public function index(Request $request): View
     {
         if ($request->order_date) {
             $unavailable = [];
@@ -46,7 +46,7 @@ class ProductController extends Controller
         //
     }
 
-    public function show(Product $product): Factory|View|Application
+    public function show(Product $product): View
     {
         return view('products.show', ['product' => $product]);
     }

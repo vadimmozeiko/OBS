@@ -30,11 +30,6 @@
                             <p>{{$product->price / 100}} Eur</p>
                             <p>{{$product->short_description}}</p>
 
-                            @foreach($reserved as $item)
-                                @if($item->product_id == $product->id )
-                                    <p><b>RESERVED</b></p>
-                                @endif
-                            @endforeach
 
                         </div>
                     </div>
@@ -46,8 +41,16 @@
                             {{route('product.index')}}"
                         @endif>
                         <input type="hidden" name="order_date" value="{{$request->order_date}}">
-                        <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
-                        @csrf
+                        @forelse($reserved as $item)
+                            @if($item->product_id == $product->id )
+                                <button disabled type="submit" class="card-link btn btn-primary">RESERVED</button>
+                            @else
+                                <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
+                            @endif
+                            @empty
+                                <button type="submit" class="card-link btn btn-primary">BOOK NOW</button>
+                            @endforelse
+                            @csrf
                         </form>
                     </div>
                 </div>
