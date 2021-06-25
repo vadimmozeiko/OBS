@@ -62,7 +62,10 @@ class OrderController extends Controller
             $request->flash();
             return redirect()->back()->withErrors($validator);
         }
-        $isBooked = Order::where('product_id', $request->product_id)->where('date', $request->order_date)->first();
+        $isBooked = Order::where('product_id', $request->product_id)
+            ->where('date', $request->order_date)
+            ->where('status','!=', 'completed')
+            ->first();
         if (!empty($isBooked)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
@@ -95,7 +98,10 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order): RedirectResponse
     {
-        $isBooked = Order::where('product_id', $order->product_id)->where('date', $request->order_date)->first();
+        $isBooked = Order::where('product_id', $order->product_id)
+            ->where('date', $request->order_date)
+            ->where('user_id', '!=' , Auth::user()->id)
+            ->first();
         if (!empty($isBooked)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
@@ -112,7 +118,7 @@ class OrderController extends Controller
 
     public function destroy(Order $order): RedirectResponse
     {
-        $order->status = 'cancelled (awaiting confimation)';
+        $order->status = 'cancelled';
         $order->save();
         return redirect()->back()->with('success_message', 'Order cancellation submitted successfully');
 

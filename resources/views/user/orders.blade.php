@@ -21,7 +21,9 @@
                                 <tbody>
                                 @foreach($userOrders as $key => $order)
                                 <tr
-                                    @if($order->status != 'completed')
+                                    @if($order->status != 'completed' &&
+                                        $order->status != 'cancelled' &&
+                                        $order->status != 'confirmed')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif>
