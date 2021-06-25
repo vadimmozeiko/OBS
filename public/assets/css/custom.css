@@ -16,3 +16,15 @@ img {
 .gj-datepicker-bootstrap [role=right-icon] button {
     height: 37px;
 }
+
+/*.sort-title {*/
+/*    position: relative;*/
+/*    color: red;*/
+/*}*/
+
+.sort-arrow {
+    font-size: 25px;
+    position: absolute;
+    top:0;
+    left: 0;
+}

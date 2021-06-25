@@ -12,9 +12,11 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Status</th>
+                                    <th class="sort-title" scope="col">
+                                        <a id="date" style="position: relative;" href="#" > Date <i class="date fas fa-sort-amount-down"></i></a></th>
+                                    <th scope="col">
+                                        <a id="title" style="position: relative;" href="#" > Title <i class="title fas fa-sort-amount-down"></i></a></th>
+                                    <th class="sort-title" scope="col">Status</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
