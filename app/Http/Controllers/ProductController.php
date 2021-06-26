@@ -17,6 +17,7 @@ class ProductController extends Controller
         $reserved = Order::where('date', $request->order_date)
             ->where('status', '!=', 'confirmed')
             ->where('status', '!=', 'completed')
+            ->where('status', '!=', 'cancelled')
             ->get();
         if ($request->order_date) {
             $unavailable = [];

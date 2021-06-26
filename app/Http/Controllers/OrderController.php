@@ -65,6 +65,7 @@ class OrderController extends Controller
         $isBooked = Order::where('product_id', $request->product_id)
             ->where('date', $request->order_date)
             ->where('status', '!=', 'completed')
+            ->where('status', '!=', 'cancelled')
             ->first();
         if (!empty($isBooked)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
@@ -123,6 +124,7 @@ class OrderController extends Controller
             $isBooked = Order::where('product_id', $order->product_id)
                 ->where('date', $request->order_date)
                 ->where('status', '!=', 'completed')
+                ->where('status', '!=', 'cancelled')
                 ->first();
             if (!empty($isBooked) && $order->getOriginal('date') != $request->order_date) {
                 return redirect()->back()->with('info_message', 'Not available for selected date');

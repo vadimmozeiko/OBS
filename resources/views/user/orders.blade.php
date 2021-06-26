@@ -45,7 +45,10 @@
                                         <form method="POST" action="{{route('order.destroy', $order)}}">
                                             @csrf
                                             <button class="btn btn-danger btn-sm" type="submit"
-                                            {{$order->status == 'completed' ? 'disabled' : ''}}
+                                                    @if($order->status == 'completed' ||
+                                                        $order->status == 'cancelled')
+                                                    disabled
+                                                    @endif
                                             >CANCEL</button>
                                         </form>
                                     </td>
