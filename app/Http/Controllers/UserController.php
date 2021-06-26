@@ -35,12 +35,24 @@ class UserController extends Controller
     }
 
 
-    public function show(User $user): Factory|View|Application
+    public function show(User $user, Request $request): Factory|View|Application
     {
-        $userOrders = Order::where('user_id', Auth::user()->id)->get();
         $products = Product::all();
 
-        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products]);
+        if ($request->order_status) {
+            $orderStatus = $request->order_status;
+            if ($orderStatus == 0) {
+                $userOrders = Order::where('user_id', Auth::user()->id)->get();
+            } else {
+                $userOrders = Order::where('user_id', Auth::user()->id)
+                    ->where('status',$orderStatus)
+                    ->get();
+            }
+        } else {
+            $userOrders = Order::where('user_id', Auth::user()->id)->get();
+        }
+
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus ?? 0]);
     }
 
     public function edit(User $user): Factory|View|Application

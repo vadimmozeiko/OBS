@@ -8,6 +8,17 @@
                     <div class="card-header" style="background-color: var(--blue);"></div>
                     <div class="card-body text-center">
                         <div class="justify-content-center">
+                            <form class="mb-4" action="{{route('user.orders', $user)}}" method="GET">
+                                <label style="display: block; width: 100%;">Filter by status:</label>
+                                <select class="form-control mb-3" name="order_status">
+                                    <option value="0">All</option>
+                                    <option value="not confirmed" @if($orderStatus == 'not confirmed') selected @endif>not confirmed</option>
+                                    <option value="confirmed" @if($orderStatus == 'confirmed') selected @endif>confirmed</option>
+                                    <option value="completed" @if($orderStatus == 'completed') selected @endif>completed</option>
+                                </select>
+                                <button class="btn btn-info">Filter</button>
+                                <a href="{{route('user.orders', $user)}}" class="btn btn-info">Reset</a>
+                            </form>
                             <table class="table table-sortable">
                                 <thead>
                                 <tr>
