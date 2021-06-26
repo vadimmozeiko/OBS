@@ -8,24 +8,21 @@
                     <div class="card-header" style="background-color: var(--blue);"></div>
                     <div class="card-body text-center">
                         <div class="justify-content-center">
-                            <table class="table">
+                            <table class="table table-sortable">
                                 <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th class="sort-title" scope="col">
-                                        <a id="date" style="position: relative;" href="#" > Date <i class="date fas fa-sort-amount-down"></i></a></th>
-                                    <th scope="col">
-                                        <a id="title" style="position: relative;" href="#" > Title <i class="title fas fa-sort-amount-down"></i></a></th>
-                                    <th class="sort-title" scope="col">Status</th>
+                                    <th class="sort-order" scope="col"># <i class="order fas fa-sort-numeric-up"></i></th>
+                                    <th class="sort-date" scope="col">Date <i class="date fas fa-sort-numeric-up"></i>
+                                    </th>
+                                    <th class="sort-title" scope="col">Title <i class="title fas fa-sort-alpha-up"></i></th>
+                                    <th class="sort-status" scope="col">Status <i class="status fas fa-sort-alpha-up"></i></th>
                                     <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($userOrders as $key => $order)
                                 <tr
-                                    @if($order->status != 'completed' &&
-                                        $order->status != 'cancelled' &&
-                                        $order->status != 'confirmed')
+                                    @if($order->status == 'not confirmed')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif>

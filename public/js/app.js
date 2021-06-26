@@ -1840,16 +1840,76 @@ module.exports = {
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-$(document).ready(function () {
-  $('#date').click(function () {
-    $('.date').toggleClass('fa-sort-amount-up');
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // TABLE SORT =====================================================================
+
+
+function sortTableByColumn(table, column) {
+  var asc = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+  var dirModifier = asc ? 1 : -1; // get table elements
+
+  var tBody = table.tBodies[0];
+  var rows = Array.from(tBody.querySelectorAll('tr')); // sort the table elements
+
+  var sortedRows = rows.sort(function (a, b) {
+    var aColText = a.querySelector("td:nth-child(".concat(column + 1, ")")).textContent.trim();
+    var bColText = b.querySelector("td:nth-child(".concat(column + 1, ")")).textContent.trim();
+    return aColText > bColText ? 1 * dirModifier : -1 * dirModifier;
+  }); // remove all table rows from table
+
+  while (tBody.firstChild) {
+    tBody.removeChild(tBody.firstChild);
+  } // add sorted rows to table
+
+
+  tBody.append.apply(tBody, _toConsumableArray(sortedRows)); // store current order sorting way
+
+  table.querySelectorAll('th').forEach(function (th) {
+    return th.classList.remove('th-sort-asc', 'th-sort-desc');
   });
-  $('#title').click(function () {
-    $('.title').toggleClass('fa-sort-amount-up');
+  table.querySelector("th:nth-child(".concat(column + 1, ")")).classList.toggle('th-sort-asc', asc);
+  table.querySelector("th:nth-child(".concat(column + 1, ")")).classList.toggle('th-sort-desc', !asc);
+}
+
+sortTableByColumn(document.querySelector('table'), 1, true);
+document.querySelectorAll('.table-sortable th').forEach(function (headerCell) {
+  headerCell.addEventListener('click', function () {
+    var tableElement = headerCell.parentElement.parentElement.parentElement;
+    var headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+    var currentIsAsc = headerCell.classList.contains('th-sort-asc');
+    sortTableByColumn(tableElement, headerIndex, !currentIsAsc);
   });
 });
+$(document).ready(function () {
+  $('.order, .date, .title, .status').addClass('hidden');
+  $('.sort-order').click(function () {
+    $('.date, .title, .status').addClass('hidden');
+    $('.order').removeClass('hidden').toggleClass('fa-sort-numeric-down');
+  });
+  $('.sort-date').click(function () {
+    $('.order, .title, .status').addClass('hidden');
+    $('.date').removeClass('hidden').toggleClass('fa-sort-numeric-down');
+  });
+  $('.sort-title').click(function () {
+    $('.date, .order, .status').addClass('hidden');
+    $('.title').removeClass('hidden').toggleClass('fa-sort-alpha-down');
+  });
+  $('.sort-status').click(function () {
+    $('.date, .title, .order').addClass('hidden');
+    $('.status').removeClass('hidden').toggleClass('fa-sort-alpha-down');
+  });
+}); // TABLE SORT END =====================================================================
 
 /***/ }),
 

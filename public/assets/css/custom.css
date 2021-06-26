@@ -28,3 +28,11 @@ img {
     top:0;
     left: 0;
 }
+
+.table-sortable th {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
