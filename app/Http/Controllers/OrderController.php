@@ -103,7 +103,7 @@ class OrderController extends Controller
                 'user_name' => 'required | string | max:255',
                 'user_email' => 'required | string | email | max:255',
                 'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-                'order_date' => 'required | date | after: today'
+                'order_date' => 'required | date | after: yesterday'
 
             ],
             [
@@ -120,13 +120,14 @@ class OrderController extends Controller
             return redirect()->back()->withErrors($validator);
         }
 
-        $isBooked = Order::where('product_id', $order->product_id)
-            ->where('date', $request->order_date)
-            ->where('status', '!=', 'completed')
-            ->first();
-        if (!empty($isBooked)) {
-            return redirect()->back()->with('info_message', 'Not available for selected date');
-        }
+            $isBooked = Order::where('product_id', $order->product_id)
+                ->where('date', $request->order_date)
+                ->where('status', '!=', 'completed')
+                ->first();
+            if (!empty($isBooked) && $order->getOriginal('date') != $request->order_date) {
+                return redirect()->back()->with('info_message', 'Not available for selected date');
+            }
+
 
         $order->user_name = $request->user_name;
         $order->user_email = $request->user_email;
@@ -136,6 +137,7 @@ class OrderController extends Controller
         $order->save();
 
         $user = User::where('name', Auth::user()->name ?? null)->first();
+
         return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
     }
 

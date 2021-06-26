@@ -4,12 +4,12 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <div class="card text-white mb-3 text-center">
+                <div class="card mb-3 ">
                     <div class="card-header" style="background-color: var(--blue);"></div>
-                    <div class="card-body text-center">
+                    <div class="card-body ">
                         <div class="justify-content-center">
                             <form class="mb-4" action="{{route('user.orders', $user)}}" method="GET">
-                                <label style="display: block; width: 100%;">Filter by status:</label>
+                                <span class="input-group-addon" id="basic-addon1">Filter by status</span>
                                 <select class="form-control mb-3" name="order_status">
                                     <option value="0">All</option>
                                     <option value="not confirmed" @if($orderStatus == 'not confirmed') selected @endif>not confirmed</option>

@@ -11,13 +11,13 @@
                         <div class="input-group">
                             <form style="width: 100%;" method="POST" action="{{route('order.update', $order)}}" enctype="multipart/form-data">
                                 <span class="input-group-addon" id="basic-addon1">Full name *</span>
-                                <input class="form-control mb-3" type="text" name="user_name" value="{{$order->user_name}}" required>
+                                <input class="form-control mb-3" type="text" name="user_name" value="{{old('user_name', $order->user_name)}}" required>
                                 <span class="input-group-addon" id="basic-addon1">Email *</span>
-                                <input class="form-control mb-3" type="email" name="user_email" value="{{$order->user_email}}" required>
+                                <input class="form-control mb-3" type="email" name="user_email" value="{{old('user_email', $order->user_email)}}" required>
                                 <span class="input-group-addon" id="basic-addon1">Phone no. *</span>
-                                <input class="form-control mb-3" type="number" name="user_phone" value="{{$order->user_phone}}" required>
+                                <input class="form-control mb-3" type="number" name="user_phone" value="{{old('user_phone', $order->user_phone)}}" required>
                                 <span class="input-group-addon" id="basic-addon1">Booking date: *</span>
-                                <input id="datepicker"  class="form-control mb-3" type="text" name="order_date" value="{{$order->date}}">
+                                <input id="datepicker"  class="form-control mb-3" type="text" name="order_date" value="{{old('order_date', $order->date)}}">
                                 <small class="d-block mb-3">* Required info</small>
                                 <button class="btn btn-primary btn-m" type="submit">Save</button>
                                 @csrf
