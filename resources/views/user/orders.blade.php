@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card mb-3 ">
-                    <div class="card-header" style="background-color: var(--blue);"></div>
+                    <div class="card-header"></div>
                     <div class="card-body ">
                         <div class="justify-content-center">
                             <form class="mb-4" action="{{route('user.orders', $user)}}" method="GET">

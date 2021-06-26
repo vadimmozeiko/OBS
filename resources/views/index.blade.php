@@ -4,20 +4,19 @@
     <div class="container ">
         <div class="row justify-content-center"
              style="text-align: center; position: absolute; transform:translate(-50%, -50%); left:50%; top:50%; width:100%">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body ">
-                        <div class="input-group justify-content-center mt-5 mb-5">
-                            <form style="width: 30%;" action="{{route('product.index')}}">
-                                <input id="datepicker" width="270" class="form-control mb-3 text-center" type="text"
-                                       name="order_date" placeholder="Pick the date" autocomplete="off" required>
-                                <button class="card-link m-1 btn btn-primary" type="submit">Check availability</button>
-                                @csrf
-                            </form>
-                        </div>
+                <h1 class="main-title">The journey to the fun world starts here</h1>
+            <form class="w-75" action="{{route('product.index')}}">
+                <div class="form-row text-center d-flex flex-wrap justify-content-center">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                        <input id="datepicker" class="form-control mb-3" type="text"
+                               name="order_date" placeholder="Pick the date" autocomplete="off" required>
                     </div>
+                    <div>
+                        <button class="btn btn-primary p-3" type="submit">Check availability</button>
+                    </div>
+                    @csrf
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 @endsection
