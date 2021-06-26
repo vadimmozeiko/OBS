@@ -92,8 +92,13 @@ class OrderController extends Controller
     }
 
 
-    public function edit(Order $order, User $user): Factory|View|Application
+    public function edit(Order $order, User $user): Factory|View|Application|RedirectResponse
     {
+        if ($order->user_id != Auth::user()->id ||
+            $order->status == 'cancelled' ||
+            $order->status == 'confirmed') {
+            return redirect()->back()->with('info_message', 'Invalid details');
+        }
         return view('orders.edit', ['order' => $order, 'user' => $user]);
     }
 
