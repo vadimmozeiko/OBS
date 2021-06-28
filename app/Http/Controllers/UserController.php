@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(): Factory|View|Application
     {
         $user = User::where('name', Auth::user()->name)->get();
         return view('user.index', ['user' => $user]);
@@ -29,18 +35,33 @@ class UserController extends Controller
     }
 
 
-    public function show(User $user)
+    public function show(User $user, Request $request): Factory|View|Application
     {
+        $products = Product::all();
 
+        if ($request->order_status) {
+            $orderStatus = $request->order_status;
+            if ($orderStatus == 0) {
+                $userOrders = Order::where('user_id', Auth::user()->id)->get();
+            } else {
+                $userOrders = Order::where('user_id', Auth::user()->id)
+                    ->where('status',$orderStatus)
+                    ->get();
+            }
+        } else {
+            $userOrders = Order::where('user_id', Auth::user()->id)->get();
+        }
+
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus ?? 0]);
     }
 
-    public function edit(User $user)
+    public function edit(User $user): Factory|View|Application
     {
         return view('user.edit', ['user' => $user]);
     }
 
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $validator = Validator::make($request->all(),
             [

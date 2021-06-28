@@ -11,13 +11,17 @@
                 <div class="col-md-6 position-static p-4 pl-md-0">
                     <h2 class="mt-3 mb-4">{{$product->title}}</h2>
                     <p><b>Category:</b> {{$product->category}}</p>
-                    <p><b>Price:</b> {{$product->price / 100}} Eur</p>
+                    <p><b>Price:</b> {{$product->price / 100}} Eur for 12 hours</p>
                     <p>{{$product->description}}</p>
-                    <a class="card-link m-1 btn btn-primary" href="{{route('order.create', $product)}}">BOOK NOW</a>
+                    <a class="card-link m-1 btn btn-primary" href="
+                    @if(!empty($request->order_date))
+                        {{route('order.create', $product)}}"
+                    @else
+                        {{route('product.index')}}"
+                        >Check availability</a>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-
-
 @endsection

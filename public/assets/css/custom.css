@@ -2,6 +2,7 @@
 
 body {
     font-family: 'PT Sans', sans-serif;
+    background-image: url("https://cdn.primoplc.co.uk/images/trades-insurance/uk-bouncy-castle-insurance-cover.jpg");
 }
 
 p {
@@ -12,3 +13,130 @@ p {
 img {
     max-width: 500px;
 }
+
+body::after {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+    cursor: pointer;
+}
+
+.navbar {
+    z-index: 1;
+}
+
+.main-title {
+    font-size: 125px;
+    font-weight: 700;
+    color: #fff;
+    padding: 50px;
+}
+
+.card-header {
+    background-color: #3490dc;
+    color: #fff;
+}
+
+.product-title {
+    font-weight: 600;
+    color: #1b68bf;
+}
+
+.gj-datepicker-bootstrap [role=right-icon] button {
+    height: 56px;
+    background-color: #fff;
+
+}
+
+.gj-datepicker-bootstrap [role=right-icon] button .gj-icon {
+    top: 16px;
+}
+
+.gj-datepicker-bootstrap [role=right-icon] button:hover {
+    height: 56px;
+    background-color: #3490dc;
+    color: #fff;
+    border-color: #3490dc;
+}
+
+#datepicker.search {
+    padding: 27px;
+    font-size: 18px;
+}
+
+.table-sortable th {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.btn.search {
+    padding: 16px;
+}
+
+.row.main {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+@media only screen and (max-width: 1100px) {
+    .main-title {
+        font-size: 75px;
+        padding: 30px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .main-title {
+        font-size: 40px;
+        padding: 30px;
+    }
+
+    #datepicker.search {
+        padding: 10px;
+        font-size: 12px;
+    }
+    .btn.search {
+        padding: 4px;
+    }
+}
+
+
+@media only screen and (max-width: 567px) {
+    .main-title {
+        padding: 20px;
+    }
+
+    #datepicker.search {
+        padding: 20px;
+        font-size: 12px;
+    }
+
+    .btn.search {
+        padding: 10px;
+    }
+}
+
+
+@media only screen and (max-width: 460px) {
+    .main-title {
+        font-size: 45px;
+        padding: 10px;
+    }
+
+    #datepicker.search {
+        padding: 20px;
+        font-size: 12px;
+    }
+}
+

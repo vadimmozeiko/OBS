@@ -9,16 +9,17 @@
 
     <title>OBS</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/all.min.css')}}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 </head>
 <body>
@@ -65,6 +66,9 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('user.orders', Auth::user()->id) }}">
+                                    {{ __('My orders') }}
+                                </a>
                                 <a class="dropdown-item" href="{{ route('user.index') }}">
                                     {{ __('Profile') }}
                                 </a>
@@ -122,4 +126,23 @@
     </main>
 </div>
 </body>
+<script src="{{ asset('js/app.js') }}" defer></script>
+<script>
+    $('#datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        weekStartDay: 1,
+        minDate: function() {
+            const date = new Date();
+            date.setDate(date.getDate()+1);
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
+        maxDate: function() {
+            const date = new Date();
+            date.setDate(date.getDate()+90);
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
+        uiLibrary: 'bootstrap4',
+        showRightIcon: false
+    });
+</script>
 </html>

@@ -9,12 +9,12 @@ use App\Http\Controllers\OrderController;
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['prefix' => 'users'], function(){
     Route::get('', [UserController::class, 'index'])->name('user.index');
@@ -23,7 +23,7 @@ Route::group(['prefix' => 'users'], function(){
     Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
     Route::post('update/{user}', [UserController::class, 'update'])->name('user.update');
     Route::post('delete/{user}', [UserController::class, 'destroy'])->name('user.destroy');
-    Route::get('show/{user}', [UserController::class, 'show'])->name('user.show');
+    Route::get('orders/{user}', [UserController::class, 'show'])->name('user.orders');
 });
 
 
@@ -45,4 +45,5 @@ Route::group(['prefix' => 'orders'], function(){
     Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
     Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
     Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('success/{order}', [OrderController::class, ''])->name('order.show');
 });
