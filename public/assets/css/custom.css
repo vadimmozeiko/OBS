@@ -14,7 +14,7 @@ img {
     max-width: 500px;
 }
 
-body::after{
+body::after {
     content: '';
     position: fixed;
     width: 100%;
@@ -23,9 +23,13 @@ body::after{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0, 0, 0, 0.6);
     z-index: -1;
     cursor: pointer;
+}
+
+.navbar {
+    z-index: 1;
 }
 
 .main-title {
@@ -46,6 +50,10 @@ body::after{
 
 }
 
+.gj-datepicker-bootstrap [role=right-icon] button .gj-icon {
+    top: 16px;
+}
+
 .gj-datepicker-bootstrap [role=right-icon] button:hover {
     height: 56px;
     background-color: #3490dc;
@@ -53,9 +61,10 @@ body::after{
     border-color: #3490dc;
 }
 
-#datepicker {
+#datepicker.search {
     padding: 27px;
     font-size: 18px;
+    z-index: -1;
 }
 
 .table-sortable th {
@@ -65,3 +74,65 @@ body::after{
 .hidden {
     display: none;
 }
+
+.btn.search {
+    padding: 16px;
+}
+
+.row.main {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+@media only screen and (max-width: 1100px) {
+    .main-title {
+        font-size: 75px;
+        padding: 30px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .main-title {
+        font-size: 40px;
+        padding: 30px;
+    }
+
+    #datepicker.search {
+        padding: 10px;
+        font-size: 12px;
+    }
+    .btn.search {
+        padding: 4px;
+    }
+}
+
+
+@media only screen and (max-width: 567px) {
+    .main-title {
+        padding: 20px;
+    }
+
+    #datepicker.search {
+        padding: 20px;
+        font-size: 12px;
+    }
+
+    .btn.search {
+        padding: 10px;
+    }
+}
+
+
+@media only screen and (max-width: 460px) {
+    .main-title {
+        font-size: 45px;
+        padding: 10px;
+    }
+
+    #datepicker.search {
+        padding: 20px;
+        font-size: 12px;
+    }
+}
+

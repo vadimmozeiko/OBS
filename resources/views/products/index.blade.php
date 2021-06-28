@@ -11,7 +11,7 @@
                            @else placeholder="Pick the date" @endif autocomplete="off" required>
                 </div>
                 <div>
-                    <button class="btn btn-primary p-3" type="submit">Check availability</button>
+                    <button class="btn btn-primary" type="submit">Check availability</button>
                 </div>
             </div>
             @csrf

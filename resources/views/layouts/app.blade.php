@@ -142,6 +142,7 @@
             return new Date(date.getFullYear(), date.getMonth(), date.getDate());
         },
         uiLibrary: 'bootstrap4',
+        showRightIcon: false
     });
 </script>
 </html>
