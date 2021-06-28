@@ -41,7 +41,12 @@ body::after {
 
 .card-header {
     background-color: #3490dc;
-    color: white;
+    color: #fff;
+}
+
+.product-title {
+    font-weight: 600;
+    color: #1b68bf;
 }
 
 .gj-datepicker-bootstrap [role=right-icon] button {
@@ -64,7 +69,6 @@ body::after {
 #datepicker.search {
     padding: 27px;
     font-size: 18px;
-    z-index: -1;
 }
 
 .table-sortable th {

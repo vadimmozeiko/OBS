@@ -15,6 +15,7 @@
                                     <option value="not confirmed" @if($orderStatus == 'not confirmed') selected @endif>not confirmed</option>
                                     <option value="confirmed" @if($orderStatus == 'confirmed') selected @endif>confirmed</option>
                                     <option value="completed" @if($orderStatus == 'completed') selected @endif>completed</option>
+                                    <option value="cancelled" @if($orderStatus == 'cancelled') selected @endif>cancelled</option>
                                 </select>
                                 <button class="btn btn-info">Filter</button>
                                 <a href="{{route('user.orders', $user)}}" class="btn btn-info">Reset</a>
