@@ -12,6 +12,7 @@
                         <p>{{$person->address}}</p>
                         <p>{{$person->phone}}</p>
                         <a class="card-link m-1 btn btn-primary" href="{{route('user.edit', $person)}}">Edit details</a>
+                        <a class="card-link m-1 btn btn-primary" href="{{route('user.passEdit', $person)}}">Change password</a>
                     </div>
                 </div>
             </div>

@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -45,7 +46,7 @@ class UserController extends Controller
                 $userOrders = Order::where('user_id', Auth::user()->id)->get();
             } else {
                 $userOrders = Order::where('user_id', Auth::user()->id)
-                    ->where('status',$orderStatus)
+                    ->where('status', $orderStatus)
                     ->get();
             }
         } else {
@@ -97,5 +98,42 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+
+    public function passEdit(User $user)
+    {
+        return view('user.password', ['user' => $user]);
+    }
+
+    public function passUpdate(User $user, Request $request)
+    {
+        $currentPass = Auth::user()->getAuthPassword();
+        $inputOldPass = $request->old_password;
+        if (Hash::check($inputOldPass, $currentPass)) {
+            $validator = Validator::make($request->all(),
+                [
+                    'new_password' => 'required | min:8 | different:old_password',
+                    'confirm_password' => 'required | same:new_password'
+                ],
+                [
+                    'new_password.required' => 'Please fill the new password field',
+                    'new_password.min' => 'Too short, min. 8 characters',
+                    'new_password.different' => 'New password cannot be the same as old one',
+                    'confirm_password.required' => 'Please fill the confirmed password field',
+                    'confirm_password.same' => 'Password do not match',
+                ]
+            );
+
+            if ($validator->fails()) {
+                $request->flash();
+                return redirect()->back()->withErrors($validator);
+            }
+
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            return redirect()->route('user.index')->with('success_message', 'Password changed successfully');
+        };
+        return redirect()->back()->withErrors('Old password doesnt match our records');
     }
 }
