@@ -102,6 +102,7 @@ class UserController extends Controller
 
         if(Hash::check($inputCurrentPass, $currentPass)){
             $user->status = 'inactive';
+            $user->email = 'deleted:' . $user->email;
             $user->save();
             Auth::logout();
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
