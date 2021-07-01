@@ -26,7 +26,7 @@ class OrderController extends Controller
     public function create(Product $product, Request $request): Factory|View|Application
     {
         $product = $product->id;
-        $user = User::where('name', Auth::user()->name ?? null)->get();
+        $user = User::where('id', Auth::user()->id ?? null)->get();
         if (!Auth::user()) {
             return view('auth.login');
         }
