@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function index(): Factory|View|Application
     {
-        $user = User::where('name', Auth::user()->name)->get();
+        $user = User::where('id', Auth::user()->id)->get();
         return view('user.index', ['user' => $user]);
     }
 
