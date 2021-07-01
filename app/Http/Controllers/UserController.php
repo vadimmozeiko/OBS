@@ -101,7 +101,6 @@ class UserController extends Controller
         $inputCurrentPass = $request->current_password;
 
         if(Hash::check($inputCurrentPass, $currentPass)){
-            echo $user;
             $user->status = 'inactive';
             $user->save();
             Auth::logout();

@@ -14,8 +14,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Auth::routes();
 
 
-
-
 Route::group(['prefix' => 'users'], function(){
     Route::get('', [UserController::class, 'index'])->name('user.index');
     Route::get('create', [UserController::class, 'create'])->name('user.create');
