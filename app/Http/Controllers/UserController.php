@@ -95,9 +95,27 @@ class UserController extends Controller
     }
 
 
-    public function destroy(User $user)
+    public function destroy(User $user,Request $request)
     {
-        //
+        $currentPass = Auth::user()->getAuthPassword();
+        $inputCurrentPass = $request->current_password;
+
+        if(Hash::check($inputCurrentPass, $currentPass)){
+            echo $user;
+            $user->status = 'inactive';
+            $user->save();
+            Auth::logout();
+            return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
+        }
+        else {
+            return redirect()->back()->withErrors('Password doesnt match our records');
+        }
+    }
+
+
+    public function deleteConfirm(User $user)
+    {
+        return view('user.delete', ['user'=> $user]);
     }
 
 
