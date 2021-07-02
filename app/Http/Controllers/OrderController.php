@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('verified');
+    }
 
     public function index(): Factory|View|Application
     {
