@@ -30,12 +30,12 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <form action="
-                            @if(!empty($request->order_date))
-                        {{route('order.create', $product)}}"
-                        @else
-                            {{route('product.index')}}"
-                        @endif>
+                        <form action="{{route('order.create', $product)}}">
+{{--                            @if(!empty($request->order_date))--}}
+{{--                        {{route('order.create', $product)}}"--}}
+{{--                        @else--}}
+{{--                            {{route('product.index')}}"--}}
+{{--                        @endif>--}}
                         <input type="hidden" name="order_date" value="{{$request->order_date}}">
                         <button type="submit" class="card-link btn btn-primary"
                                 @if(($reserved->contains('product_id', $product->id)))
