@@ -23,11 +23,11 @@
                             <table class="table table-sortable">
                                 <thead>
                                 <tr>
-                                    <th class="sort-order" scope="col"># <i class="order fas fa-sort-numeric-up"></i></th>
-                                    <th class="sort-date" scope="col">Date <i class="date fas fa-sort-numeric-up"></i>
+                                    <th class="sort-order sortable" scope="col"># <i class="order fas fa-sort-numeric-up"></i></th>
+                                    <th class="sort-date sortable" scope="col">Date <i class="date fas fa-sort-numeric-up"></i>
                                     </th>
-                                    <th class="sort-title" scope="col">Title <i class="title fas fa-sort-alpha-up"></i></th>
-                                    <th class="sort-status" scope="col">Status <i class="status fas fa-sort-alpha-up"></i></th>
+                                    <th class="sort-title sortable" scope="col">Title <i class="title fas fa-sort-alpha-up"></i></th>
+                                    <th class="sort-status sortable" scope="col">Status <i class="status fas fa-sort-alpha-up"></i></th>
                                     <th scope="col">Actions</th>
                                 </tr>
                                 </thead>

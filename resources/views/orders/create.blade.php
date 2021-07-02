@@ -18,7 +18,7 @@
                                 <input class="form-control mb-3" type="text" name="user_address" value="{{old('user_address' ,$user[0]->address)}}" required>
                                 <span class="input-group-addon" id="basic-addon1">Phone no. *</span>
                                 <input class="form-control mb-3" type="number" name="user_phone" value="{{old('user_phone', $user[0]->phone)}}" required>
-                                <span class="input-group-addon" id="basic-addon1">Booking date: *</span>
+                                <span class="input-group-addon" id="basic-addon1">Booking date *</span>
                                 <input id="datepicker"  class="form-control mb-3" type="text" name="order_date" value="{{old('order_date', $request->order_date)}}">
                                 <span class="input-group-addon" id="basic-addon1">Message</span>
                                 <textarea class="form-control mb-3" name="user_message">{{old('user_message', $request->user_message)}}</textarea>

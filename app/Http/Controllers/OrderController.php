@@ -23,10 +23,13 @@ class OrderController extends Controller
     }
 
 
-    public function create(Product $product, Request $request): Factory|View|Application
+    public function create(Product $product, Request $request): Factory|View|Application|RedirectResponse
     {
         $product = $product->id;
-        $user = User::where('name', Auth::user()->name ?? null)->get();
+        $user = User::where('id', Auth::user()->id ?? null)->get();
+        if(!$request->order_date) {
+            return redirect()->back()->with('info_message', 'Select the date and check availability');
+        }
         if (!Auth::user()) {
             return view('auth.login');
         }

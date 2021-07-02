@@ -1875,7 +1875,7 @@ function sortTableByColumn(table, column) {
 
   tBody.append.apply(tBody, _toConsumableArray(sortedRows)); // store current order sorting way
 
-  table.querySelectorAll('th').forEach(function (th) {
+  table.querySelectorAll('.sortable').forEach(function (th) {
     return th.classList.remove('th-sort-asc', 'th-sort-desc');
   });
   table.querySelector("th:nth-child(".concat(column + 1, ")")).classList.toggle('th-sort-asc', asc);
@@ -1883,7 +1883,7 @@ function sortTableByColumn(table, column) {
 }
 
 sortTableByColumn(document.querySelector('table'), 1, true);
-document.querySelectorAll('.table-sortable th').forEach(function (headerCell) {
+document.querySelectorAll('.table-sortable .sortable').forEach(function (headerCell) {
   headerCell.addEventListener('click', function () {
     var tableElement = headerCell.parentElement.parentElement.parentElement;
     var headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);

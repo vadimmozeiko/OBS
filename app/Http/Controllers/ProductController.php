@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
 
-    public function index(Request $request): View
+    public function index(Request $request): View|string
     {
         $reserved = Order::where('date', $request->order_date)
             ->where('status', '!=', 'confirmed')
@@ -24,6 +24,11 @@ class ProductController extends Controller
             $products = Order::where('date', $request->order_date)
                 ->where('status', 'confirmed')
                 ->get();
+            if($request->available_only){
+                $products = Order::where('date', $request->order_date)
+                    ->where('status', 'not confirmed')
+                    ->get();
+            }
             foreach ($products as $product) {
                 $unavailable[] = $product->product_id;
             }
