@@ -28,7 +28,9 @@ class OrderController extends Controller
         $product = $product->id;
         $user = User::where('id', Auth::user()->id ?? null)->get();
         if(!$request->order_date) {
-            return redirect()->back()->with('info_message', 'Select the date and check availability');
+            return redirect()->back()
+                ->with('info_message', 'Select the date and check availability')
+                ->with('style', 'background-color:#ffd1d1;');
         }
         if (!Auth::user()) {
             return view('auth.login');
