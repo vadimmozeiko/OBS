@@ -23,7 +23,6 @@ class UserController extends Controller
         return view('user.index', ['user' => $user]);
     }
 
-
     public function create()
     {
         //
