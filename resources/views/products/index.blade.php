@@ -12,6 +12,8 @@
                 </div>
                 <div>
                     <button class="btn btn-primary mb-3" type="submit">Check availability</button>
+                    <input class="checkbox" type="checkbox" name="available_only" value="1">
+                    <span class="input-group-addon search-checkbox text-white">Available only</span>
                 </div>
             </div>
             @csrf
@@ -31,16 +33,16 @@
                     </div>
                     <div class="card-body p-0">
                         <form action="{{route('order.create', $product)}}">
-                        <input type="hidden" name="order_date" value="{{$request->order_date}}">
-                        <button type="submit" class="card-link btn btn-primary"
-                                @if(($reserved->contains('product_id', $product->id)))
-                                disabled>RESERVED
-                        </button>
-                        @else
-                            >BOOK NOW</button>
+                            <input type="hidden" name="order_date" value="{{$request->order_date}}">
+                            <button type="submit" class="card-link btn btn-primary"
+                                    @if(($reserved->contains('product_id', $product->id)))
+                                    disabled>RESERVED
+                            </button>
+                            @else
+                                >BOOK NOW</button>
                             @endif
                             @csrf
-                            </form>
+                        </form>
                     </div>
                 </div>
             </div>
