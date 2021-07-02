@@ -27,14 +27,14 @@ function sortTableByColumn(table, column, asc = true) {
 
 
     // store current order sorting way
-    table.querySelectorAll('th').forEach(th => th.classList.remove('th-sort-asc', 'th-sort-desc'));
+    table.querySelectorAll('.sortable').forEach(th => th.classList.remove('th-sort-asc', 'th-sort-desc'));
     table.querySelector(`th:nth-child(${column + 1})`).classList.toggle('th-sort-asc', asc);
     table.querySelector(`th:nth-child(${column + 1})`).classList.toggle('th-sort-desc', !asc);
 }
 
 
 sortTableByColumn(document.querySelector('table'), 1, true);
-document.querySelectorAll('.table-sortable th').forEach(headerCell => {
+document.querySelectorAll('.table-sortable .sortable').forEach(headerCell => {
     headerCell.addEventListener('click', () => {
         const tableElement = headerCell.parentElement.parentElement.parentElement;
         const headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
