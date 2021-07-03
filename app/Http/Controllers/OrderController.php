@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    private MailController $mail;
     public function __construct()
     {
+        $this->mail = new MailController();
         $this->middleware('verified');
     }
 
@@ -92,8 +94,7 @@ class OrderController extends Controller
         $order->status = 'not confirmed';
         $order->save();
 
-        $mail = new MailController();
-        $mail->notConfirmed($request);
+        $this->mail->notConfirmed($request);
 
         return redirect()->route('order.index')->with(['order' => $order, 'product' => $product]);
     }
@@ -157,6 +158,8 @@ class OrderController extends Controller
         $order->save();
 
         $user = User::where('name', Auth::user()->name ?? null)->first();
+
+        $this->mail->statusChange($order);
 
         return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
     }
