@@ -40,7 +40,7 @@
                 <ul class="navbar-nav mr-auto ">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('product.index')}}">Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('faq')}}">FAQ's</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
