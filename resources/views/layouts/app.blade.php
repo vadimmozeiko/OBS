@@ -66,8 +66,8 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('user.orders', Auth::user()->id) }}">
-                                    {{ __('My orders') }}
+                                <a class="dropdown-item" href="{{ route('user.orders', auth()->user()->id) }}">
+                                    {{ __('My bookings') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('user.index') }}">
                                     {{ __('Profile') }}

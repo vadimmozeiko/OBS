@@ -33,7 +33,7 @@ function sortTableByColumn(table, column, asc = true) {
 }
 
 
-sortTableByColumn(document.querySelector('table'), 1, true);
+sortTableByColumn(document.querySelector('table'), 1, false);
 document.querySelectorAll('.table-sortable .sortable').forEach(headerCell => {
     headerCell.addEventListener('click', () => {
         const tableElement = headerCell.parentElement.parentElement.parentElement;

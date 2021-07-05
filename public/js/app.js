@@ -1882,7 +1882,7 @@ function sortTableByColumn(table, column) {
   table.querySelector("th:nth-child(".concat(column + 1, ")")).classList.toggle('th-sort-desc', !asc);
 }
 
-sortTableByColumn(document.querySelector('table'), 1, true);
+sortTableByColumn(document.querySelector('table'), 1, false);
 document.querySelectorAll('.table-sortable .sortable').forEach(function (headerCell) {
   headerCell.addEventListener('click', function () {
     var tableElement = headerCell.parentElement.parentElement.parentElement;

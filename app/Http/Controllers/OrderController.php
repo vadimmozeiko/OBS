@@ -24,23 +24,20 @@ class OrderController extends Controller
         $this->middleware('verified');
     }
 
-    public function index(): Factory|View|Application
+    public function index(): View
     {
         return view('orders.index');
     }
 
 
-    public function create(Product $product, Request $request): Factory|View|Application|RedirectResponse
+    public function create(Product $product, Request $request): View|RedirectResponse
     {
         $product = $product->id;
-        $user = User::where('id', Auth::user()->id ?? null)->get();
+        $user = User::where('id', auth()->user()->id ?? null)->get();
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
                 ->with('style', 'background-color:#ffd1d1;');
-        }
-        if (!Auth::user()) {
-            return view('auth.login');
         }
         return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
     }
@@ -84,7 +81,6 @@ class OrderController extends Controller
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
-
         $order = new Order;
         $order->user_name = $request->user_name;
         $order->user_email = $request->user_email;
@@ -103,15 +99,15 @@ class OrderController extends Controller
     }
 
 
-    public function show(Order $order): Factory|View|Application
+    public function show(Order $order): View
     {
         return view('orders.show', ['order' => $order]);
     }
 
 
-    public function edit(Order $order, User $user): Factory|View|Application|RedirectResponse
+    public function edit(Order $order, User $user): View|RedirectResponse
     {
-        if ($order->user_id != Auth::user()->id ||
+        if ($order->user_id != auth()->user()->id ||
             $order->status == 'cancelled' ||
             $order->status == 'completed') {
             return redirect()->back()->with('info_message', 'Invalid details');
@@ -127,7 +123,6 @@ class OrderController extends Controller
                 'user_email' => 'required | string | email | max:255',
                 'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
                 'order_date' => 'required | date | after: yesterday'
-
             ],
             [
                 'user_name.required' => 'Please fill the name field',
@@ -160,18 +155,17 @@ class OrderController extends Controller
         $order->status = 'not confirmed';
         $order->save();
 
-        $user = User::where('name', Auth::user()->name ?? null)->first();
+        $user = User::where('name', auth()->user()->name ?? null)->first();
 
 //        $this->mail->orderChange($order);
 
-        return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
+        return redirect()->route('user.orders', $user->id)->with('success_message', 'Booking details changed successfully');
     }
 
     public function destroy(Order $order): RedirectResponse
     {
         $order->status = 'cancelled';
         $order->save();
-        return redirect()->back()->with('success_message', 'Order cancellation submitted successfully');
-
+        return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
 }

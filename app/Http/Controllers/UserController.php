@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,9 +15,9 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 
-    public function index(): Factory|View|Application
+    public function index(): View
     {
-        $user = User::where('id', Auth::user()->id)->get();
+        $user = auth()->user();
         return view('user.index', ['user' => $user]);
     }
 
@@ -35,27 +33,22 @@ class UserController extends Controller
     }
 
 
-    public function show(User $user, Request $request): Factory|View|Application
+    public function orders(User $user, Request $request): View
     {
         $products = Product::all();
-
+        $orderStatus = 0;
+        $userOrders = Order::where('user_id', auth()->user()->id)->get();
         if ($request->order_status) {
             $orderStatus = $request->order_status;
-            if ($orderStatus == 0) {
-                $userOrders = Order::where('user_id', Auth::user()->id)->get();
-            } else {
-                $userOrders = Order::where('user_id', Auth::user()->id)
-                    ->where('status', $orderStatus)
-                    ->get();
-            }
-        } else {
-            $userOrders = Order::where('user_id', Auth::user()->id)->get();
+            $userOrders = Order::where('user_id', auth()->user()->id)
+                ->where('status', $orderStatus)
+                ->get();
         }
 
-        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus ?? 0]);
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus]);
     }
 
-    public function edit(User $user): Factory|View|Application
+    public function edit(User $user): View
     {
         return view('user.edit', ['user' => $user]);
     }
@@ -90,31 +83,29 @@ class UserController extends Controller
         $user->address = $request->user_address;
         $user->phone = $request->user_phone;
         $user->save();
+
         return redirect()->route('user.index')->with('success_message', 'Changes saved successfully');
     }
 
-
-    public function destroy(User $user,Request $request)
+    public function destroy(User $user, Request $request)
     {
-        $currentPass = Auth::user()->getAuthPassword();
+        $currentPass = auth()->user()->getAuthPassword();
         $inputCurrentPass = $request->current_password;
 
-        if(Hash::check($inputCurrentPass, $currentPass)){
+        if (Hash::check($inputCurrentPass, $currentPass)) {
             $user->status = 'inactive';
-            $user->email = 'deleted:'. Auth::user()->id . $user->email;
+            $user->email = 'deleted: id#' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
-        }
-        else {
+        } else {
             return redirect()->back()->withErrors('Password doesnt match our records');
         }
     }
 
-
     public function deleteConfirm(User $user)
     {
-        return view('user.delete', ['user'=> $user]);
+        return view('user.delete', ['user' => $user]);
     }
 
 
@@ -125,7 +116,7 @@ class UserController extends Controller
 
     public function passUpdate(User $user, Request $request)
     {
-        $currentPass = Auth::user()->getAuthPassword();
+        $currentPass = auth()->user()->getAuthPassword();
         $inputOldPass = $request->old_password;
         if (Hash::check($inputOldPass, $currentPass)) {
             $validator = Validator::make($request->all(),

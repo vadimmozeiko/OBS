@@ -12,10 +12,10 @@
                                 <span class="input-group-addon" id="basic-addon1">Filter by status</span>
                                 <select class="form-control mb-3" name="order_status">
                                     <option value="0">All</option>
-                                    <option value="not confirmed" @if($orderStatus == 'not confirmed') selected @endif>not confirmed</option>
-                                    <option value="confirmed" @if($orderStatus == 'confirmed') selected @endif>confirmed</option>
-                                    <option value="completed" @if($orderStatus == 'completed') selected @endif>completed</option>
-                                    <option value="cancelled" @if($orderStatus == 'cancelled') selected @endif>cancelled</option>
+                                    <option value="not confirmed" {{$orderStatus == 'not confirmed' ? 'selected': ''}}>not confirmed</option>
+                                    <option value="confirmed" {{$orderStatus == 'confirmed' ? 'selected': ''}}>confirmed</option>
+                                    <option value="completed" {{$orderStatus == 'completed' ? 'selected': ''}}>completed</option>
+                                    <option value="cancelled" {{$orderStatus == 'completed' ? 'cancelled': ''}}>cancelled</option>
                                 </select>
                                 <button class="btn btn-info">Filter</button>
                                 <a href="{{route('user.orders', $user)}}" class="btn btn-info">Reset</a>
@@ -32,14 +32,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($userOrders as $key => $order)
+                                @foreach($userOrders as$order)
                                 <tr
                                     @if($order->status != 'completed' &&
                                         $order->status != 'cancelled')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif>
-                                    <td>{{$key + 1}}</td>
+                                    <td>{{$loop->iteration}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
                                     <td>{{$order->status}}</td>
