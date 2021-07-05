@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-12 col-sm-12 col-md-10 col-lg-10">
                 <div class="card mb-3 ">
                     <div class="card-header"></div>
                     <div class="card-body ">
@@ -38,7 +38,7 @@
                                         $order->status != 'cancelled')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
-                                    @endif>
+                                    @endif class="hover-zoom">
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>

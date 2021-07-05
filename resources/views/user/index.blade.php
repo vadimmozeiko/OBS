@@ -2,7 +2,7 @@
 
 @section('content')
         <div class="container d-flex flex-wrap justify-content-around">
-            <div class="col-sm-10 col-md-8 col-lg-8 mb-5">
+            <div class="col-12 col-sm-12 col-md-10 col-lg-8 mb-5">
                 <div class="card text-center">
                     <div class="card-header"></div>
                     <div class="card-body">

@@ -4,7 +4,8 @@
 @section('content')
     <div class="container d-flex justify-content-center">
         <div class="card mb-3">
-            <div class="row no-gutters bg-light position-relative">
+            <div class="card-header"></div>
+            <div class="row no-gutters bg-white position-relative">
                 <div class="col-md-6 mb-md-0 p-md-4">
                     <img src="{{$product->image}}" class="w-100" alt="...">
                 </div>
