@@ -159,7 +159,7 @@ class OrderController extends Controller
 
         $user = User::where('name', Auth::user()->name ?? null)->first();
 
-        $this->mail->statusChange($order);
+        $this->mail->orderChange($order);
 
         return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
     }

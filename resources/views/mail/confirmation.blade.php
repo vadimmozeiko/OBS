@@ -1,30 +1,3 @@
-{{--Hello,{{ $order->user_name }}!--}}
-
-{{--Thank you for booking with us!--}}
-
-{{--Your booking details:--}}
-
-{{--<img style="max-width: 200px;" src="{{$order->orderProducts->image}}" alt="product image">--}}
-
-{{--<b>Name:</b> {{ $order->user_name }}--}}
-
-{{--<b>Email:</b> {{ $order->user_email }}--}}
-
-{{--<b>Date:</b> {{ $order->date }}--}}
-
-{{--<b>Status:</b> {{ $order->status }}--}}
-
-{{--Payment details:--}}
-
-{{--<b>Bank:</b> Swedbank--}}
-
-{{--<b>Account number:</b> LT3773001010987456--}}
-
-{{--<b>Payment reference:</b> Order #{{ $order->id }}--}}
-
-{{--<b>Total:</b> {{ $order->orderProducts->price / 100 }}--}}
-
-
 <div
     style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;color:#718096;height:100%;line-height:1.4;margin:0;padding:0;width:100%!important">
 

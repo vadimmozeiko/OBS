@@ -21,13 +21,13 @@ class MailController extends Controller
 //        echo "Email Sent with attachment. Check your inbox.";
     }
 
-    public function statusChange(Order $order)
+    public function orderChange(Order $order)
     {
 
         $data = ['name' => Auth::user()->name, 'order' => $order];
-        Mail::send('mail.status', $data, function ($message) {
+        Mail::send('mail.change', $data, function ($message) {
             $message->to(Auth::user()->email, Auth::user()->name)->subject
-            ('Your booking was changed');
+            ('Your booking details was changed');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
 //        echo "HTML Email Sent. Check your inbox.";
