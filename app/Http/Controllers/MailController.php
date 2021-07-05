@@ -11,7 +11,8 @@ class MailController extends Controller
     public function notConfirmed($order)
     {
 
-        $data = ['order' => $order];
+        $date = str_replace('-', '', "$order->date");
+        $data = ['order' => $order, 'date' => $date];
         Mail::send('mail.confirmation', $data, function ($message) {
             $message->to(Auth::user()->email, Auth::user()->name)->subject
             ('Your booking is pending for approval');

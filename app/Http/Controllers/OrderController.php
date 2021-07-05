@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
     private MailController $mail;
+
     public function __construct()
     {
         $this->mail = new MailController();
@@ -33,7 +34,7 @@ class OrderController extends Controller
     {
         $product = $product->id;
         $user = User::where('id', Auth::user()->id ?? null)->get();
-        if(!$request->order_date) {
+        if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
                 ->with('style', 'background-color:#ffd1d1;');
@@ -48,6 +49,7 @@ class OrderController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $product = Product::where('id', $request->product_id)->get();
+        $date = str_replace('-', '', "$request->order_date");
 
         $validator = Validator::make($request->all(),
             [
@@ -94,9 +96,9 @@ class OrderController extends Controller
         $order->status = 'not confirmed';
         $order->save();
 
-        $this->mail->notConfirmed($order);
+//        $this->mail->notConfirmed($order);
 
-        return redirect()->route('order.index')->with(['order' => $order, 'product' => $product]);
+        return redirect()->route('order.index')->with(['order' => $order, 'product' => $product, 'date' => $date]);
     }
 
 
@@ -140,14 +142,14 @@ class OrderController extends Controller
             return redirect()->back()->withErrors($validator);
         }
 
-            $isBooked = Order::where('product_id', $order->product_id)
-                ->where('date', $request->order_date)
-                ->where('status', '!=', 'completed')
-                ->where('status', '!=', 'cancelled')
-                ->first();
-            if (!empty($isBooked) && $order->getOriginal('date') != $request->order_date) {
-                return redirect()->back()->with('info_message', 'Not available for selected date');
-            }
+        $isBooked = Order::where('product_id', $order->product_id)
+            ->where('date', $request->order_date)
+            ->where('status', '!=', 'completed')
+            ->where('status', '!=', 'cancelled')
+            ->first();
+        if (!empty($isBooked) && $order->getOriginal('date') != $request->order_date) {
+            return redirect()->back()->with('info_message', 'Not available for selected date');
+        }
 
 
         $order->user_name = $request->user_name;
@@ -159,7 +161,7 @@ class OrderController extends Controller
 
         $user = User::where('name', Auth::user()->name ?? null)->first();
 
-        $this->mail->orderChange($order);
+//        $this->mail->orderChange($order);
 
         return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
     }
