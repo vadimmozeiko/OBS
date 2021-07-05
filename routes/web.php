@@ -11,7 +11,7 @@ use App\Http\Controllers\OrderController;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 
 Route::group(['prefix' => 'users'], function(){
