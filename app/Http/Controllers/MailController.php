@@ -18,7 +18,6 @@ class MailController extends Controller
             $message->attach('/var/www/html/public/assets/documents/Terms and Conditions.pdf');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
-//        echo "Email Sent with attachment. Check your inbox.";
     }
 
     public function orderChange(Order $order)
@@ -30,7 +29,17 @@ class MailController extends Controller
             ('Your booking details was changed');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
-//        echo "HTML Email Sent. Check your inbox.";
+    }
+
+    public function statusChange(Order $order)
+    {
+
+        $data = ['name' => Auth::user()->name, 'order' => $order];
+        Mail::send('mail.change', $data, function ($message) {
+            $message->to(Auth::user()->email, Auth::user()->name)->subject
+            ('Your booking status was changed');
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
     }
 
 }
