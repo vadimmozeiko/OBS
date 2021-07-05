@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
-    public function notConfirmed(Request $request)
+    public function notConfirmed($order)
     {
 
-        $data = ['data' => $request];
+        $data = ['order' => $order];
         Mail::send('mail.confirmation', $data, function ($message) {
             $message->to(Auth::user()->email, Auth::user()->name)->subject
             ('Your booking is pending for approval');
-//            $message->attach('C:\laravel-master\laravel\public\uploads\image.png');
-//            $message->attach('C:\laravel-master\laravel\public\uploads\test.txt');
+            $message->attach('/var/www/html/public/assets/documents/Terms and Conditions.pdf');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
 //        echo "Email Sent with attachment. Check your inbox.";

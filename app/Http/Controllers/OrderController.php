@@ -94,7 +94,7 @@ class OrderController extends Controller
         $order->status = 'not confirmed';
         $order->save();
 
-        $this->mail->notConfirmed($request);
+        $this->mail->notConfirmed($order);
 
         return redirect()->route('order.index')->with(['order' => $order, 'product' => $product]);
     }
