@@ -34,7 +34,8 @@
                                 <tbody>
                                 @foreach($userOrders as $key => $order)
                                 <tr
-                                    @if($order->status == 'not confirmed')
+                                    @if($order->status != 'completed' &&
+                                        $order->status != 'cancelled')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif>
@@ -42,10 +43,12 @@
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
                                     <td>{{$order->status}}</td>
-                                    <td>
+                                    <td class="d-flex">
+                                        <a class="card-link btn btn-primary btn-sm m-1"
+                                           href="{{route('order.show', $order)}}">Details</a>
                                         <form method="POST" action="{{route('order.destroy', $order)}}">
                                             @csrf
-                                            <button class="btn btn-danger btn-sm" type="submit"
+                                            <button class="btn btn-danger btn-sm m-1" type="submit"
                                                     @if($order->status == 'completed' ||
                                                         $order->status == 'cancelled')
                                                     disabled

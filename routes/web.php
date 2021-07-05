@@ -46,5 +46,5 @@ Route::group(['prefix' => 'orders'], function(){
     Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
     Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
     Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
-    Route::get('success/{order}', [OrderController::class, ''])->name('order.show');
+//    Route::get('success/{order}', [OrderController::class, ''])->name('order.show');
 });

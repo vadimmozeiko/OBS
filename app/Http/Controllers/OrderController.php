@@ -48,7 +48,7 @@ class OrderController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $product = Product::where('id', $request->product_id)->get();
+        $product = Product::where('id', $request->product_id)->first();
         $date = str_replace('-', '', "$request->order_date");
 
         $validator = Validator::make($request->all(),
@@ -91,6 +91,7 @@ class OrderController extends Controller
         $order->user_phone = $request->user_phone;
         $order->user_message = $request->user_message;
         $order->date = $request->order_date;
+        $order->price = $product->price;
         $order->user_id = $request->user_id;
         $order->product_id = $request->product_id;
         $order->status = 'not confirmed';
@@ -102,9 +103,9 @@ class OrderController extends Controller
     }
 
 
-    public function show(Order $order)
+    public function show(Order $order): Factory|View|Application
     {
-
+        return view('orders.show', ['order' => $order]);
     }
 
 
@@ -112,7 +113,7 @@ class OrderController extends Controller
     {
         if ($order->user_id != Auth::user()->id ||
             $order->status == 'cancelled' ||
-            $order->status == 'confirmed') {
+            $order->status == 'completed') {
             return redirect()->back()->with('info_message', 'Invalid details');
         }
         return view('orders.edit', ['order' => $order, 'user' => $user]);
@@ -151,12 +152,12 @@ class OrderController extends Controller
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
-
         $order->user_name = $request->user_name;
         $order->user_email = $request->user_email;
         $order->user_phone = $request->user_phone;
         $order->date = $request->order_date;
-
+        $order->price = $order->orderProducts->price;
+        $order->status = 'not confirmed';
         $order->save();
 
         $user = User::where('name', Auth::user()->name ?? null)->first();
