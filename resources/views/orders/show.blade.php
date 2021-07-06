@@ -6,13 +6,13 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h4>Your booking details: </h4>
-                    <img class="mb-4" src="{{$order->orderProducts->image}}" alt="booking image">
+                    <img class="mb-4 show-sm" src="{{$order->orderProducts->image}}" alt="booking image">
                     <p><b>Name: </b>{{$order->user_name}}</p>
                     <p><b>Email: </b>{{$order->user_email}}</p>
                     <p><b>Date: </b>{{$order->date}}</p>
                     <p><b>Status: </b>{{$order->status}}</p>
                     <p><b>Price: </b>{{$order->price / 100}} Eur</p>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center flex-wrap">
                         <a
                             @if($order->status == 'completed' ||
                                 $order->status == 'cancelled')

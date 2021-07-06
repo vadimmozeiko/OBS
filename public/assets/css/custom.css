@@ -1,9 +1,13 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
 
 body {
     font-family: 'Lora', serif;
-    background-image: url("https://cdn.primoplc.co.uk/images/trades-insurance/uk-bouncy-castle-insurance-cover.jpg");
+    background-image: url("https://images03.nicepage.com/c461c07a441a5d220e8feb1a/bf59b34654f955da8136c563/Untitled2.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100vh;
 }
 
 p {
@@ -16,7 +20,7 @@ img {
     max-height: 500px;
 }
 
-body::after {
+body::before {
     content: '';
     position: fixed;
     width: 100%;
@@ -32,6 +36,16 @@ body::after {
 
 table {
     border-collapse: collapse;
+}
+
+.triangle-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 400px solid #ff921f;
+    border-left: 400px solid transparent;
 }
 
 .navbar {
@@ -102,6 +116,32 @@ table {
     margin-left: 10px;
 }
 
+.navbar-light .navbar-brand {
+    color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-light .navbar-toggler {
+    color: #fff;
+    border-color: #fff;
+}
+.navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
+    color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+    color: #fff;
+    background-color: #3490dc;
+    border-radius: 5px;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+    color: #fff;
+}
+
 .hover-blue {
     margin-right: 10px;
     border-radius: 5px;
@@ -114,7 +154,7 @@ table {
 }
 
 .hover-blue:hover {
-    color: #fff!important;
+    color: #fff !important;
     background-color: #3490dc;
 }
 
@@ -135,6 +175,14 @@ table {
     transform: scale(1.01);
 }
 
+.navbar-inner {
+    background: transparent;
+}
+
+.show-sm {
+    width: 100%;
+}
+
 @media only screen and (max-width: 1100px) {
     .main-title {
         font-size: 75px;
@@ -152,8 +200,21 @@ table {
         padding: 10px;
         font-size: 12px;
     }
+
     .btn.search {
         padding: 4px;
+    }
+
+    .white-sm {
+        background-color: #fff;
+    }
+
+    .navbar-light .navbar-nav .nav-link{
+        color: #000;
+    }
+
+    .navbar-light .navbar-brand{
+        color: #000;
     }
 }
 
@@ -175,7 +236,18 @@ table {
     .search-checkbox {
         font-size: 12px;
     }
+
+    .mobile-hide {
+        display: none;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
 }
+
+
 
 
 @media only screen and (max-width: 460px) {
@@ -187,6 +259,11 @@ table {
     #datepicker.search {
         padding: 20px;
         font-size: 12px;
+    }
+
+    .show-sm {
+        width: 75%;
+
     }
 }
 

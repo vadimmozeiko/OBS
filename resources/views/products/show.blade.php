@@ -3,11 +3,11 @@
 
 @section('content')
     <div class="container d-flex justify-content-center">
-        <div class="card mb-3">
+        <div class="card mb-3 text-center">
             <div class="card-header"></div>
             <div class="row no-gutters bg-white position-relative">
                 <div class="col-md-6 mb-md-0 p-md-4">
-                    <img src="{{$product->image}}" class="w-100" alt="...">
+                    <img class="show-sm" src="{{$product->image}}" alt="product image">
                 </div>
                 <div class="col-md-6 position-static p-4 pl-md-0">
                     <h2 class="mt-3 mb-4">{{$product->title}}</h2>

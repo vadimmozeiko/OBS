@@ -23,11 +23,11 @@
                             <table class="table table-sortable">
                                 <thead>
                                 <tr>
-                                    <th class="sort-order sortable" scope="col"># <i class="order fas fa-sort-numeric-up"></i></th>
+                                    <th class="sort-order sortable mobile-hide" scope="col"># <i class="order fas fa-sort-numeric-up"></i></th>
                                     <th class="sort-date sortable" scope="col">Date <i class="date fas fa-sort-numeric-up"></i>
                                     </th>
                                     <th class="sort-title sortable" scope="col">Title <i class="title fas fa-sort-alpha-up"></i></th>
-                                    <th class="sort-status sortable" scope="col">Status <i class="status fas fa-sort-alpha-up"></i></th>
+                                    <th class="sort-status sortable mobile-hide" scope="col">Status <i class="status fas fa-sort-alpha-up"></i></th>
                                     <th scope="col">Actions</th>
                                 </tr>
                                 </thead>
@@ -39,16 +39,16 @@
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif class="hover-zoom">
-                                    <td>{{$loop->iteration}}</td>
+                                    <td class="mobile-hide">{{$loop->iteration}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
-                                    <td>{{$order->status}}</td>
-                                    <td class="d-flex">
+                                    <td class="mobile-hide">{{$order->status}}</td>
+                                    <td class="d-flex mobile-hide">
                                         <a class="card-link btn btn-primary btn-sm m-1"
                                            href="{{route('order.show', $order)}}">Details</a>
                                         <form method="POST" action="{{route('order.destroy', $order)}}">
                                             @csrf
-                                            <button class="btn btn-danger btn-sm m-1" type="submit"
+                                            <button class="btn btn-danger btn-sm m-1 mobile-hide" type="submit"
                                                     @if($order->status == 'completed' ||
                                                         $order->status == 'cancelled')
                                                     disabled

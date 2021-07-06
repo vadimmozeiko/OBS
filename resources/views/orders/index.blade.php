@@ -8,7 +8,7 @@
                     @if(session()->has('order'))
                         <h2>Booking was successful</h2>
                             <h3>{{session()->get('product')->title}}</h3>
-                            <img class="mb-4" src="{{session()->get('product')->image}}" alt="booking image">
+                            <img class="mb-4 show-sm" src="{{session()->get('product')->image}}" alt="booking image">
                         <h4>Your booking details: </h4>
                         <p><b>Name: </b>{{session()->get('order')->user_name}}</p>
                         <p><b>Email: </b>{{session()->get('order')->user_email}}</p>
