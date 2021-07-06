@@ -30,7 +30,7 @@ class OrderController extends Controller
 
     public function create(Product $product, Request $request): View|RedirectResponse
     {
-        $user = User::where('id', auth()->user()->id ?? null)->first();
+        $user = auth()->user() ?? null;
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
@@ -85,6 +85,7 @@ class OrderController extends Controller
     {
         $order->status = 'cancelled';
         $order->save();
+        $this->mail->orderChange($order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
 }

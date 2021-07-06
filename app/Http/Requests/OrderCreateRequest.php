@@ -25,7 +25,7 @@ class OrderCreateRequest extends FormRequest
     {
         return [
 
-            'user_name' => 'required | string | max:255',
+            'user_name' => 'required | string | min:3 | max:255',
             'user_email' => 'required | string | email | max:255',
             'user_address' => 'required | string | max:255',
             'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
@@ -33,13 +33,14 @@ class OrderCreateRequest extends FormRequest
             'status' => 'required',
             'user_id' =>'required | integer | min:1',
             'product_id' =>'required | integer | min:1',
-            'price' => 'required'
+            'price' => 'required | integer | min:1'
         ];
     }
 
     public function messages()
     {
         return [
+            'user_name.min' => 'Name is too short (min. 3 characters)',
             'user_name.required' => 'Please fill the name field',
             'user_name.max' => 'Name is too long',
             'user_address.required' => 'Please fill the address field',

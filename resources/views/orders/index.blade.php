@@ -4,9 +4,9 @@
     <div class="container d-flex flex-wrap justify-content-around">
         <div class="col-sm-10 col-md-8 col-lg-8 mb-5">
             <div class="card text-center">
-                <div class="card-body">
                     @if(session()->has('order'))
-                        <h2>Booking was successful</h2>
+                <div class="card-header bg-success text-white">Booking was successful</div>
+                <div class="card-body">
                             <h3>{{session()->get('product')->title}}</h3>
                             <img class="mb-4 show-sm" src="{{session()->get('product')->image}}" alt="booking image">
                         <h4>Your booking details: </h4>

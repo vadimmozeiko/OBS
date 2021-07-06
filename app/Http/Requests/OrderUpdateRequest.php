@@ -27,7 +27,7 @@ class OrderUpdateRequest extends FormRequest
             'user_name' => 'required | string | max:255',
             'user_email' => 'required | string | email | max:255',
             'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-            'date' => 'required | date | after: yesterday',
+            'date' => 'required | date | after: today',
             'product_id' => 'required | integer | min:1',
         ];
     }
