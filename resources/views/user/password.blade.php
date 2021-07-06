@@ -11,11 +11,26 @@
                         <div class="input-group">
                             <form style="width: 100%;" method="POST" action="{{route('user.passUpdate', $user)}}" enctype="multipart/form-data">
                                 <span class="input-group-addon" id="basic-addon1">Old password *</span>
-                                <input class="form-control mb-3"  type="password" name="old_password"  required>
+                                <input class="form-control @error('old_password') is-invalid @enderror"  type="password" name="old_password">
+                                @error('old_password')
+                                <small class="invalid-feedback mb-3" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                                @enderror
                                 <span class="input-group-addon" id="basic-addon1">New password *</span>
-                                <input class="form-control mb-3" type="password" name="new_password" required>
+                                <input class="form-control @error('password') is-invalid @enderror" type="password" name="new_password">
+                                @error('new_password')
+                                <small class="invalid-feedback mb-3" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                                @enderror
                                 <span class="input-group-addon" id="basic-addon1">Confirm password *</span>
-                                <input class="form-control mb-3" type="password" name="confirm_password" required>
+                                <input class="form-control @error('confirm_password') is-invalid @enderror" type="password" name="confirm_password">
+                                @error('confirm_password')
+                                <small class="invalid-feedback mb-3" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                                @enderror
                                 <small class="d-block mb-3">* Required info</small>
                                 <button class="btn btn-primary btn-m" type="submit">Save</button>
                                 @csrf

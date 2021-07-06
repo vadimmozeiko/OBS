@@ -28,16 +28,34 @@
                             @endif
                             class="card-link btn btn-primary m-1" href="{{route('order.edit', $order)}}">Edit
                             booking</a>
-                        <form method="POST" action="{{route('order.destroy', $order)}}">
-                            @csrf
-                            <button class="card-link btn btn-danger m-1" type="submit"
+                            <button class="card-link btn btn-danger m-1" type="button" data-toggle="modal" data-target="#exampleModalCenter"
                                     @if($order->status == 'completed' ||
                                         $order->status == 'cancelled')
                                     disabled
                                 @endif
                             >CANCEL
                             </button>
-                        </form>
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger">
+                                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to cancel this booking?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="POST" action="{{route('order.destroy', $order)}}">
+                                            @csrf
+                                        <button type="submit" class="btn btn-danger">YES</button>
+                                        </form>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal">NO</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -28,7 +28,7 @@
                                     </th>
                                     <th class="sort-title sortable" scope="col">Title <i class="title fas fa-sort-alpha-up"></i></th>
                                     <th class="sort-status sortable mobile-hide" scope="col">Status <i class="status fas fa-sort-alpha-up"></i></th>
-                                    <th scope="col">Actions</th>
+                                    <th scope="col"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -46,15 +46,6 @@
                                     <td class="d-flex mobile-hide">
                                         <a class="card-link btn btn-primary btn-sm m-1"
                                            href="{{route('order.show', $order)}}">Details</a>
-                                        <form method="POST" action="{{route('order.destroy', $order)}}">
-                                            @csrf
-                                            <button class="btn btn-danger btn-sm m-1 mobile-hide" type="submit"
-                                                    @if($order->status == 'completed' ||
-                                                        $order->status == 'cancelled')
-                                                    disabled
-                                                    @endif
-                                            >CANCEL</button>
-                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

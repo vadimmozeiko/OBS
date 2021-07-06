@@ -7,7 +7,7 @@
             <div class="card-header"></div>
             <div class="row no-gutters bg-white position-relative">
                 <div class="col-md-6 mb-md-0 p-md-4">
-                    <img class="show-sm" src="{{$product->image}}" alt="product image">
+                    <img class="show-lg" src="{{$product->image}}" alt="product image">
                 </div>
                 <div class="col-md-6 position-static p-4 pl-md-0">
                     <h2 class="mt-3 mb-4">{{$product->title}}</h2>
