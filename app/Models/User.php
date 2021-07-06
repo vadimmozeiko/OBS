@@ -5,6 +5,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -47,6 +49,11 @@ use Illuminate\Support\Carbon;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+
+    public function userOrders(): HasMany
+    {
+        return $this->hasMany('App\Models\Order', 'user_id', 'id');
+    }
 
     /**
      * The attributes that are mass assignable.

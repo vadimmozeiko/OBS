@@ -27,7 +27,8 @@ class OrderUpdateRequest extends FormRequest
             'user_name' => 'required | string | max:255',
             'user_email' => 'required | string | email | max:255',
             'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-            'order_date' => 'required | date | after: yesterday'
+            'date' => 'required | date | after: yesterday',
+            'product_id' => 'required | integer | min:1',
         ];
     }
 
@@ -39,7 +40,7 @@ class OrderUpdateRequest extends FormRequest
             'user_email.required' => 'Please fill the email field',
             'user_phone.required' => 'Please fill the phone no. field',
             'user_phone.regex' => 'Invalid phone no.',
-            'order_date.after' => 'Incorrect date (for today bookings contact directly)'
+            'date.after' => 'Incorrect date (for today bookings contact directly)'
         ];
     }
 }

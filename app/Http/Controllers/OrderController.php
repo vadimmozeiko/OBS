@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -29,7 +28,6 @@ class OrderController extends Controller
         return view('orders.index');
     }
 
-
     public function create(Product $product, Request $request): View|RedirectResponse
     {
         $user = User::where('id', auth()->user()->id ?? null)->first();
@@ -40,7 +38,6 @@ class OrderController extends Controller
         }
         return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
     }
-
 
     public function store(OrderCreateRequest $request): RedirectResponse
     {
@@ -56,12 +53,10 @@ class OrderController extends Controller
         return redirect()->route('order.index')->with(['order' => $order, 'product' => $product, 'date' => $date]);
     }
 
-
     public function show(Order $order): View
     {
         return view('orders.show', ['order' => $order]);
     }
-
 
     public function edit(Order $order, User $user): View|RedirectResponse
     {
@@ -74,22 +69,16 @@ class OrderController extends Controller
 
     public function update(OrderUpdateRequest $request, Order $order): RedirectResponse
     {
-
-        $isBooked = Order::where('product_id', $order->product_id)
-            ->where('date', $request->order_date)
-            ->where('status', '!=', 'completed')
-            ->where('status', '!=', 'cancelled')
-            ->first();
-        if (!empty($isBooked) && $order->getOriginal('date') != $request->order_date) {
+        if ($this->order->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
+        $order->status = 'not confirmed';
         $order->update($request->validated());
 
-        $user = User::where('id', auth()->user()->id ?? null)->first();
-
+        $user = auth()->user()->id ?? null;
         $this->mail->orderChange($order);
 
-        return redirect()->route('user.orders', $user->id)->with('success_message', 'Booking details changed successfully');
+        return redirect()->route('user.orders', $user)->with('success_message', 'Booking details changed successfully');
     }
 
     public function destroy(Order $order): RedirectResponse

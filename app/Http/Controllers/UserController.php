@@ -41,9 +41,7 @@ class UserController extends Controller
         $userOrders = Order::where('user_id', auth()->user()->id)->get();
         if ($request->order_status) {
             $orderStatus = $request->order_status;
-            $userOrders = Order::where('user_id', auth()->user()->id)
-                ->where('status', $orderStatus)
-                ->get();
+            $userOrders = $user->userOrders();
         }
 
         return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus]);

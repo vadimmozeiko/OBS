@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Requests\OrderCreateRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -63,7 +64,7 @@ class Order extends Model
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
     }
 
-    public function isBooked(OrderCreateRequest $request): Order|null
+    public function isBooked(OrderCreateRequest|OrderUpdateRequest $request): Order|null
     {
         return Order::where('product_id', $request->product_id)
             ->where('date', $request->date)
