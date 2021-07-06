@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\OrderCreateRequest;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,8 +46,42 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_name',
+        'user_email',
+        'user_phone',
+        'user_message',
+        'status',
+        'date',
+        'price',
+        'user_id',
+        'product_id'
+    ];
+
     public function orderProducts(): BelongsTo
     {
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
     }
+
+    public function isBooked(OrderCreateRequest $request): Order|null
+    {
+        return Order::where('product_id', $request->product_id)
+            ->where('date', $request->date)
+            ->where('status', '!=', 'completed')
+            ->where('status', '!=', 'cancelled')
+            ->first();
+    }
+
+    public function isEditable(Order $order): bool
+    {
+        if ($order->user_id != auth()->user()->id ||
+            $order->status == 'cancelled' ||
+            $order->status == 'completed') {
+
+            return true;
+        }
+        return false;
+
+    }
+
 }
