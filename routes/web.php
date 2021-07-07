@@ -39,8 +39,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
         Route::get('', [DashboardController::class, 'index'])->name('admin.dashboard');
-//        Route::get('create/{product}', [OrderController::class, 'create'])->name('order.create');
-//        Route::post('store', [OrderController::class, 'store'])->name('order.store');
+
+        Route::group(['prefix' => 'orders'], function () {
+            Route::get('create', [DashboardController::class, 'createOrder'])->name('create.order');
+            Route::post('store', [DashboardController::class, 'storeOrder'])->name('store.order');
+        });
+
+
 //        Route::get('edit/{order}', [OrderController::class, 'edit'])->name('order.edit');
 //        Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
 //        Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');

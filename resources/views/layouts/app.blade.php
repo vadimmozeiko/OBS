@@ -67,6 +67,11 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @if(auth()->user()->isAdmin)
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-tachometer-alt"></i></i> {{ __('Admin Dashboard') }}
+                                </a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('user.orders', auth()->user()->id) }}">
                                     <i class="fas fa-list"></i> {{ __('My bookings') }}
                                 </a>

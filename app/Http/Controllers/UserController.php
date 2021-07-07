@@ -47,9 +47,12 @@ class UserController extends Controller
         return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus]);
     }
 
-    public function edit(User $user): View
+    public function edit(User $user): View|RedirectResponse
     {
+        if(auth()->user()->id == $user->id){
         return view('user.edit', ['user' => $user]);
+        }
+        return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
     }
 
 
@@ -66,7 +69,7 @@ class UserController extends Controller
         $inputCurrentPass = $request->current_password;
 
         if (Hash::check($inputCurrentPass, $currentPass)) {
-            $user->status = 'inactive';
+            $user->status = 'deleted';
             $user->email = 'deleted:id#' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();

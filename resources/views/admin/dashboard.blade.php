@@ -16,6 +16,11 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/all.min.css')}}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+{{--    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">--}}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 
@@ -27,10 +32,11 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <li class="nav-item">
-        <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.dashboard')}}">
-            <div class="sidebar-brand-text mx-3">OBS Admin</div>
-        </a>
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center"
+               href="{{route('admin.dashboard')}}">
+                <div class="sidebar-brand-text mx-3">OBS Admin</div>
+            </a>
         </li>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -51,14 +57,14 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
+            <a class="nav-link" href="{{route('create.order')}}">
+                <i class="fas fa-plus"></i>
                 <span>Create new booking</span></a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-list-alt"></i>
                 <span>Manage bookings </span></a>
         </li>
 
@@ -72,13 +78,13 @@
 
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-user-plus"></i>
                 <span>Create new user</span></a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-user-friends"></i>
                 <span>Manage users</span></a>
         </li>
 
@@ -91,13 +97,13 @@
         </div>
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-user-plus"></i>
                 <span>Create new admin</span></a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-user-shield"></i>
                 <span>Manage admins</span></a>
         </li>
 
@@ -174,7 +180,6 @@
                             </form>
                         </div>
                     </li>
-
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -211,9 +216,26 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            @if(session()->has('success_message'))
+                                <div class="alert alert-success" role="alert">
+                                    {{session()->get('success_message')}}
+                                </div>
+                            @endif
+
+                            @if(session()->has('info_message'))
+                                <div class="alert alert-info" role="alert">
+                                    {{session()->get('info_message')}}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+                @yield('content')
 
             </div>
             <!-- /.container-fluid -->
@@ -253,7 +275,6 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
 <!-- Core plugin JavaScript-->
@@ -261,6 +282,33 @@
 
 <!-- Custom scripts for all pages-->
 <script src="{{asset('assets/js/sb-admin-2.min.js')}}"></script>
+
+<!-- Select search-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Datepicker config-->
+<script>
+    $('#datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        weekStartDay: 1,
+        minDate: function() {
+            const date = new Date();
+            date.setDate(date.getDate()+1);
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
+        maxDate: function() {
+            const date = new Date();
+            date.setDate(date.getDate()+90);
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        },
+        uiLibrary: 'bootstrap4',
+        showRightIcon: false
+    });
+
+    $(document).ready(function() {
+        $('.select-search').select2();
+    });
+</script>
 
 </body>
 
