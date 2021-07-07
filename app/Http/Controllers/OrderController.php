@@ -62,7 +62,7 @@ class OrderController extends Controller
     {
 
         if ($this->order->isEditable($order)) {
-            return redirect()->back()->with('info_message', 'Invalid details');
+            return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
         }
         return view('orders.edit', ['order' => $order, 'user' => $user]);
     }

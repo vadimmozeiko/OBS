@@ -23,7 +23,7 @@
                             <table class="table table-sortable">
                                 <thead>
                                 <tr>
-                                    <th class="sort-order sortable mobile-hide" scope="col"># <i class="order fas fa-sort-numeric-up"></i></th>
+                                    <th class="sort-order sortable mobile-hide" scope="col">Booking# <i class="order fas fa-sort-numeric-up"></i></th>
                                     <th class="sort-date sortable" scope="col">Date <i class="date fas fa-sort-numeric-up"></i>
                                     </th>
                                     <th class="sort-title sortable" scope="col">Title <i class="title fas fa-sort-alpha-up"></i></th>
@@ -39,7 +39,7 @@
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif class="hover-zoom">
-                                    <td class="mobile-hide">{{$loop->iteration}}</td>
+                                    <td class="mobile-hide">{{$order->id}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
                                     <td class="mobile-hide">{{$order->status}}</td>
