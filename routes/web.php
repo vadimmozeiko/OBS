@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -34,6 +35,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
         Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
         Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
+    });
+
+    Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
+        Route::get('', [DashboardController::class, 'index'])->name('admin.dashboard');
+//        Route::get('create/{product}', [OrderController::class, 'create'])->name('order.create');
+//        Route::post('store', [OrderController::class, 'store'])->name('order.store');
+//        Route::get('edit/{order}', [OrderController::class, 'edit'])->name('order.edit');
+//        Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
+//        Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
+//        Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
     });
 });
 

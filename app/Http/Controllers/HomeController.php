@@ -30,4 +30,9 @@ class HomeController extends Controller
     {
         return view('faq');
     }
+
+    public function admin(): Renderable
+    {
+        return view('admin_login');
+    }
 }
