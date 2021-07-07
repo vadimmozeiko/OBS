@@ -85,7 +85,7 @@ class OrderController extends Controller
     {
         $order->status = 'cancelled';
         $order->save();
-        $this->mail->orderChange($order);
+        $this->mail->cancelled($order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
 }
