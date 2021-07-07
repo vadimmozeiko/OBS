@@ -7,6 +7,7 @@ use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\OrderService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,12 +15,10 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     private MailController $mail;
-    private Order $order;
 
     public function __construct()
     {
         $this->mail = new MailController();
-        $this->order = new Order();
         $this->middleware('verified');
     }
 
@@ -44,11 +43,11 @@ class OrderController extends Controller
         $product = Product::where('id', $request->product_id)->first();
         $date = str_replace('-', '', "$request->date");
 
-        if ($this->order->isBooked($request)) {
+        if (OrderService::isBooked($request)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
-        $order = $this->order->create($request->validated());
+        $order = Order::create($request->validated());
         $this->mail->notConfirmed($order);
         return redirect()->route('order.index')->with(['order' => $order, 'product' => $product, 'date' => $date]);
     }
@@ -61,7 +60,7 @@ class OrderController extends Controller
     public function edit(Order $order, User $user): View|RedirectResponse
     {
 
-        if ($this->order->isEditable($order)) {
+        if (OrderService::isEditable($order)) {
             return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
         }
         return view('orders.edit', ['order' => $order, 'user' => $user]);
@@ -69,7 +68,7 @@ class OrderController extends Controller
 
     public function update(OrderUpdateRequest $request, Order $order): RedirectResponse
     {
-        if ($this->order->isBooked($request) && $order->getOriginal('date') != $request->date) {
+        if (OrderService::isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
         $order->status = 'not confirmed';
