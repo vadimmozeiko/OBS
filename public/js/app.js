@@ -1894,21 +1894,25 @@ window.addEventListener('DOMContentLoaded', function (event) {
   });
 });
 $(document).ready(function () {
-  $('.order, .date, .title, .status').addClass('hidden');
+  $('.order, .date, .title, .status, .name').addClass('hidden');
   $('.sort-order').click(function () {
-    $('.date, .title, .status').addClass('hidden');
+    $('.date, .title, .status, .name').addClass('hidden');
     $('.order').removeClass('hidden').toggleClass('fa-sort-numeric-down');
   });
   $('.sort-date').click(function () {
-    $('.order, .title, .status').addClass('hidden');
+    $('.order, .title, .status, .name').addClass('hidden');
     $('.date').removeClass('hidden').toggleClass('fa-sort-numeric-down');
   });
   $('.sort-title').click(function () {
-    $('.date, .order, .status').addClass('hidden');
+    $('.date, .order, .status, .name').addClass('hidden');
     $('.title').removeClass('hidden').toggleClass('fa-sort-alpha-down');
   });
+  $('.sort-name').click(function () {
+    $('.date, .order, .status, .title').addClass('hidden');
+    $('.name').removeClass('hidden').toggleClass('fa-sort-alpha-down');
+  });
   $('.sort-status').click(function () {
-    $('.date, .title, .order').addClass('hidden');
+    $('.date, .title, .order, .name').addClass('hidden');
     $('.status').removeClass('hidden').toggleClass('fa-sort-alpha-down');
   });
 }); // TABLE SORT END =====================================================================
