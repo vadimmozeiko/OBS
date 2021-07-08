@@ -6,17 +6,16 @@ use App\Http\Requests\OrderCreateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\OrderService;
 
 class DashboardController extends Controller
 {
 
-    private Order $order;
     private MailController $mail;
 
     public function __construct()
     {
         $this->mail = new MailController();
-        $this->order = new Order();
     }
 
     public function index()
@@ -33,11 +32,11 @@ class DashboardController extends Controller
 
     public function storeOrder(OrderCreateRequest $request)
     {
-        if ($this->order->isBooked($request)) {
+        if (OrderService::isBooked($request)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
-        $order = $this->order->create($request->validated());
+        $order = Order::create($request->validated());
 //        $this->mail->notConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
