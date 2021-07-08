@@ -1882,13 +1882,15 @@ function sortTableByColumn(table, column) {
   table.querySelector("th:nth-child(".concat(column + 1, ")")).classList.toggle('th-sort-desc', !asc);
 }
 
-sortTableByColumn(document.querySelector('table'), 1, false);
-document.querySelectorAll('.table-sortable .sortable').forEach(function (headerCell) {
-  headerCell.addEventListener('click', function () {
-    var tableElement = headerCell.parentElement.parentElement.parentElement;
-    var headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
-    var currentIsAsc = headerCell.classList.contains('th-sort-asc');
-    sortTableByColumn(tableElement, headerIndex, !currentIsAsc);
+window.addEventListener('DOMContentLoaded', function (event) {
+  sortTableByColumn(document.querySelector('table'), 1, false);
+  document.querySelectorAll('.table-sortable .sortable').forEach(function (headerCell) {
+    headerCell.addEventListener('click', function () {
+      var tableElement = headerCell.parentElement.parentElement.parentElement;
+      var headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+      var currentIsAsc = headerCell.classList.contains('th-sort-asc');
+      sortTableByColumn(tableElement, headerIndex, !currentIsAsc);
+    });
   });
 });
 $(document).ready(function () {

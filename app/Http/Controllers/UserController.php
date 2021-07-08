@@ -36,15 +36,16 @@ class UserController extends Controller
 
     public function orders(User $user, Request $request): View
     {
-        $products = Product::all();
         $orderStatus = 0;
         $userOrders = Order::where('user_id', auth()->user()->id)->get();
         if ($request->order_status) {
             $orderStatus = $request->order_status;
-            $userOrders = $user->userOrders();
+            $userOrders = $user->userOrders()
+                ->where('status', $orderStatus)
+                ->get();;
         }
 
-        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus]);
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'orderStatus' => $orderStatus]);
     }
 
     public function edit(User $user): View|RedirectResponse

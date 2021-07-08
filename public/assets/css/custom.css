@@ -135,11 +135,16 @@ table {
     color: #fff;
 }
 
-.navbar-light .navbar-nav .nav-link:hover,
-.navbar-light .navbar-nav .nav-link:focus {
+.navbar-light .navbar-nav .nav-link.menu:hover,
+.navbar-light .navbar-nav .nav-link.menu:focus {
     color: #fff;
     background-color: #3490dc;
     border-radius: 5px;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+    color: #fff;
 }
 
 .navbar-light .navbar-nav .show > .nav-link,

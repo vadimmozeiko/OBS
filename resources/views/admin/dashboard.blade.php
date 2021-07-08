@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>OBS Dashboard</title>
-
+    <script src="{{ asset('js/app.js') }}"></script>
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css">
     <link
@@ -17,10 +17,11 @@
     <link href="{{asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/css/all.min.css')}}">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-{{--    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">--}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 
 </head>
 
@@ -63,7 +64,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="{{route('list.order')}}">
                 <i class="fas fa-list-alt"></i>
                 <span>Manage bookings </span></a>
         </li>
@@ -218,7 +219,7 @@
             <div class="container-fluid">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             @if(session()->has('success_message'))
                                 <div class="alert alert-success" role="alert">
                                     {{session()->get('success_message')}}
@@ -274,6 +275,7 @@
     </div>
 </div>
 
+
 <!-- Bootstrap core JavaScript-->
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
@@ -285,6 +287,8 @@
 
 <!-- Select search-->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
 
 <!-- Datepicker config-->
 <script>
@@ -309,7 +313,5 @@
         $('.select-search').select2();
     });
 </script>
-
 </body>
-
 </html>

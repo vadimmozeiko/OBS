@@ -41,8 +41,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         Route::group(['prefix' => 'orders'], function () {
+            Route::get('', [DashboardController::class, 'listOrder'])->name('list.order');
             Route::get('create', [DashboardController::class, 'createOrder'])->name('create.order');
             Route::post('store', [DashboardController::class, 'storeOrder'])->name('store.order');
+
         });
 
 
