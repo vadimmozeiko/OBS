@@ -73,3 +73,19 @@ $(document).ready(function () {
 
 
 // TABLE SORT END =====================================================================
+
+
+
+// SEARCH FIELD =======================================================================
+
+$(document).ready(function(){
+    $("#search-field").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $(".table tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+
+
+// END SEARCH FIELD ===================================================================

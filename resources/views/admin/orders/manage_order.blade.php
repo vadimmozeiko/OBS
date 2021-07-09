@@ -28,6 +28,9 @@
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.order')}}" class="btn btn-info">Reset</a>
         </form>
+        <div class="form-outline mb-2">
+            <input name="search" type="text" id="search-field" class="form-control" placeholder="Search by name">
+        </div>
         <table class="table table-sortable">
             <thead>
             <tr>
@@ -58,13 +61,37 @@
                            href="{{route('order.show', $order)}}">Edit</a>
                         <a class="card-link btn btn-success btn-sm m-1"
                            href="{{route('order.show', $order)}}">Complete</a>
-                        <a class="card-link btn btn-danger btn-sm m-1"
-                           href="{{route('order.show', $order)}}">CANCEL</a>
+                        <a class="card-link btn btn-danger btn-sm m-1 ml-4"
+                           data-toggle="modal" data-target="#cancelModal"
+                           href="#">CANCEL</a>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <button type="button" class="close text-white" data-dismiss="cancelModal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to cancel this booking?
+                    </div>
+                    <div class="modal-footer">
+                        <form method="POST" action="{{route('order.destroy', $order)}}">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">YES</button>
+                        </form>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">NO</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection
