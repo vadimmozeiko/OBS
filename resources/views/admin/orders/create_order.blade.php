@@ -3,7 +3,7 @@
 @section('content')
 
     <h2 class="">Fill the form</h2>
-    <div class="input-group">
+    <div class="input-group pl-md-5 pr-md-5">
         <form style="width: 100%;" method="POST" action="{{route('store.order')}}"
               autocomplete="off"
               enctype="multipart/form-data">

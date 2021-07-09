@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('create', [DashboardController::class, 'createOrder'])->name('create.order');
 //            Route::get('search', [DashboardController::class, 'searchOrder'])->name('search.order');
             Route::post('store', [DashboardController::class, 'storeOrder'])->name('store.order');
+            Route::post('change/{order}', [DashboardController::class, 'statusChange'])->name('change.order');
 
         });
 

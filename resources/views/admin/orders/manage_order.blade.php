@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="justify-content-center">
+    <div class="justify-content-center pl-md-5 pr-md-5">
         <form class="mb-4" action="{{route('list.order')}}" method="GET">
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>
             <select class="form-control mb-3" name="order_status">
@@ -43,7 +43,7 @@
                 <th class="sort-title sortable" scope="col">Product <i class="title fas fa-sort-alpha-up"></i></th>
                 <th class="sort-status sortable mobile-hide" scope="col">Status <i
                         class="status fas fa-sort-alpha-up"></i></th>
-                <th class="" scope="col"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -55,15 +55,42 @@
                     <td>{{$order->orderProducts->title}}</td>
                     <td class="mobile-hide">{{$order->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
-                        <a class="card-link btn btn-primary btn-sm m-1"
-                           href="{{route('order.show', $order)}}">Confirm</a>
-                        <a class="card-link btn btn-info btn-sm m-1"
-                           href="{{route('order.show', $order)}}">Edit</a>
-                        <a class="card-link btn btn-success btn-sm m-1"
-                           href="{{route('order.show', $order)}}">Complete</a>
-                        <a class="card-link btn btn-danger btn-sm m-1 ml-4"
-                           data-toggle="modal" data-target="#cancelModal"
-                           href="#">CANCEL</a>
+                        <form method="POST" action="{{route('change.order', $order)}}">
+                            <button type="submit" class="card-link btn btn-primary btn-sm m-1"
+                                    @if($order->status == 'cancelled' ||
+                                        $order->status == 'completed' ||
+                                        $order->status == 'confirmed')
+                                    disabled
+                                @endif
+                            >Confirm
+                            </button>
+                            <input type="hidden" name="status" value="confirmed">
+                            @csrf
+                        </form>
+                        <form method="POST" action="">
+                            <button type="submit" class="card-link btn btn-info btn-sm m-1"
+                            >Edit
+                            </button>
+                            @csrf
+                        </form>
+                        <form method="POST" action="{{route('change.order', $order)}}">
+                            <button type="submit" class="card-link btn btn-success btn-sm m-1"
+                                    @if($order->status == 'cancelled' ||
+                                        $order->status == 'completed')
+                                    disabled
+                                @endif>Complete
+                            </button>
+                            <input type="hidden" name="status" value="completed">
+                            @csrf
+                        </form>
+                        <button type="submit" class="card-link btn btn-danger btn-sm m-1 ml-4"
+                                data-toggle="modal" data-target="#cancelModal"
+                                @if($order->status == 'cancelled' ||
+                                    $order->status == 'completed')
+                                disabled
+                            @endif
+                        >CANCEL
+                        </button>
                     </td>
                 </tr>
             @endforeach
@@ -74,9 +101,6 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-danger">
-                        <button type="button" class="close text-white" data-dismiss="cancelModal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                     <div class="modal-body">
                         Are you sure you want to cancel this booking?

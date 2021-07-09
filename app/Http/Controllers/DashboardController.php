@@ -79,4 +79,21 @@ class DashboardController extends Controller
         return view('admin.orders.manage_order',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId]);
     }
+
+    public function statusChange(Order $order, Request $request)
+    {
+        $status = $request->status;
+
+        $order->status = $status;
+        $order->save();
+//        $result = match ($status) {
+//            $status >= 'confirmed' => 'send confirm email',
+//            $status >= 'complete' => 'send completed email',
+//        };
+        return redirect()->route('list.order')->with('success_message', 'Booking status updated successfully');
+
+
+
+
+    }
 }
