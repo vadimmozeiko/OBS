@@ -29,7 +29,7 @@
             <a href="{{route('list.order')}}" class="btn btn-info">Reset</a>
         </form>
         <div class="form-outline mb-2">
-            <input name="search" type="text" id="search-field" class="form-control" placeholder="Search by name">
+            <input name="search" type="text" id="search-field" class="form-control" placeholder="Search...">
         </div>
         <table class="table table-sortable">
             <thead>

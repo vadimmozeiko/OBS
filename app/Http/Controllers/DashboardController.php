@@ -84,6 +84,9 @@ class DashboardController extends Controller
     {
         $status = $request->status;
 
+        if($order->status == $status) {
+            return redirect()->route('list.order')->with('info_message', 'Cannot change to same status');
+        }
         $order->status = $status;
         $order->save();
 //        $result = match ($status) {
