@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h2 class="">Fill the form</h2>
+    <h2 class="">Create new booking</h2>
     <div class="input-group pl-md-5 pr-md-5">
         <form style="width: 100%;" method="POST" action="{{route('store.order')}}"
               autocomplete="off"
@@ -44,10 +44,10 @@
                    type="text" name="date"
                    value="{{old('date')}}" autocomplete="off">
             <div class="mt-3">
-                <select class="form-control select-search product w-100" name="product_id">
+                <select id="product" class="form-control select-search product w-100" name="product_id">
                     <option selected>Select product</option>
                     @forelse($products as $product)
-                        <option value="{{$product->id}}">{{$product->title}} - {{$product->price / 100}} Eur</option>
+                        <option value="{{$product->id}}" data-price="{{$product->price / 100}}">{{$product->title}} - {{$product->price / 100}} Eur</option>
                     @empty
                         <option value="0" disabled>No available products</option>
                     @endforelse
@@ -64,7 +64,7 @@
                 </select>
             </div>
             <span class="input-group-addon d-block mt-3 price" id="basic-addon1">Price. *</span>
-            <input class="form-control @error('price') is-invalid @enderror" type="text"
+            <input id="price" class="form-control @error('price') is-invalid @enderror" type="text"
                    name="price" value="{{old('price')}}" autocomplete="off">
             @error('price')
             <small class="invalid-feedback" role="alert">
@@ -96,6 +96,12 @@
             },
             uiLibrary: 'bootstrap4',
             showRightIcon: false
+        });
+
+        $('#product').on('change',function(){
+            const price = $(this).children('option:selected').data('price');
+            $('#price').val(price);
+
         });
     </script>
 @endsection
