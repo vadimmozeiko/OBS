@@ -96,21 +96,6 @@
     </nav>
 
     <main class="py-4">
-{{--        <div class="container">--}}
-{{--            <div class="row justify-content-center">--}}
-{{--                <div class="col-md-8">--}}
-{{--                    @if ($errors->any())--}}
-{{--                        <div class="alert">--}}
-{{--                            <ul class="list-group">--}}
-{{--                                @foreach ($errors->all() as $error)--}}
-{{--                                    <li class="list-group-item list-group-item-danger">{{ $error }}</li>--}}
-{{--                                @endforeach--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -134,22 +119,4 @@
 </div>
 </body>
 <script src="{{ asset('js/app.js') }}"></script>
-<script>
-    $('#datepicker').datepicker({
-        format: 'yyyy-mm-dd',
-        weekStartDay: 1,
-        minDate: function() {
-            const date = new Date();
-            date.setDate(date.getDate()+1);
-            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        },
-        maxDate: function() {
-            const date = new Date();
-            date.setDate(date.getDate()+90);
-            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        },
-        uiLibrary: 'bootstrap4',
-        showRightIcon: false
-    });
-</script>
 </html>

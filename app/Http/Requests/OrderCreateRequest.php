@@ -29,7 +29,7 @@ class OrderCreateRequest extends FormRequest
             'user_address' => 'required | string | max:255',
             'user_phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9'],
             'date' => 'required | date | after: today',
-            'status' => 'required',
+            'status_id' => 'required | integer | min:1',
             'user_id' =>'required | integer | min:1',
             'product_id' =>'required | integer | min:1',
             'price' => ['required', 'regex:/^\d*(\.\d{2})?$/']

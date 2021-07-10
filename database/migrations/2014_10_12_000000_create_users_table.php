@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('phone', 32)->nullable();
             $table->boolean('isAdmin')->default('0');
             $table->unsignedBigInteger('status_id');
-            $table->foreign('status_id')->references('id')->on('status');
+            $table->foreign('status_id')->references('id')->on('statuses');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -7,11 +7,11 @@
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>
             <select class="form-control mb-3" name="order_status">
                 <option value="0">All</option>
-                <option value="not confirmed" {{$orderStatus == 'not confirmed' ? 'selected': ''}}>not confirmed
+                <option value="3" {{$orderStatus == '3' ? 'selected': ''}}>not confirmed
                 </option>
-                <option value="confirmed" {{$orderStatus == 'confirmed' ? 'selected': ''}}>confirmed</option>
-                <option value="completed" {{$orderStatus == 'completed' ? 'selected': ''}}>completed</option>
-                <option value="cancelled" {{$orderStatus == 'cancelled' ? 'selected': ''}}>cancelled</option>
+                <option value="4" {{$orderStatus == '4' ? 'selected': ''}}>confirmed</option>
+                <option value="5" {{$orderStatus == '5' ? 'selected': ''}}>completed</option>
+                <option value="6" {{$orderStatus == '6' ? 'selected': ''}}>cancelled</option>
             </select>
             <div class="mt-3 mb-3">
                 <span class="input-group-addon" id="basic-addon1">Filter by user</span>
@@ -53,7 +53,7 @@
                     <td>{{$order->date}}</td>
                     <td class="mobile-hide">{{$order->user_name}}</td>
                     <td>{{$order->orderProducts->title}}</td>
-                    <td class="mobile-hide">{{$order->status}}</td>
+                    <td class="mobile-hide">{{$order->orderStatus->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
                         <form action="{{route('edit.order', $order)}}">
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
@@ -63,59 +63,40 @@
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-primary btn-sm m-1"
-                                    @if($order->status == 'cancelled' ||
-                                        $order->status == 'completed' ||
-                                        $order->status == 'confirmed')
+                                    @if($order->status_id == '4' ||
+                                        $order->status_id == '5' ||
+                                        $order->status_id == '6')
                                     disabled
                                 @endif
                             >Confirm
                             </button>
-                            <input type="hidden" name="status" value="confirmed">
+                            <input type="hidden" name="status_id" value="4">
                             @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-success btn-sm m-1"
-                                    @if($order->status == 'cancelled' ||
-                                        $order->status == 'completed')
+                                    @if($order->status_id == '5' ||
+                                        $order->status_id == '6')
                                     disabled
                                 @endif>Complete
                             </button>
-                            <input type="hidden" name="status" value="completed">
+                            <input type="hidden" name="status_id" value="5">
                             @csrf
                         </form>
-                        <button type="submit" class="card-link btn btn-danger btn-sm m-1 ml-4"
-                                data-toggle="modal" data-target="#cancelModal"
-                                @if($order->status == 'cancelled' ||
-                                    $order->status == 'completed')
-                                disabled
-                            @endif
-                        >CANCEL
-                        </button>
+                        <form method="POST" action="{{route('change.order', $order)}}">
+                            <button type="submit" class="card-link btn btn-danger btn-sm m-1"
+                                    @if($order->status_id == '5' ||
+                                        $order->status_id == '6')
+                                    disabled
+                                @endif>CANCEL
+                            </button>
+                            <input type="hidden" name="status_id" value="6">
+                            @csrf
+                        </form>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <!-- Logout Modal-->
-        <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger">
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to cancel this booking?
-                    </div>
-                    <div class="modal-footer">
-                        <form method="POST" action="{{route('order.destroy', $order)}}">
-                            @csrf
-                            <button type="submit" class="btn btn-danger">YES</button>
-                        </form>
-                        <button type="button" class="btn btn-info" data-dismiss="modal">NO</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
 @endsection

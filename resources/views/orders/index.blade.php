@@ -13,7 +13,7 @@
                         <p><b>Name: </b>{{session()->get('order')->user_name}}</p>
                         <p><b>Email: </b>{{session()->get('order')->user_email}}</p>
                         <p><b>Date: </b>{{session()->get('order')->date}}</p>
-                        <p><b>Status: </b>{{session()->get('order')->status}}</p>
+                        <p><b>Status: </b>{{session()->get('order')->orderStatus->status}}</p>
                         <a class="btn btn-primary btn-m"
                            href="https://www.google.com/calendar/render?action=TEMPLATE
                            &text=OBS+booking

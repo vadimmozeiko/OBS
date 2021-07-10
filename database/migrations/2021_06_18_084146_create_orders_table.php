@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             $table->text('user_message')->nullable();
             $table->string('date',64);
             $table->foreignId('status_id');
-            $table->foreign('status_id')->references('id')->on('status');
+            $table->foreign('status_id')->references('id')->on('statuses');
             $table->integer('price');
             $table->foreignId('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');

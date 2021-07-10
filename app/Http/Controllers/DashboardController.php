@@ -29,7 +29,7 @@ class DashboardController extends Controller
     public function createOrder()
     {
         $products = Product::all()->sortBy('title');
-        $users = User::where('status', 'active')->get()->sortBy('name');
+        $users = User::where('status_id', '2')->get()->sortBy('name');
         return view('admin.orders.create_order', ['products' => $products, 'users' => $users]);
     }
 
@@ -46,7 +46,7 @@ class DashboardController extends Controller
 
     public function listOrder(Request $request)
     {
-        $users = User::where('status', 'active')->get()->sortBy('name');;
+        $users = User::where('status_id', '2')->get()->sortBy('name');;
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
 
@@ -56,7 +56,7 @@ class DashboardController extends Controller
             if ($orderStatus == 0) {
                 $orders = Order::all();
             } else {
-                $orders = Order::where('status', $orderStatus)->get();
+                $orders = Order::where('status_id', $orderStatus)->get();
             }
         } else {
             $orders = Order::all();
@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
         if ($userId) {
             if ($userId == 0) {
-                $orders = Order::where('status', $orderStatus)->get();
+                $orders = Order::where('status_id', $orderStatus)->get();
             } else {
                 $orders = Order::where('user_id', $userId)->get();
             }
@@ -75,7 +75,7 @@ class DashboardController extends Controller
         // filter by both
 
         if ($userId && $orderStatus) {
-            $orders = Order::where([['user_id', $userId], ['status', $orderStatus]])->get();
+            $orders = Order::where([['user_id', $userId], ['status_id', $orderStatus]])->get();
         }
 
         return view('admin.orders.manage_order',
@@ -104,12 +104,12 @@ class DashboardController extends Controller
 
     public function statusChange(Order $order, Request $request)
     {
-        $status = $request->status;
+        $status = $request->status_id;
 
-        if ($order->status == $status) {
+        if ($order->status_id == $status) {
             return redirect()->route('list.order')->with('info_message', 'Cannot change to same status');
         }
-        $order->status = $status;
+        $order->status_id = $status;
         $order->save();
 //        $result = match ($status) {
 //            $status >= 'confirmed' => 'send confirm email',

@@ -41,7 +41,7 @@ class UserController extends Controller
         if ($request->order_status) {
             $orderStatus = $request->order_status;
             $userOrders = $user->userOrders()
-                ->where('status', $orderStatus)
+                ->where('status_id', $orderStatus)
                 ->get();;
         }
 
@@ -70,7 +70,7 @@ class UserController extends Controller
         $inputCurrentPass = $request->current_password;
 
         if (Hash::check($inputCurrentPass, $currentPass)) {
-            $user->status = 'deleted';
+            $user->status_id = '7';
             $user->email = 'deleted:id#' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();

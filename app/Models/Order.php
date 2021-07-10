@@ -52,7 +52,7 @@ class Order extends Model
         'user_email',
         'user_phone',
         'user_message',
-        'status',
+        'status_id',
         'date',
         'price',
         'user_id',
@@ -62,6 +62,11 @@ class Order extends Model
     public function orderProducts(): BelongsTo
     {
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
+    }
+
+    public function orderStatus(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');
     }
 
     public function setPriceAttribute($value){

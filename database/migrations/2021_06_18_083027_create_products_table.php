@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('short_description',128);
             $table->text('description');
             $table->foreignId('status_id');
-            $table->foreign('status_id')->references('id')->on('status');
+            $table->foreign('status_id')->references('id')->on('statuses');
             $table->timestamps();
         });
     }

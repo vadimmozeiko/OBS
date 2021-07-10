@@ -12,19 +12,22 @@ class ProductController extends Controller
 
     public function index(Request $request): View|string
     {
+
+
         $reserved = Order::where('date', $request->order_date)
-            ->where('status', '!=', 'confirmed')
-            ->where('status', '!=', 'completed')
-            ->where('status', '!=', 'cancelled')
+            // TODO change too many where
+            ->where('status_id', '!=', '4')
+            ->where('status_id', '!=', '5')
+            ->where('status_id', '!=', '6')
             ->get();
         if ($request->order_date) {
             $unavailable = [];
             $products = Order::where('date', $request->order_date)
-                ->where('status', 'confirmed')
+                ->where('status_id', '4')
                 ->get();
             if($request->available_only){
                 $products = Order::where('date', $request->order_date)
-                    ->where('status', 'not confirmed')
+                    ->where('status_id', '3')
                     ->get();
             }
             foreach ($products as $product) {

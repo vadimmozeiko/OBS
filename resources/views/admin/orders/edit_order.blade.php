@@ -43,10 +43,16 @@
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Created at: </span>
             <input class="form-control" type="text" value="{{$order->created_at}}" disabled>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Status: </span>
-            <input class="form-control" type="text" value="{{$order->status}}" disabled>
+            <input class="form-control" type="text" value="{{$order->orderStatus->status}}" disabled>
             <small class="d-block mt-3 mb-3">* Required info</small>
             <input type="hidden" name="product_id" value="{{$order->orderProducts->id}}">
-            <button class="btn btn-primary btn-m" type="submit">Save</button>
+            <button class="btn btn-primary btn-m
+            @if($order->status_id > 4)
+                d-none
+                @endif
+            " type="submit"
+            >Save
+            </button>
             <a class="card-link btn btn-primary m-1"
                href="{{url()->previous()}}">Back</a>
             @csrf
@@ -56,14 +62,14 @@
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd',
             weekStartDay: 1,
-            minDate: function() {
+            minDate: function () {
                 const date = new Date();
-                date.setDate(date.getDate()+1);
+                date.setDate(date.getDate() + 1);
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate());
             },
-            maxDate: function() {
+            maxDate: function () {
                 const date = new Date();
-                date.setDate(date.getDate()+90);
+                date.setDate(date.getDate() + 90);
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate());
             },
             uiLibrary: 'bootstrap4',

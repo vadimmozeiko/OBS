@@ -36,7 +36,7 @@
                                         <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
                                             <b>Date:</b> {{ $order->date }}</p>
                                         <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
-                                            <b>Status:</b> {{ $order->status }}</p>
+                                            <b>Status:</b> {{ $order->orderStatus->status }}</p>
                                     </td>
                                 </tr>
                                 </tbody>

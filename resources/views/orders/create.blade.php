@@ -52,8 +52,8 @@
                                 <small class="d-block mb-3">* Required info</small>
                                 <input type="hidden" name="user_id" value="{{$user->id}}">
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
-                                <input type="hidden" name="status" value="not confirmed">
-                                <input type="hidden" name="price" value={{$product->price}}>
+                                <input type="hidden" name="status_id" value="3">
+                                <input type="hidden" name="price" value={{$product->price / 100}}>
                                 <button class="btn btn-primary btn-m" type="submit">BOOK</button>
                                 @csrf
                             </form>
@@ -63,4 +63,22 @@
             </div>
         </div>
     </div>
+    <script>
+        $('#datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            weekStartDay: 1,
+            minDate: function() {
+                const date = new Date();
+                date.setDate(date.getDate()+1);
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            },
+            maxDate: function() {
+                const date = new Date();
+                date.setDate(date.getDate()+90);
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            },
+            uiLibrary: 'bootstrap4',
+            showRightIcon: false
+        });
+    </script>
 @endsection

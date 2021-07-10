@@ -12,10 +12,10 @@
                                 <span class="input-group-addon" id="basic-addon1">Filter by status</span>
                                 <select class="form-control mb-3" name="order_status">
                                     <option value="0">All</option>
-                                    <option value="not confirmed" {{$orderStatus == 'not confirmed' ? 'selected': ''}}>not confirmed</option>
-                                    <option value="confirmed" {{$orderStatus == 'confirmed' ? 'selected': ''}}>confirmed</option>
-                                    <option value="completed" {{$orderStatus == 'completed' ? 'selected': ''}}>completed</option>
-                                    <option value="cancelled" {{$orderStatus == 'cancelled' ? 'selected': ''}}>cancelled</option>
+                                    <option value="3" {{$orderStatus == '3' ? 'selected': ''}}>not confirmed</option>
+                                    <option value="4" {{$orderStatus == '4' ? 'selected': ''}}>confirmed</option>
+                                    <option value="5" {{$orderStatus == '5' ? 'selected': ''}}>completed</option>
+                                    <option value="6" {{$orderStatus == '6' ? 'selected': ''}}>cancelled</option>
                                 </select>
                                 <button class="btn btn-info">Filter</button>
                                 <a href="{{route('user.orders', $user)}}" class="btn btn-info">Reset</a>
@@ -34,15 +34,15 @@
                                 <tbody>
                                 @foreach($userOrders as$order)
                                 <tr
-                                    @if($order->status != 'completed' &&
-                                        $order->status != 'cancelled')
+                                    @if($order->status_id != '5' &&
+                                        $order->status_id != '6')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif class="hover-zoom">
                                     <td class="mobile-hide">{{$order->id}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
-                                    <td class="mobile-hide">{{$order->status}}</td>
+                                    <td class="mobile-hide">{{$order->orderStatus->status}}</td>
                                     <td class="d-flex mobile-hide">
                                         <a class="card-link btn btn-primary btn-sm m-1"
                                            href="{{route('order.show', $order)}}">Details</a>
