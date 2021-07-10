@@ -12,7 +12,9 @@ class ProductController extends Controller
 
     public function index(Request $request): View|string
     {
-
+        if ($request->order_date <= now()->toDateString()) {
+            return redirect()->back()->with('info_message', 'Invalid date (for today\'s bookings contact directly)' );
+        }
 
         $reserved = Order::where('date', $request->order_date)
             // TODO change too many where

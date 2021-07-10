@@ -76,7 +76,7 @@ class UserController extends Controller
             Auth::logout();
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
         } else {
-            return redirect()->back()->withErrors('Password doesnt match our records');
+            return redirect()->back()->with('info_message','Password doesnt match our records');
         }
     }
 
