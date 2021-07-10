@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderCreateRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\OrderService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -80,11 +82,31 @@ class DashboardController extends Controller
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId]);
     }
 
+
+    public function editOrder(Order $order)
+    {
+        return view('admin.orders.edit_order', ['order' => $order]);
+    }
+
+    public function updateOrder(OrderUpdateRequest $request, Order $order): RedirectResponse
+    {
+        if (OrderService::isBooked($request) && $order->getOriginal('date') != $request->date) {
+            return redirect()->back()->with('info_message', 'Not available for selected date');
+        }
+
+        $order->update($request->validated());
+
+        $user = auth()->user()->id ?? null;
+//        $this->mail->orderChange($order);
+
+        return redirect()->route('list.order')->with('success_message', 'Booking details changed successfully');
+    }
+
     public function statusChange(Order $order, Request $request)
     {
         $status = $request->status;
 
-        if($order->status == $status) {
+        if ($order->status == $status) {
             return redirect()->route('list.order')->with('info_message', 'Cannot change to same status');
         }
         $order->status = $status;
@@ -94,9 +116,6 @@ class DashboardController extends Controller
 //            $status >= 'complete' => 'send completed email',
 //        };
         return redirect()->route('list.order')->with('success_message', 'Booking status updated successfully');
-
-
-
 
     }
 }

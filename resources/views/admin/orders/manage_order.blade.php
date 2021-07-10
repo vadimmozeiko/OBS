@@ -55,6 +55,12 @@
                     <td>{{$order->orderProducts->title}}</td>
                     <td class="mobile-hide">{{$order->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
+                        <form action="{{route('edit.order', $order)}}">
+                            <button type="submit" class="card-link btn btn-info btn-sm m-1"
+                            >Details
+                            </button>
+                            @csrf
+                        </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-primary btn-sm m-1"
                                     @if($order->status == 'cancelled' ||
@@ -65,12 +71,6 @@
                             >Confirm
                             </button>
                             <input type="hidden" name="status" value="confirmed">
-                            @csrf
-                        </form>
-                        <form method="POST" action="">
-                            <button type="submit" class="card-link btn btn-info btn-sm m-1"
-                            >Edit
-                            </button>
                             @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">

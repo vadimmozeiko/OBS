@@ -43,17 +43,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'orders'], function () {
             Route::get('', [DashboardController::class, 'listOrder'])->name('list.order');
             Route::get('create', [DashboardController::class, 'createOrder'])->name('create.order');
-//            Route::get('search', [DashboardController::class, 'searchOrder'])->name('search.order');
             Route::post('store', [DashboardController::class, 'storeOrder'])->name('store.order');
             Route::post('change/{order}', [DashboardController::class, 'statusChange'])->name('change.order');
-
+            Route::get('edit/{order}', [DashboardController::class, 'editOrder'])->name('edit.order');
+            Route::post('update/{order}', [DashboardController::class, 'updateOrder'])->name('update.order');
         });
-
-
-//        Route::get('edit/{order}', [OrderController::class, 'edit'])->name('order.edit');
-//        Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
-//        Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
-//        Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
     });
 });
 
