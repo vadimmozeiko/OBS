@@ -7,6 +7,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Repositories\OrderRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    private OrderRepository $orderRepository;
+
+    public function __construct()
+    {
+        $this->orderRepository = new OrderRepository();
+    }
 
     public function index(): View
     {
@@ -37,12 +44,11 @@ class UserController extends Controller
     public function orders(User $user, Request $request): View
     {
         $orderStatus = 0;
-        $userOrders = Order::where('user_id', auth()->user()->id)->get();
+        $userOrders = $this->orderRepository->getByUser(Order::class, auth()->user()->id);
+
         if ($request->order_status) {
             $orderStatus = $request->order_status;
-            $userOrders = $user->userOrders()
-                ->where('status_id', $orderStatus)
-                ->get();;
+            $userOrders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
         }
 
         return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'orderStatus' => $orderStatus]);
@@ -50,8 +56,8 @@ class UserController extends Controller
 
     public function edit(User $user): View|RedirectResponse
     {
-        if(auth()->user()->id == $user->id){
-        return view('user.edit', ['user' => $user]);
+        if (auth()->user()->id == $user->id) {
+            return view('user.edit', ['user' => $user]);
         }
         return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
     }
@@ -76,7 +82,7 @@ class UserController extends Controller
             Auth::logout();
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
         } else {
-            return redirect()->back()->with('info_message','Password doesnt match our records');
+            return redirect()->back()->with('info_message', 'Password doesnt match our records');
         }
     }
 
