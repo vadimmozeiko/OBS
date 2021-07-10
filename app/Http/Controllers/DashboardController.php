@@ -7,7 +7,7 @@ use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use App\Services\OrderService;
+use App\Repositories\OrderRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -15,10 +15,12 @@ class DashboardController extends Controller
 {
 
     private MailController $mail;
+    private OrderRepository $orderRepository;
 
     public function __construct()
     {
         $this->mail = new MailController();
+        $this->orderRepository = new OrderRepository();
     }
 
     public function index()
@@ -35,11 +37,13 @@ class DashboardController extends Controller
 
     public function storeOrder(OrderCreateRequest $request)
     {
-        if (OrderService::isBooked($request)) {
+        if ($this->orderRepository->isBooked($request)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
         $order = Order::create($request->validated());
+
+        // TODO configure confirmation mail send here
 //        $this->mail->notConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
@@ -49,33 +53,19 @@ class DashboardController extends Controller
         $users = User::where('status_id', '2')->get()->sortBy('name');;
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
+        $orders = $this->orderRepository->getAllOrders();
 
-        // filter by status
 
         if ($orderStatus) {
-            if ($orderStatus == 0) {
-                $orders = Order::all();
-            } else {
-                $orders = Order::where('status_id', $orderStatus)->get();
-            }
-        } else {
-            $orders = Order::all();
+            $orders = $this->orderRepository->getOrderByStatus($orderStatus);
         }
-
-        // filter by ID
 
         if ($userId) {
-            if ($userId == 0) {
-                $orders = Order::where('status_id', $orderStatus)->get();
-            } else {
-                $orders = Order::where('user_id', $userId)->get();
-            }
+            $orders = $this->orderRepository->getOrderByUser($userId);
         }
 
-        // filter by both
-
         if ($userId && $orderStatus) {
-            $orders = Order::where([['user_id', $userId], ['status_id', $orderStatus]])->get();
+            $orders = $this->orderRepository->getOrdersByIdByStatus($userId, $orderStatus);
         }
 
         return view('admin.orders.manage_order',
@@ -90,13 +80,15 @@ class DashboardController extends Controller
 
     public function updateOrder(OrderUpdateRequest $request, Order $order): RedirectResponse
     {
-        if (OrderService::isBooked($request) && $order->getOriginal('date') != $request->date) {
+        if ($this->orderRepository->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
         $order->update($request->validated());
 
         $user = auth()->user()->id ?? null;
+
+        // TODO configure update mail send here
 //        $this->mail->orderChange($order);
 
         return redirect()->route('list.order')->with('success_message', 'Booking details changed successfully');
@@ -111,6 +103,8 @@ class DashboardController extends Controller
         }
         $order->status_id = $status;
         $order->save();
+
+        // TODO configure status change mail send here
 //        $result = match ($status) {
 //            $status >= 'confirmed' => 'send confirm email',
 //            $status >= 'complete' => 'send completed email',

@@ -1,18 +1,18 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Repositories;
 
 
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
-use App\Models\Product;
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-class OrderService
+class OrderRepository extends BaseOrderRepository
 {
-    public static function isBooked(OrderCreateRequest|OrderUpdateRequest $request): Order|null
+
+    public function isBooked(OrderCreateRequest|OrderUpdateRequest $request): Order|null
     {
         return Order::where('product_id', $request->product_id)
             ->where('date', $request->date)
@@ -21,7 +21,7 @@ class OrderService
             ->first();
     }
 
-    public static function isEditable(Order $order): bool
+    public function isEditable(Order $order): bool
     {
         if ($order->user_id != auth()->user()->id ||
             $order->status_id == '5' ||
@@ -30,6 +30,12 @@ class OrderService
             return true;
         }
         return false;
-
     }
+
+    public function getOrdersByIdByStatus(int $userId, int $status): Collection|array
+    {
+        return Order::where([['user_id', $userId], ['status_id', $status]])->get();
+    }
+
+
 }

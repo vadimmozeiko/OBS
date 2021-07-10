@@ -7,7 +7,7 @@ use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use App\Services\OrderService;
+use App\Repositories\OrderRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,10 +15,12 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     private MailController $mail;
+    private OrderRepository $orderRepository;
 
     public function __construct()
     {
         $this->mail = new MailController();
+        $this->orderRepository = new OrderRepository();
         $this->middleware('verified');
     }
 
@@ -43,7 +45,7 @@ class OrderController extends Controller
         $product = Product::where('id', $request->product_id)->first();
         $date = str_replace('-', '', "$request->date");
 
-        if (OrderService::isBooked($request)) {
+        if ($this->orderRepository->isBooked($request)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
@@ -60,7 +62,7 @@ class OrderController extends Controller
     public function edit(Order $order, User $user): View|RedirectResponse
     {
 
-        if (OrderService::isEditable($order)) {
+        if ($this->orderRepository->isEditable($order)) {
             return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
         }
         return view('orders.edit', ['order' => $order, 'user' => $user]);
@@ -68,7 +70,7 @@ class OrderController extends Controller
 
     public function update(OrderUpdateRequest $request, Order $order): RedirectResponse
     {
-        if (OrderService::isBooked($request) && $order->getOriginal('date') != $request->date) {
+        if ($this->orderRepository->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
         $order->status_id = '3';
