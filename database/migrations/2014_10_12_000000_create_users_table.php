@@ -20,7 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
             $table->string('phone', 32)->nullable();
             $table->boolean('isAdmin')->default('0');
-            $table->string('status');
+            $table->unsignedBigInteger('status_id');
+            $table->foreign('status_id')->references('id')->on('status');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
