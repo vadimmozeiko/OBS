@@ -75,7 +75,8 @@
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-success btn-sm m-1"
-                                    @if($order->status_id == '5' ||
+                                    @if($order->status_id == '3' ||
+                                        $order->status_id == '5' ||
                                         $order->status_id == '6')
                                     disabled
                                 @endif>Complete

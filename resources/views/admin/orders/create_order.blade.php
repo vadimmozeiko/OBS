@@ -47,11 +47,18 @@
                 <select id="product" class="form-control select-search product w-100" name="product_id">
                     <option selected>Select product</option>
                     @forelse($products as $product)
-                        <option value="{{$product->id}}" data-price="{{$product->price / 100}}">{{$product->title}} - {{$product->price / 100}} Eur</option>
+                        <option value="{{$product->id}}" data-price="{{$product->price / 100}}">{{$product->title}}
+                            - {{$product->price / 100}} Eur
+                        </option>
                     @empty
                         <option value="0" disabled>No available products</option>
                     @endforelse
                 </select>
+                @error('product_id')
+                <div>
+                    <small class="text-danger">{{ $message }}</small>
+                </div>
+                @enderror
             </div>
             <div class="mt-3">
                 <select class="form-control select-search w-100" name="user_id">
@@ -62,6 +69,11 @@
                         <option value="0" disabled>No users</option>
                     @endforelse
                 </select>
+                @error('user_id')
+                <div >
+                    <small class="text-danger">{{ $message }}</small>
+                </div>
+                @enderror
             </div>
             <span class="input-group-addon d-block mt-3 price" id="basic-addon1">Price. *</span>
             <input id="price" class="form-control @error('price') is-invalid @enderror" type="text"
@@ -84,21 +96,21 @@
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd',
             weekStartDay: 1,
-            minDate: function() {
+            minDate: function () {
                 const date = new Date();
-                date.setDate(date.getDate()+1);
+                date.setDate(date.getDate() + 1);
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate());
             },
-            maxDate: function() {
+            maxDate: function () {
                 const date = new Date();
-                date.setDate(date.getDate()+90);
+                date.setDate(date.getDate() + 90);
                 return new Date(date.getFullYear(), date.getMonth(), date.getDate());
             },
             uiLibrary: 'bootstrap4',
             showRightIcon: false
         });
 
-        $('#product').on('change',function(){
+        $('#product').on('change', function () {
             const price = $(this).children('option:selected').data('price');
             $('#price').val(price);
 

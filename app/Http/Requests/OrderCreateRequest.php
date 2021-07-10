@@ -46,7 +46,10 @@ class OrderCreateRequest extends FormRequest
             'user_address.max' => 'Address is too long',
             'user_phone.required' => 'Please fill the phone no. field',
             'user_phone.regex' => 'Invalid phone no.',
-            'date.after' => 'Incorrect date (for today bookings contact directly)'
+            'date.after' => 'Incorrect date (for today bookings contact directly)',
+            'user_id.integer' => 'Please select the user',
+            'product_id.integer' => 'Please select the product',
+
         ];
     }
 }
