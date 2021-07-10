@@ -30,8 +30,8 @@ class DashboardController extends Controller
 
     public function createOrder()
     {
-        $products = Product::all()->sortBy('title');
-        $users = User::where('status_id', '2')->get()->sortBy('name');
+        $products = $this->orderRepository->getAll(Product::class)->sortBy('title');
+        $users = $this->orderRepository->getByStatus(User::class, 2)->sortBy('name');
         return view('admin.orders.create_order', ['products' => $products, 'users' => $users]);
     }
 
@@ -50,18 +50,18 @@ class DashboardController extends Controller
 
     public function listOrder(Request $request)
     {
-        $users = User::where('status_id', '2')->get()->sortBy('name');;
+        $users = $this->orderRepository->getByStatus(User::class, 2)->sortBy('name');;
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
-        $orders = $this->orderRepository->getAllOrders();
+        $orders = $this->orderRepository->getAll(Order::class);
 
 
         if ($orderStatus) {
-            $orders = $this->orderRepository->getOrderByStatus($orderStatus);
+            $orders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
         }
 
         if ($userId) {
-            $orders = $this->orderRepository->getOrderByUser($userId);
+            $orders = $this->orderRepository->getByUser(Order::class, $userId);
         }
 
         if ($userId && $orderStatus) {
@@ -86,7 +86,7 @@ class DashboardController extends Controller
 
         $order->update($request->validated());
 
-        $user = auth()->user()->id ?? null;
+//        $user = auth()->user()->id ?? null;
 
         // TODO configure update mail send here
 //        $this->mail->orderChange($order);

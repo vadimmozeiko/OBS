@@ -9,7 +9,7 @@ use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 
-class OrderRepository extends BaseOrderRepository
+class OrderRepository extends BaseRepository
 {
 
     public function isBooked(OrderCreateRequest|OrderUpdateRequest $request): Order|null
@@ -37,5 +37,18 @@ class OrderRepository extends BaseOrderRepository
         return Order::where([['user_id', $userId], ['status_id', $status]])->get();
     }
 
+    public function getReservedOrders(string $date): Collection|array
+    {
+        return Order::where('date', $date)
+            ->where('status_id', '3')
+            ->get();
+    }
+
+    public function getConfirmedOrders(string $date): Collection|array
+    {
+        return Order::where('date', $date)
+            ->where('status_id', '4')
+            ->get();
+    }
 
 }
