@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasswordUpdateRequest;
+use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -29,15 +31,24 @@ class UserController extends Controller
         return view('user.index', ['user' => $user]);
     }
 
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.users.create_user');
     }
 
 
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        //
+
+        // TODO not working here
+        $user = User::create($request->validated());
+
+        $user->notify(new VerifyEmail);
+
+        $token = Password::getRepository()->create($user);
+        $user->sendPasswordResetNotification($token);
+
+        return redirect()->back()->with('success_message', 'User created successfully');
     }
 
 

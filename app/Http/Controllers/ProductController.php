@@ -24,13 +24,13 @@ class ProductController extends Controller
     {
         $orderDate = $request->order_date;
         $products = $this->orderRepository->getAll(Product::class);
-        $reserved = $this->orderRepository->getReservedOrders($orderDate);
-
-        if ($orderDate <= now()->toDateString()) {
-            return redirect()->back()->with('info_message', 'Invalid date (for today\'s bookings contact directly)');
-        }
+        $reserved = collect();
 
         if ($orderDate) {
+            if ($orderDate <= now()->toDateString()) {
+                return redirect()->back()->with('info_message', 'Invalid date (for today\'s bookings contact directly)');
+            }
+            $reserved = $this->orderRepository->getReservedOrders($orderDate);
             $products = $this->orderRepository->getConfirmedOrders($orderDate);
             if ($request->available_only) {
                 $products = $this->orderRepository->getReservedOrders($orderDate);

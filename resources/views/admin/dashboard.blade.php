@@ -76,7 +76,7 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="{{route('user.create')}}">
                 <i class="fas fa-user-plus"></i>
                 <span>Create new user</span></a>
         </li>
@@ -85,25 +85,6 @@
             <a class="nav-link" href="charts.html">
                 <i class="fas fa-user-friends"></i>
                 <span>Manage users</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Admin
-        </div>
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-user-plus"></i>
-                <span>Create new admin</span></a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-user-shield"></i>
-                <span>Manage admins</span></a>
         </li>
 
         <!-- Divider -->

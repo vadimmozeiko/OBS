@@ -17,8 +17,6 @@ Auth::routes(['verify' => true]);
 Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('', [UserController::class, 'index'])->name('user.index');
-        Route::get('create', [UserController::class, 'create'])->name('user.create');
-        Route::post('store', [UserController::class, 'store'])->name('user.store');
         Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
         Route::post('update/{user}', [UserController::class, 'update'])->name('user.update');
         Route::get('orders/{user}', [UserController::class, 'orders'])->name('user.orders');
@@ -47,6 +45,11 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('change/{order}', [DashboardController::class, 'statusChange'])->name('change.order');
             Route::get('edit/{order}', [DashboardController::class, 'editOrder'])->name('edit.order');
             Route::post('update/{order}', [DashboardController::class, 'updateOrder'])->name('update.order');
+        });
+
+        Route::group(['prefix' => 'users'], function () {
+            Route::get('create', [UserController::class, 'create'])->name('user.create');
+            Route::post('store', [UserController::class, 'store'])->name('user.store');
         });
     });
 });

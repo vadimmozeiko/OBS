@@ -35,11 +35,13 @@
                         <form action="{{route('order.create', $product)}}">
                             <input type="hidden" name="order_date" value="{{$request->order_date}}">
                             <button type="submit" class="card-link btn btn-primary"
+                                    @if(isset($reserved))
                                     @if(($reserved->contains('product_id', $product->id)))
                                     disabled>RESERVED
                             </button>
                             @else
                                 >BOOK NOW</button>
+                            @endif
                             @endif
                             @csrf
                         </form>
