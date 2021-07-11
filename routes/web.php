@@ -51,6 +51,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('create', [UserController::class, 'create'])->name('user.create');
             Route::post('store', [UserController::class, 'store'])->name('user.store');
             Route::get('', [DashboardController::class, 'listUser'])->name('list.user');
+            Route::get('edit/{user}', [DashboardController::class, 'editUser'])->name('edit.user');
+            Route::post('update/{user}', [DashboardController::class, 'updateUser'])->name('update.user');
+            Route::post('reset/{user}', [UserController::class, 'passReset'])->name('pass.reset');
         });
     });
 });

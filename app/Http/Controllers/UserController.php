@@ -44,8 +44,7 @@ class UserController extends Controller
 
         $user->notify(new VerifyEmail);
 
-        $token = Password::getRepository()->create($user);
-        $user->sendPasswordResetNotification($token);
+        $this->passReset($user);
 
         return redirect()->back()->with('success_message', 'User created successfully');
     }
@@ -87,7 +86,7 @@ class UserController extends Controller
 
         if (Hash::check($inputCurrentPass, $currentPass)) {
             $user->status_id = '7';
-            $user->email = 'deleted:id#' . auth()->user()->id . $user->email;
+            $user->email = 'del:' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
@@ -111,5 +110,11 @@ class UserController extends Controller
     {
         auth()->user()->update(['password' => Hash::make($request->new_password)]);
         return redirect()->route('user.index')->with('success_message', 'Password changed successfully');
+    }
+
+    public function passReset(User $user)
+    {
+        $token = Password::getRepository()->create($user);
+        $user->sendPasswordResetNotification($token);
     }
 }

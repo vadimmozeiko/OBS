@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Statuses;
@@ -110,6 +111,19 @@ class DashboardController extends Controller
 //        $this->mail->orderChange($order);
 
         return redirect()->route('list.order')->with('success_message', 'Booking details changed successfully');
+    }
+
+    public function editUser(User $user)
+    {
+        return view('admin.users.edit_user', ['user' => $user]);
+    }
+
+
+    public function updateUser(UserUpdateRequest $request, User $user)
+    {
+        $user->update($request->validated());
+
+        return redirect()->route('list.user')->with('success_message', 'Changes saved successfully');
     }
 
     public function statusChange(Order $order, Request $request)

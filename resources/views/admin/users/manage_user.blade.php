@@ -27,9 +27,6 @@
                 </th>
                 <th class="sort-name sortable mobile-hide" scope="col">Email <i class="name fas fa-sort-alpha-up"></i>
                 </th>
-                <th class="sort-title sortable" scope="col">Address <i class="title fas fa-sort-alpha-up"></i></th>
-                <th class="sort-status sortable mobile-hide" scope="col">Phone <i
-                        class="status fas fa-sort-alpha-up"></i></th>
                 <th class="sort-title sortable" scope="col">Status <i class="title fas fa-sort-alpha-up"></i></th>
                 <th scope="col"></th>
             </tr>
@@ -40,49 +37,20 @@
                     <td class="mobile-hide">{{$user->id}}</td>
                     <td>{{$user->name}}</td>
                     <td class="mobile-hide">{{$user->email}}</td>
-                    <td>{{$user->address}}</td>
-                    <td class="mobile-hide">{{$user->phone}}</td>
-                    <td class="mobile-hide">{{$user->userStatus->status}}</td>
+                    <td>{{$user->userStatus->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
-                        <form action="{{route('edit.order', $user)}}">
+                        <form action="{{route('edit.user', $user)}}">
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
                             >Details
                             </button>
                             @csrf
                         </form>
-                        {{--                        <form method="POST" action="{{route('change.order', $order)}}">--}}
-                        {{--                            <button type="submit" class="card-link btn btn-primary btn-sm m-1"--}}
-                        {{--                                    @if($order->status_id == '4' ||--}}
-                        {{--                                        $order->status_id == '5' ||--}}
-                        {{--                                        $order->status_id == '6')--}}
-                        {{--                                    disabled--}}
-                        {{--                                @endif--}}
-                        {{--                            >Confirm--}}
-                        {{--                            </button>--}}
-                        {{--                            <input type="hidden" name="status_id" value="4">--}}
-                        {{--                            @csrf--}}
-                        {{--                        </form>--}}
-                        {{--                        <form method="POST" action="{{route('change.order', $order)}}">--}}
-                        {{--                            <button type="submit" class="card-link btn btn-success btn-sm m-1"--}}
-                        {{--                                    @if($order->status_id == '3' ||--}}
-                        {{--                                        $order->status_id == '5' ||--}}
-                        {{--                                        $order->status_id == '6')--}}
-                        {{--                                    disabled--}}
-                        {{--                                @endif>Complete--}}
-                        {{--                            </button>--}}
-                        {{--                            <input type="hidden" name="status_id" value="5">--}}
-                        {{--                            @csrf--}}
-                        {{--                        </form>--}}
-                        {{--                        <form method="POST" action="{{route('change.order', $order)}}">--}}
-                        {{--                            <button type="submit" class="card-link btn btn-danger btn-sm m-1"--}}
-                        {{--                                    @if($order->status_id == '5' ||--}}
-                        {{--                                        $order->status_id == '6')--}}
-                        {{--                                    disabled--}}
-                        {{--                                @endif>CANCEL--}}
-                        {{--                            </button>--}}
-                        {{--                            <input type="hidden" name="status_id" value="6">--}}
-                        {{--                            @csrf--}}
-                        {{--                        </form>--}}
+                        <form method="POST" action="{{route('pass.reset', $user)}}">
+                            <button type="submit" class="card-link btn btn-warning btn-sm m-1"
+                            >Reset Password
+                            </button>
+                            @csrf
+                        </form>
                     </td>
                 </tr>
             @endforeach
