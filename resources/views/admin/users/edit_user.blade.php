@@ -8,7 +8,7 @@
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
             <input class="form-control @error('name') is-invalid @enderror" type="text"
                    name="name" value="{{old('name', $user->name)}}"
-            {{$user->status_id == 7 ? 'disabled' : ''}}>
+                {{$user->status_id == 7 ? 'disabled' : ''}}>
             @error('name')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -56,7 +56,14 @@
             >Save
             </button>
             <a class="card-link btn btn-primary m-1"
-               href="{{url()->previous()}}">Back</a>
+               href="{{route('list.user')}}">Back</a>
+            @csrf
+        </form>
+        <form method="POST" action="{{route('pass.reset', $user)}}">
+            <button type="submit" class="card-link btn btn-warning m-1
+                {{$user->status_id == 7 ? 'd-none' : ''}}"
+            >Reset Password
+            </button>
             @csrf
         </form>
     </div>

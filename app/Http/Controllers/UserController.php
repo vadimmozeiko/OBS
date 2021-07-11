@@ -114,7 +114,11 @@ class UserController extends Controller
 
     public function passReset(User $user)
     {
-        $token = Password::getRepository()->create($user);
-        $user->sendPasswordResetNotification($token);
+        if ($user->status_id != 7) {
+            $token = Password::getRepository()->create($user);
+            $user->sendPasswordResetNotification($token);
+            return redirect()->back()->with('success_message', 'Password reset link send successfully');
+        }
+        return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
     }
 }
