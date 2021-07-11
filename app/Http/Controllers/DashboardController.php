@@ -6,8 +6,10 @@ use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Statuses;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -16,11 +18,13 @@ class DashboardController extends Controller
 
     private MailController $mail;
     private OrderRepository $orderRepository;
+    private UserRepository $userRepository;
 
     public function __construct()
     {
         $this->mail = new MailController();
         $this->orderRepository = new OrderRepository();
+        $this->userRepository = new UserRepository();
     }
 
     public function index()
@@ -70,6 +74,20 @@ class DashboardController extends Controller
 
         return view('admin.orders.manage_order',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId]);
+    }
+
+
+    public function listUser(Request $request)
+    {
+        $statuses = Statuses::all();
+        $userStatus = $request->user_status;
+        $users = $this->userRepository->getAll(User::class);
+
+        if ($userStatus) {
+            $users = $this->userRepository->getByStatus(User::class, $userStatus);
+        }
+        return view('admin.users.manage_user',
+            ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus]);
     }
 
 

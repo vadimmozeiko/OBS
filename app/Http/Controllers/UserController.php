@@ -40,7 +40,6 @@ class UserController extends Controller
     public function store(UserCreateRequest $request)
     {
 
-        // TODO not working here
         $user = User::create($request->validated());
 
         $user->notify(new VerifyEmail);

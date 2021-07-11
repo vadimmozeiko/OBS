@@ -82,7 +82,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="{{route('list.user')}}">
                 <i class="fas fa-user-friends"></i>
                 <span>Manage users</span></a>
         </li>

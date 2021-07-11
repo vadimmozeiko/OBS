@@ -114,7 +114,7 @@
                     @enderror
                 </div>
             </div>
-            <input type="hidden" name="status_id" value="1">
+            <input type="hidden" name="status_id" value="2">
             <div class="form-group row mb-0">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary">

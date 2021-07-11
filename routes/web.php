@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'users'], function () {
             Route::get('create', [UserController::class, 'create'])->name('user.create');
             Route::post('store', [UserController::class, 'store'])->name('user.store');
+            Route::get('', [DashboardController::class, 'listUser'])->name('list.user');
         });
     });
 });
