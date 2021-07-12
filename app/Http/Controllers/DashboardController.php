@@ -30,7 +30,8 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+       $notConfirmed = $this->orderRepository->getByStatus(Order::class, 3);
+        return view('admin.index', ['notConfirmed' => $notConfirmed]);
     }
 
     public function createOrder()
@@ -134,7 +135,7 @@ class DashboardController extends Controller
         $status = $request->status_id;
 
         if ($order->status_id == $status) {
-            return redirect()->route('list.order')->with('info_message', 'Cannot change to same status');
+            return redirect()->back()->with('info_message', 'Cannot change to same status');
         }
         $order->status_id = $status;
         $order->save();
@@ -144,7 +145,7 @@ class DashboardController extends Controller
 //            $status >= 'confirmed' => 'send confirm email',
 //            $status >= 'complete' => 'send completed email',
 //        };
-        return redirect()->route('list.order')->with('success_message', 'Booking status updated successfully');
+        return redirect()->back()->with('success_message', 'Booking status updated successfully');
 
     }
 }

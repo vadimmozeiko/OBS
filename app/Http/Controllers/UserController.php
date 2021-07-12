@@ -57,7 +57,8 @@ class UserController extends Controller
 
         if ($request->order_status) {
             $orderStatus = $request->order_status;
-            $userOrders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
+            $userOrders = $this->orderRepository->getOrdersByIdByStatus(auth()->user()->id, $orderStatus);
+
         }
 
         return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'orderStatus' => $orderStatus]);
