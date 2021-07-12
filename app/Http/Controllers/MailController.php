@@ -14,7 +14,8 @@ class MailController extends Controller
         Mail::send('mail.confirmation', $data, function ($message) use ($order) {
             $message->to(auth()->user()->email, auth()->user()->name)->subject
             ('Your booking#' . $order->id . ' is pending for approval');
-            $message->attach('/var/www/html/public/assets/documents/Terms and Conditions.pdf');
+            // TODO enable on when using Docker Container
+//            $message->attach('/var/www/html/public/assets/documents/Terms and Conditions.pdf');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }

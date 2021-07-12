@@ -42,6 +42,8 @@
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Created at: </span>
             <input class="form-control" type="text" value="{{$order->created_at}}" disabled>
+            <span class="input-group-addon d-block mt-3" id="basic-addon1">Last time updated at: </span>
+            <input class="form-control" type="text" value="{{$order->updated_at}}" disabled>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Status: </span>
             <input class="form-control" type="text" value="{{$order->orderStatus->status}}" disabled>
             <small class="d-block mt-3 mb-3">* Required info</small>

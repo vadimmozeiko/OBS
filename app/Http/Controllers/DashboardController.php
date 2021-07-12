@@ -60,6 +60,9 @@ class DashboardController extends Controller
         $orderStatus = $request->order_status;
         $orders = $this->orderRepository->getAll(Order::class);
 
+        // TODO statuses from DB
+        //Statuses::orderBy('id', 'desc')->take(4)->get());
+
 
         if ($orderStatus) {
             $orders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
@@ -80,7 +83,7 @@ class DashboardController extends Controller
 
     public function listUser(Request $request)
     {
-        $statuses = Statuses::all();
+        $statuses = Statuses::query()->take(2)->get();
         $userStatus = $request->user_status;
         $users = $this->userRepository->getAll(User::class);
 

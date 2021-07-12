@@ -12,7 +12,8 @@
                 </div>
                 <div class="col-12 col-sm-12">
                     <button class="btn btn-primary mb-3" type="submit">Check availability</button>
-                    <input class="checkbox" type="checkbox" name="available_only" value="1">
+                    <input class="checkbox" type="checkbox" name="available_only"
+                           {{$request->available_only == 1 ? 'checked' : ''}} value="1">
                     <span class="input-group-addon search-checkbox text-white">Available only</span>
                 </div>
             </div>
