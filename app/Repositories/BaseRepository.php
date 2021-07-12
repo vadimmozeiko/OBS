@@ -19,9 +19,9 @@ class BaseRepository
         return $model::where('status_id', $status)->paginate(10);
     }
 
-    public function getByUser($model, int $userId): Collection|array
+    public function getByUser($model, int $userId)
     {
-        return $model::where('user_id', $userId)->get();
+        return $model::where('user_id', $userId)->paginate(10);
     }
 
 

@@ -32,14 +32,14 @@ class OrderRepository extends BaseRepository
         return false;
     }
 
-    public function getByStatus($model, int $status)
+    public function getByStatusOrderDate(int $status)
     {
-        return $model::where('status_id', $status)->orderBy('date')->paginate(10);
+        return Order::where('status_id', $status)->orderBy('date')->paginate(10);
     }
 
-    public function getOrdersByIdByStatus(int $userId, int $status): Collection|array
+    public function getOrdersByIdByStatus(int $userId, int $status)
     {
-        return Order::where([['user_id', $userId], ['status_id', $status]])->get();
+        return Order::where([['user_id', $userId], ['status_id', $status]])->paginate(10);
     }
 
     public function getReservedOrders(string $date): Collection|array

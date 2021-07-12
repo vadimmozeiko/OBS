@@ -1883,7 +1883,7 @@ function sortTableByColumn(table, column) {
 }
 
 window.addEventListener('DOMContentLoaded', function (event) {
-  sortTableByColumn(document.querySelector('table'), 1, false);
+  // sortTableByColumn(document.querySelector('table'), 1, false);
   document.querySelectorAll('.table-sortable .sortable').forEach(function (headerCell) {
     headerCell.addEventListener('click', function () {
       var tableElement = headerCell.parentElement.parentElement.parentElement;

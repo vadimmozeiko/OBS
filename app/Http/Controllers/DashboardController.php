@@ -30,7 +30,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-       $notConfirmed = $this->orderRepository->getByStatus(Order::class, 3);
+       $notConfirmed = $this->orderRepository->getByStatusOrderDate(3);
         return view('admin.index', ['notConfirmed' => $notConfirmed]);
     }
 
@@ -56,7 +56,7 @@ class DashboardController extends Controller
 
     public function listOrder(Request $request)
     {
-        $users = $this->orderRepository->getByStatus(User::class, 2)->sortBy('name');;
+        $users = $this->orderRepository->getByStatus(User::class, 2);
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
         $orders = $this->orderRepository->getAll(Order::class);
@@ -86,10 +86,10 @@ class DashboardController extends Controller
     {
         $statuses = Statuses::query()->take(2)->get();
         $userStatus = $request->user_status;
-        $users = $this->userRepository->getAll(User::class);
+        $users = $this->userRepository->getAllOrderName();
 
         if ($userStatus) {
-            $users = $this->userRepository->getByStatus(User::class, $userStatus);
+            $users = $this->userRepository->getByStatusOrderName($userStatus);
         }
         return view('admin.users.manage_user',
             ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus]);
