@@ -7,19 +7,15 @@
             <h2 class="mt-5">No new bookings</h2>
             </div>
         @else
-        <h2 class="mb-5">New bookings</h2>
+        <h2 class="mb-4">New bookings</h2>
         <table class="table table-sortable">
             <thead>
             <tr>
-                <th class="sort-order sortable mobile-hide" scope="col"># <i class="order fas fa-sort-numeric-up"></i>
-                </th>
-                <th class="sort-date sortable" scope="col">Date <i class="date fas fa-sort-numeric-up"></i>
-                </th>
-                <th class="sort-name sortable mobile-hide" scope="col">Name <i class="name fas fa-sort-alpha-up"></i>
-                </th>
-                <th class="sort-title sortable" scope="col">Product <i class="title fas fa-sort-alpha-up"></i></th>
-                <th class="sort-status sortable mobile-hide" scope="col">Status <i
-                        class="status fas fa-sort-alpha-up"></i></th>
+                <th class="mobile-hide" scope="col">#</th>
+                <th scope="col">Date</th>
+                <th class="mobile-hide" scope="col">Name</th>
+                <th scope="col">Product</th>
+                <th class="mobile-hide" scope="col">Status</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -59,5 +55,4 @@
         <div class="d-flex justify-content-center">
             {!! $notConfirmed->links() !!}
         </div>
-        <script src="{{ asset('js/app.js') }}"></script>
 @endsection

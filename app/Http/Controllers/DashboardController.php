@@ -114,7 +114,7 @@ class DashboardController extends Controller
         // TODO configure update mail send here
 //        $this->mail->orderChange($order);
 
-        return redirect()->route('list.order')->with('success_message', 'Booking details changed successfully');
+        return redirect()->back()->with('success_message', 'Booking details changed successfully');
     }
 
     public function editUser(User $user)

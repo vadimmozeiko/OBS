@@ -1,7 +1,7 @@
 @extends('admin.dashboard')
 
 @section('content')
-
+    <h2 class="">Manage users</h2>
     <div class="justify-content-center pl-md-5 pr-md-5">
         <form class="mb-4" action="{{route('list.user')}}" method="GET">
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>

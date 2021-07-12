@@ -78,7 +78,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{route('user.create')}}">
                 <i class="fas fa-user-plus"></i>
-                <span>Create new user</span></a>
+                <span>Register new user</span></a>
         </li>
 
         <li class="nav-item">
