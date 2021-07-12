@@ -100,5 +100,8 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {!! $orders->links() !!}
+        </div>
         <script src="{{ asset('js/app.js') }}"></script>
 @endsection

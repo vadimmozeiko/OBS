@@ -30,7 +30,6 @@ class OrderCreateRequest extends FormRequest
             'user_phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9'],
             'date' => 'required | date | after: today',
             'status_id' => 'required | integer | min:1',
-            'user_id' =>'required | integer | min:1',
             'product_id' =>'required | integer | min:1',
             'price' => ['required', 'regex:/^\d*(\.\d{2})?$/']
         ];
@@ -47,7 +46,6 @@ class OrderCreateRequest extends FormRequest
             'user_phone.required' => 'Please fill the phone no. field',
             'user_phone.regex' => 'Invalid phone no.',
             'date.after' => 'Incorrect date (for today bookings contact directly)',
-            'user_id.integer' => 'Please select the user',
             'product_id.integer' => 'Please select the product',
 
         ];

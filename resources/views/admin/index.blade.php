@@ -2,7 +2,12 @@
 
 @section('content')
     <div class="justify-content-center pl-md-5 pr-md-5">
-        <h2 class="">New orders</h2>
+        @if($notConfirmed->isEmpty())
+            <div class="d-flex text-center justify-content-center">
+            <h2 class="mt-5">No new bookings</h2>
+            </div>
+        @else
+        <h2 class="mb-5">New bookings</h2>
         <table class="table table-sortable">
             <thead>
             <tr>
@@ -50,5 +55,9 @@
             @endforeach
             </tbody>
         </table>
+        @endif
+        <div class="d-flex justify-content-center">
+            {!! $notConfirmed->links() !!}
+        </div>
         <script src="{{ asset('js/app.js') }}"></script>
 @endsection

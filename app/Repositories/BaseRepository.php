@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Collection;
 
 class BaseRepository
 {
-    public function getAll($model): Collection|array
+    public function getAll($model)
     {
-        return $model::all();
+        return $model::paginate(10);
     }
 
-    public function getByStatus($model, int $status): Collection|array
+    public function getByStatus($model, int $status)
     {
-        return $model::where('status_id', $status)->get();
+        // TODO pagination added here
+        return $model::where('status_id', $status)->paginate(10);
     }
 
     public function getByUser($model, int $userId): Collection|array

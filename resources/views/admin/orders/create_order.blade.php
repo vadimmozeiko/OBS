@@ -7,8 +7,28 @@
         <form style="width: 100%;" method="POST" action="{{route('store.order')}}"
               autocomplete="off"
               enctype="multipart/form-data">
+            <div class="mt-3">
+                <select id="user" class="form-control select-search w-100" name="user_id">
+                    <option value="null" selected>Select user</option>
+                    @forelse($users as $user)
+                        <option value="{{$user->id}}"
+                                data-name="{{$user->name}}"
+                                data-email="{{$user->email}}"
+                                data-address="{{$user->address}}"
+                                data-phone="{{$user->phone}}"
+                        >#{{$user->id}} - {{$user->name}}</option>
+                    @empty
+                        <option value="0" disabled>No users</option>
+                    @endforelse
+                </select>
+                @error('user_id')
+                <div >
+                    <small class="text-danger">{{ $message }}</small>
+                </div>
+                @enderror
+            </div>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
-            <input class="form-control @error('user_name') is-invalid @enderror" type="text"
+            <input id="name" class="form-control @error('user_name') is-invalid @enderror" type="text"
                    name="user_name" value="{{old('user_name')}}" autocomplete="off">
             @error('user_name')
             <small class="invalid-feedback" role="alert">
@@ -16,7 +36,7 @@
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
-            <input class="form-control @error('user_email') is-invalid @enderror" type="email"
+            <input id="email" class="form-control @error('user_email') is-invalid @enderror" type="email"
                    name="user_email" value="{{old('user_email')}}" autocomplete="off">
             @error('user_email')
             <small class="invalid-feedback " role="alert">
@@ -24,7 +44,7 @@
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Address *</span>
-            <input class="form-control @error('user_address') is-invalid @enderror" type="text"
+            <input id="address" class="form-control @error('user_address') is-invalid @enderror" type="text"
                    name="user_address" value="{{old('user_address')}}" autocomplete="off">
             @error('user_address')
             <small class="invalid-feedback" role="alert">
@@ -32,7 +52,7 @@
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
-            <input class="form-control @error('user_phone') is-invalid @enderror" type="number"
+            <input id="phone" class="form-control @error('user_phone') is-invalid @enderror" type="number"
                    name="user_phone" value="{{old('user_phone')}}" autocomplete="off">
             @error('user_phone')
             <small class="invalid-feedback" role="alert">
@@ -56,21 +76,6 @@
                 </select>
                 @error('product_id')
                 <div>
-                    <small class="text-danger">{{ $message }}</small>
-                </div>
-                @enderror
-            </div>
-            <div class="mt-3">
-                <select class="form-control select-search w-100" name="user_id">
-                    <option selected>Select user</option>
-                    @forelse($users as $user)
-                        <option value="{{$user->id}}">#{{$user->id}} - {{$user->name}}</option>
-                    @empty
-                        <option value="0" disabled>No users</option>
-                    @endforelse
-                </select>
-                @error('user_id')
-                <div >
                     <small class="text-danger">{{ $message }}</small>
                 </div>
                 @enderror
@@ -113,7 +118,17 @@
         $('#product').on('change', function () {
             const price = $(this).children('option:selected').data('price');
             $('#price').val(price);
+        });
 
+        $('#user').on('change', function () {
+            const name = $(this).children('option:selected').data('name');
+            const email = $(this).children('option:selected').data('email');
+            const address = $(this).children('option:selected').data('address');
+            const phone = $(this).children('option:selected').data('phone');
+            $('#name').val(name);
+            $('#email').val(email);
+            $('#address').val(address);
+            $('#phone').val(phone);
         });
     </script>
 @endsection

@@ -57,5 +57,8 @@
             @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            {!! $users->appends(['user_status' => $userStatus])->links() !!}
+        </div>
         <script src="{{ asset('js/app.js') }}"></script>
 @endsection
