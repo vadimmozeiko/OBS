@@ -14,7 +14,6 @@
                     <div>
                         <button class="btn btn-primary search" type="submit">Check availability</button>
                     </div>
-                    @csrf
                 </div>
             </form>
         </div>

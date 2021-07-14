@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function index(Request $request): View|string
     {
         $orderDate = $request->order_date;
-        $products = $this->orderRepository->getAll(Product::class);
+        $products = $this->productRepository->getAll(Product::class);
         $reserved = collect();
         $today = Carbon::now();
 
@@ -32,14 +32,16 @@ class ProductController extends Controller
             if (Carbon::parse($orderDate) < $today) {
                 return redirect()->back()->with('info_message', 'Invalid date (for today bookings contact directly)');
             }
+
             $reserved = $this->orderRepository->getReservedOrders($orderDate);
             $products = $this->orderRepository->getConfirmedOrders($orderDate);
+
             if ($request->available_only) {
-                $products = $this->orderRepository->getReservedOrders($orderDate);
+                $products = $this->orderRepository->getAvailableOnly($orderDate);
             }
             $products = $this->productRepository->getBookableOnly($products);
         }
-        return view('products.index', ['products' => $products, 'request' => $request, 'reserved' => $reserved]);
+        return view('products.index', ['products' => $products, 'reserved' => $reserved]);
     }
 
 

@@ -64,7 +64,8 @@ class DashboardController extends Controller
         // TODO statuses from DB
         //Statuses::orderBy('id', 'desc')->take(4)->get());
 
-
+        // TODO FIX list order by date not working
+        // TODO FIX filter and pagination not working (needs withQueryString)
         if ($orderStatus) {
             $orders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
         }

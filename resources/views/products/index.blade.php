@@ -7,17 +7,16 @@
                 <div class="col-10 col-sm-10 col-md-6 col-lg-6">
                     <input style="{{session()->get('style')}}" id="datepicker" class="datepicker form-control mb-3 text-center" type="text"
                            name="order_date"
-                           @if(!empty($request->order_date)) value="{{$request->order_date}}"
+                           @if(!empty(request()->has('order_date'))) value="{{request()->get('order_date')}}"
                            @else placeholder="Pick the date" @endif autocomplete="off" required>
                 </div>
                 <div class="col-12 col-sm-12">
                     <button class="btn btn-primary mb-3" type="submit">Check availability</button>
                     <input class="checkbox" type="checkbox" name="available_only"
-                           {{$request->available_only == 1 ? 'checked' : ''}} value="1">
+                           {{request()->has('available_only') == 1 ? 'checked' : ''}} value="1">
                     <span class="input-group-addon search-checkbox text-white">Available only</span>
                 </div>
             </div>
-            @csrf
         </form>
     </div>
     <div class="container d-flex flex-wrap justify-content-around">
@@ -34,7 +33,7 @@
                     </div>
                     <div class="card-body p-0">
                         <form action="{{route('order.create', $product)}}">
-                            <input type="hidden" name="order_date" value="{{$request->order_date}}">
+                            <input type="hidden" name="order_date" value="{{request()->get('order_date')}}">
                             <button type="submit" class="card-link btn btn-primary"
                                     @if(isset($reserved))
                                     @if(($reserved->contains('product_id', $product->id)))
