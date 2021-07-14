@@ -12,6 +12,11 @@ use Illuminate\Support\Collection;
 class OrderRepository extends BaseRepository
 {
 
+    public function getAllOrderDate()
+    {
+        return Order::orderBy('date')->paginate(10)->withQueryString();
+    }
+
     public function isBooked(OrderCreateRequest|OrderUpdateRequest $request): Order|null
     {
         return Order::where('product_id', $request->product_id)
@@ -34,12 +39,12 @@ class OrderRepository extends BaseRepository
 
     public function getByStatusOrderDate(int $status)
     {
-        return Order::where('status_id', $status)->orderBy('date')->paginate(10);
+        return Order::where('status_id', $status)->orderBy('date')->paginate(10)->withQueryString();
     }
 
     public function getOrdersByIdByStatus(int $userId, int $status)
     {
-        return Order::where([['user_id', $userId], ['status_id', $status]])->paginate(10);
+        return Order::where([['user_id', $userId], ['status_id', $status]])->paginate(10)->withQueryString();
     }
 
     public function getReservedOrders(string $date): Collection|array

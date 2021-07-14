@@ -49,8 +49,7 @@ class DashboardController extends Controller
 
         $order = Order::create($request->validated());
 
-        // TODO configure confirmation mail send here
-//        $this->mail->notConfirmed($order);
+        $this->mail->notConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
 
@@ -59,13 +58,9 @@ class DashboardController extends Controller
         $users = $this->orderRepository->getByStatus(User::class, 2);
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
-        $orders = $this->orderRepository->getAll(Order::class);
+        $orders = $this->orderRepository->getAllOrderDate();
+        $statuses = Statuses::orderBy('id', 'desc')->take(5)->get();
 
-        // TODO statuses from DB
-        //Statuses::orderBy('id', 'desc')->take(4)->get());
-
-        // TODO FIX list order by date not working
-        // TODO FIX filter and pagination not working (needs withQueryString)
         if ($orderStatus) {
             $orders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
         }
@@ -79,7 +74,8 @@ class DashboardController extends Controller
         }
 
         return view('admin.orders.manage_order',
-            ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId]);
+            ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
+            'statuses' => $statuses]);
     }
 
 
@@ -112,8 +108,7 @@ class DashboardController extends Controller
 
 //        $user = auth()->user()->id ?? null;
 
-        // TODO configure update mail send here
-//        $this->mail->orderChange($order);
+        $this->mail->orderChange($order);
 
         return redirect()->back()->with('success_message', 'Booking details changed successfully');
     }
@@ -142,10 +137,8 @@ class DashboardController extends Controller
         $order->save();
 
         // TODO configure status change mail send here
-//        $result = match ($status) {
-//            $status >= 'confirmed' => 'send confirm email',
-//            $status >= 'complete' => 'send completed email',
-//        };
+        $this->mail->statusChange($order);
+
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 
     }
