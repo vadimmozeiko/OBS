@@ -2,175 +2,91 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderCreateRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use App\Repositories\OrderRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
     private MailController $mail;
+    private OrderRepository $orderRepository;
 
     public function __construct()
     {
         $this->mail = new MailController();
+        $this->orderRepository = new OrderRepository();
         $this->middleware('verified');
     }
 
-    public function index(): Factory|View|Application
+    public function index(): View
     {
         return view('orders.index');
     }
 
-
-    public function create(Product $product, Request $request): Factory|View|Application|RedirectResponse
+    public function create(Product $product, Request $request): View|RedirectResponse
     {
-        $product = $product->id;
-        $user = User::where('id', Auth::user()->id ?? null)->get();
+        $user = auth()->user() ?? null;
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
                 ->with('style', 'background-color:#ffd1d1;');
         }
-        if (!Auth::user()) {
-            return view('auth.login');
-        }
         return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
     }
 
-
-    public function store(Request $request): RedirectResponse
+    public function store(OrderCreateRequest $request): RedirectResponse
     {
-        $product = Product::where('id', $request->product_id)->get();
-        $date = str_replace('-', '', "$request->order_date");
+        $product = Product::where('id', $request->product_id)->first();
+        $date = str_replace('-', '', "$request->date");
 
-        $validator = Validator::make($request->all(),
-            [
-                'user_name' => 'required | string | max:255',
-                'user_email' => 'required | string | email | max:255',
-                'user_address' => 'required | string | max:255',
-                'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-                'order_date' => 'required | date | after: today'
-
-            ],
-            [
-                'user_name.required' => 'Please fill the name field',
-                'user_name.max' => 'Name is too long',
-                'user_address.required' => 'Please fill the address field',
-                'user_address.max' => 'Address is too long',
-                'user_phone.required' => 'Please fill the phone no. field',
-                'user_phone.regex' => 'Invalid phone no.',
-                'order_date.after' => 'Incorrect date (for today bookings contact directly)'
-            ]
-        );
-
-        if ($validator->fails()) {
-            $request->flash();
-            return redirect()->back()->withErrors($validator);
-        }
-        $isBooked = Order::where('product_id', $request->product_id)
-            ->where('date', $request->order_date)
-            ->where('status', '!=', 'completed')
-            ->where('status', '!=', 'cancelled')
-            ->first();
-        if (!empty($isBooked)) {
+        if ($this->orderRepository->isBooked($request)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
-
-        $order = new Order;
-        $order->user_name = $request->user_name;
-        $order->user_email = $request->user_email;
-        $order->user_phone = $request->user_phone;
-        $order->user_message = $request->user_message;
-        $order->date = $request->order_date;
-        $order->user_id = $request->user_id;
-        $order->product_id = $request->product_id;
-        $order->status = 'not confirmed';
-        $order->save();
-
-//        $this->mail->notConfirmed($order);
-
+        $order = Order::create($request->validated());
+        $this->mail->notConfirmed($order);
         return redirect()->route('order.index')->with(['order' => $order, 'product' => $product, 'date' => $date]);
     }
 
-
-    public function show(Order $order)
+    public function show(Order $order): View
     {
-
+        return view('orders.show', ['order' => $order]);
     }
 
-
-    public function edit(Order $order, User $user): Factory|View|Application|RedirectResponse
+    public function edit(Order $order, User $user): View|RedirectResponse
     {
-        if ($order->user_id != Auth::user()->id ||
-            $order->status == 'cancelled' ||
-            $order->status == 'confirmed') {
-            return redirect()->back()->with('info_message', 'Invalid details');
+
+        if ($this->orderRepository->isEditable($order)) {
+            return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
         }
         return view('orders.edit', ['order' => $order, 'user' => $user]);
     }
 
-    public function update(Request $request, Order $order): RedirectResponse
+    public function update(OrderUpdateRequest $request, Order $order): RedirectResponse
     {
-        $validator = Validator::make($request->all(),
-            [
-                'user_name' => 'required | string | max:255',
-                'user_email' => 'required | string | email | max:255',
-                'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-                'order_date' => 'required | date | after: yesterday'
-
-            ],
-            [
-                'user_name.required' => 'Please fill the name field',
-                'user_name.max' => 'Name is too long',
-                'user_phone.required' => 'Please fill the phone no. field',
-                'user_phone.regex' => 'Invalid phone no.',
-                'order_date.after' => 'Incorrect date (for today bookings contact directly)'
-            ]
-        );
-
-        if ($validator->fails()) {
-            $request->flash();
-            return redirect()->back()->withErrors($validator);
-        }
-
-        $isBooked = Order::where('product_id', $order->product_id)
-            ->where('date', $request->order_date)
-            ->where('status', '!=', 'completed')
-            ->where('status', '!=', 'cancelled')
-            ->first();
-        if (!empty($isBooked) && $order->getOriginal('date') != $request->order_date) {
+        if ($this->orderRepository->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
+        $order->status_id = '3';
+        $order->update($request->validated());
 
+        $user = auth()->user()->id ?? null;
+        $this->mail->orderChange($order);
 
-        $order->user_name = $request->user_name;
-        $order->user_email = $request->user_email;
-        $order->user_phone = $request->user_phone;
-        $order->date = $request->order_date;
-
-        $order->save();
-
-        $user = User::where('name', Auth::user()->name ?? null)->first();
-
-//        $this->mail->orderChange($order);
-
-        return redirect()->route('user.orders', $user->id)->with('success_message', 'Order details changed successfully');
+        return redirect()->route('user.orders', $user)->with('success_message', 'Booking details changed successfully');
     }
 
     public function destroy(Order $order): RedirectResponse
     {
-        $order->status = 'cancelled';
+        $order->status_id = '6';
         $order->save();
-        return redirect()->back()->with('success_message', 'Order cancellation submitted successfully');
-
+        $this->mail->cancelled($order);
+        return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
 }

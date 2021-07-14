@@ -2,39 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Models\Product;
+use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
 
+    private OrderRepository $orderRepository;
+    private ProductRepository $productRepository;
+
+    public function __construct()
+    {
+        $this->orderRepository = new OrderRepository();
+        $this->productRepository = new ProductRepository();
+    }
+
     public function index(Request $request): View|string
     {
-        $reserved = Order::where('date', $request->order_date)
-            ->where('status', '!=', 'confirmed')
-            ->where('status', '!=', 'completed')
-            ->where('status', '!=', 'cancelled')
-            ->get();
-        if ($request->order_date) {
-            $unavailable = [];
-            $products = Order::where('date', $request->order_date)
-                ->where('status', 'confirmed')
-                ->get();
-            if($request->available_only){
-                $products = Order::where('date', $request->order_date)
-                    ->where('status', 'not confirmed')
-                    ->get();
+        $orderDate = $request->order_date;
+        $products = $this->productRepository->getAll(Product::class);
+        $reserved = collect();
+        $today = Carbon::now();
+
+        if ($orderDate) {
+            if (Carbon::parse($orderDate) < $today) {
+                return redirect()->back()->with('info_message', 'Invalid date (for today bookings contact directly)');
             }
-            foreach ($products as $product) {
-                $unavailable[] = $product->product_id;
+
+            $reserved = $this->orderRepository->getReservedOrders($orderDate);
+            $products = $this->orderRepository->getConfirmedOrders($orderDate);
+
+            if ($request->available_only) {
+                $products = $this->orderRepository->getAvailableOnly($orderDate);
             }
-            $products = Product::whereNotIn('id', $unavailable)->get();
-        } else {
-            $products = Product::all();
+            $products = $this->productRepository->getBookableOnly($products);
         }
-        return view('products.index', ['products' => $products, 'request' => $request, 'reserved' => $reserved]);
+        return view('products.index', ['products' => $products, 'reserved' => $reserved]);
     }
 
 

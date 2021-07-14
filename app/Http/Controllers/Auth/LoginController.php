@@ -45,7 +45,16 @@ class LoginController extends Controller
         return [
             'email' => request()->email,
             'password' => request()->password,
-            'status' => 'active'
+            'status_id' => 2
         ];
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ( $user->isAdmin ) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect('/');
     }
 }

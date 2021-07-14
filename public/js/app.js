@@ -1882,34 +1882,50 @@ function sortTableByColumn(table, column) {
   table.querySelector("th:nth-child(".concat(column + 1, ")")).classList.toggle('th-sort-desc', !asc);
 }
 
-sortTableByColumn(document.querySelector('table'), 1, true);
-document.querySelectorAll('.table-sortable .sortable').forEach(function (headerCell) {
-  headerCell.addEventListener('click', function () {
-    var tableElement = headerCell.parentElement.parentElement.parentElement;
-    var headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
-    var currentIsAsc = headerCell.classList.contains('th-sort-asc');
-    sortTableByColumn(tableElement, headerIndex, !currentIsAsc);
+window.addEventListener('DOMContentLoaded', function (event) {
+  // sortTableByColumn(document.querySelector('table'), 1, false);
+  document.querySelectorAll('.table-sortable .sortable').forEach(function (headerCell) {
+    headerCell.addEventListener('click', function () {
+      var tableElement = headerCell.parentElement.parentElement.parentElement;
+      var headerIndex = Array.prototype.indexOf.call(headerCell.parentElement.children, headerCell);
+      var currentIsAsc = headerCell.classList.contains('th-sort-asc');
+      sortTableByColumn(tableElement, headerIndex, !currentIsAsc);
+    });
   });
 });
 $(document).ready(function () {
-  $('.order, .date, .title, .status').addClass('hidden');
+  $('.order, .date, .title, .status, .name').addClass('hidden');
   $('.sort-order').click(function () {
-    $('.date, .title, .status').addClass('hidden');
+    $('.date, .title, .status, .name').addClass('hidden');
     $('.order').removeClass('hidden').toggleClass('fa-sort-numeric-down');
   });
   $('.sort-date').click(function () {
-    $('.order, .title, .status').addClass('hidden');
+    $('.order, .title, .status, .name').addClass('hidden');
     $('.date').removeClass('hidden').toggleClass('fa-sort-numeric-down');
   });
   $('.sort-title').click(function () {
-    $('.date, .order, .status').addClass('hidden');
+    $('.date, .order, .status, .name').addClass('hidden');
     $('.title').removeClass('hidden').toggleClass('fa-sort-alpha-down');
   });
+  $('.sort-name').click(function () {
+    $('.date, .order, .status, .title').addClass('hidden');
+    $('.name').removeClass('hidden').toggleClass('fa-sort-alpha-down');
+  });
   $('.sort-status').click(function () {
-    $('.date, .title, .order').addClass('hidden');
+    $('.date, .title, .order, .name').addClass('hidden');
     $('.status').removeClass('hidden').toggleClass('fa-sort-alpha-down');
   });
 }); // TABLE SORT END =====================================================================
+// SEARCH FIELD =======================================================================
+
+$(document).ready(function () {
+  $("#search-field").on("keyup", function () {
+    var value = $(this).val().toLowerCase();
+    $(".table tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    });
+  });
+}); // END SEARCH FIELD ===================================================================
 
 /***/ }),
 

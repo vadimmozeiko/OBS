@@ -24,7 +24,7 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light white-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Laravel') }}
@@ -37,10 +37,10 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto ">
-                    <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('product.index')}}">Products</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link menu hover-blue " href="{{ url('/') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('product.index')}}">Products</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('faq')}}">FAQ's</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -60,22 +60,28 @@
                         @endif
                     @else
                         <li class="nav-item dropdown">
+
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('user.orders', Auth::user()->id) }}">
-                                    {{ __('My orders') }}
+                                @if(auth()->user()->isAdmin)
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-tachometer-alt"></i></i> {{ __('Admin Dashboard') }}
+                                </a>
+                                @endif
+                                <a class="dropdown-item" href="{{ route('user.orders', auth()->user()->id) }}">
+                                    <i class="fas fa-list"></i> {{ __('My bookings') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('user.index') }}">
-                                    {{ __('Profile') }}
+                                    <i class="fas fa-user"></i> {{ __('Profile') }}
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
+                                    <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -93,21 +99,6 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    @if ($errors->any())
-                        <div class="alert">
-                            <ul class="list-group">
-                                @foreach ($errors->all() as $error)
-                                    <li class="list-group-item list-group-item-danger">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
                     @if(session()->has('success_message'))
                         <div class="alert alert-success" role="alert">
                             {{session()->get('success_message')}}
@@ -122,11 +113,11 @@
                 </div>
             </div>
         </div>
+        <div class="triangle-right"></div>
         @yield('content')
     </main>
 </div>
 </body>
-<script src="{{ asset('js/app.js') }}" defer></script>
 <script>
     $('#datepicker').datepicker({
         format: 'yyyy-mm-dd',
@@ -145,4 +136,5 @@
         showRightIcon: false
     });
 </script>
+<script src="{{ asset('js/app.js') }}"></script>
 </html>

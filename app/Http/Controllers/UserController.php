@@ -2,119 +2,103 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordUpdateRequest;
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
+use App\Repositories\OrderRepository;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
+    private OrderRepository $orderRepository;
 
-    public function index(): Factory|View|Application
+    public function __construct()
     {
-        $user = User::where('id', Auth::user()->id)->get();
+        $this->orderRepository = new OrderRepository();
+    }
+
+    public function index(): View
+    {
+        $user = auth()->user();
         return view('user.index', ['user' => $user]);
     }
 
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.users.create_user');
     }
 
 
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        //
+
+        $user = User::create($request->validated());
+
+        $user->notify(new VerifyEmail);
+
+        $this->passReset($user);
+
+        return redirect()->back()->with('success_message', 'User created successfully');
     }
 
 
-    public function show(User $user, Request $request): Factory|View|Application
+    public function orders(User $user, Request $request): View
     {
-        $products = Product::all();
+        $orderStatus = 0;
+        $userOrders = $this->orderRepository->getByUser(Order::class, auth()->user()->id);
 
         if ($request->order_status) {
             $orderStatus = $request->order_status;
-            if ($orderStatus == 0) {
-                $userOrders = Order::where('user_id', Auth::user()->id)->get();
-            } else {
-                $userOrders = Order::where('user_id', Auth::user()->id)
-                    ->where('status', $orderStatus)
-                    ->get();
-            }
-        } else {
-            $userOrders = Order::where('user_id', Auth::user()->id)->get();
+            $userOrders = $this->orderRepository->getOrdersByIdByStatus(auth()->user()->id, $orderStatus);
+
         }
 
-        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'products' => $products, 'orderStatus' => $orderStatus ?? 0]);
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'orderStatus' => $orderStatus]);
     }
 
-    public function edit(User $user): Factory|View|Application
+    public function edit(User $user): View|RedirectResponse
     {
-        return view('user.edit', ['user' => $user]);
+        if (auth()->user()->id == $user->id) {
+            return view('user.edit', ['user' => $user]);
+        }
+        return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
     }
 
 
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        $validator = Validator::make($request->all(),
-            [
-                'user_name' => 'required | string | max:255',
-                'user_address' => 'required | string | max:255',
-                'user_phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-                'user_email' => 'required | string | email | max:255'
-            ],
-            [
-                'user_name.required' => 'Please fill the name field',
-                'user_name.max' => 'Name is too long',
-                'user_address.required' => 'Please fill the address field',
-                'user_address.max' => 'Address is too long',
-                'user_phone.required' => 'Please fill the phone no. field',
-                'user_phone.regex' => 'Invalid phone no.',
-            ]
-        );
+        $user->update($request->validated());
 
-        if ($validator->fails()) {
-            $request->flash();
-            return redirect()->back()->withErrors($validator);
-        }
-
-        $user->name = $request->user_name;
-        $user->email = $request->user_email;
-        $user->address = $request->user_address;
-        $user->phone = $request->user_phone;
-        $user->save();
         return redirect()->route('user.index')->with('success_message', 'Changes saved successfully');
     }
 
-
-    public function destroy(User $user,Request $request)
+    public function destroy(User $user, Request $request)
     {
-        $currentPass = Auth::user()->getAuthPassword();
+        $currentPass = auth()->user()->getAuthPassword();
         $inputCurrentPass = $request->current_password;
 
-        if(Hash::check($inputCurrentPass, $currentPass)){
-            $user->status = 'inactive';
-            $user->email = 'deleted:'. Auth::user()->id . $user->email;
+        if (Hash::check($inputCurrentPass, $currentPass)) {
+            $user->status_id = '7';
+            $user->email = 'del:' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
-        }
-        else {
-            return redirect()->back()->withErrors('Password doesnt match our records');
+        } else {
+            return redirect()->back()->with('info_message', 'Password doesnt match our records');
         }
     }
 
-
     public function deleteConfirm(User $user)
     {
-        return view('user.delete', ['user'=> $user]);
+        return view('user.delete', ['user' => $user]);
     }
 
 
@@ -123,34 +107,19 @@ class UserController extends Controller
         return view('user.password', ['user' => $user]);
     }
 
-    public function passUpdate(User $user, Request $request)
+    public function passUpdate(PasswordUpdateRequest $request)
     {
-        $currentPass = Auth::user()->getAuthPassword();
-        $inputOldPass = $request->old_password;
-        if (Hash::check($inputOldPass, $currentPass)) {
-            $validator = Validator::make($request->all(),
-                [
-                    'new_password' => 'required | min:8 | different:old_password',
-                    'confirm_password' => 'required | same:new_password'
-                ],
-                [
-                    'new_password.required' => 'Please fill the new password field',
-                    'new_password.min' => 'Too short, min. 8 characters',
-                    'new_password.different' => 'New password cannot be the same as old one',
-                    'confirm_password.required' => 'Please fill the confirmed password field',
-                    'confirm_password.same' => 'Password do not match',
-                ]
-            );
+        auth()->user()->update(['password' => Hash::make($request->new_password)]);
+        return redirect()->route('user.index')->with('success_message', 'Password changed successfully');
+    }
 
-            if ($validator->fails()) {
-                $request->flash();
-                return redirect()->back()->withErrors($validator);
-            }
-
-            $user->password = Hash::make($request->new_password);
-            $user->save();
-            return redirect()->route('user.index')->with('success_message', 'Password changed successfully');
-        };
-        return redirect()->back()->withErrors('Old password doesnt match our records');
+    public function passReset(User $user)
+    {
+        if ($user->status_id != 7) {
+            $token = Password::getRepository()->create($user);
+            $user->sendPasswordResetNotification($token);
+            return redirect()->back()->with('success_message', 'Password reset link send successfully');
+        }
+        return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
     }
 }

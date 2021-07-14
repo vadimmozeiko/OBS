@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Requests\OrderCreateRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,8 +47,30 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_name',
+        'user_email',
+        'user_phone',
+        'user_message',
+        'status_id',
+        'date',
+        'price',
+        'user_id',
+        'product_id'
+    ];
+
     public function orderProducts(): BelongsTo
     {
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
+    }
+
+    public function orderStatus(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');
+    }
+
+    public function setPriceAttribute($value){
+        $value *= 100;
+        $this->attributes['price'] = (int)$value;
     }
 }

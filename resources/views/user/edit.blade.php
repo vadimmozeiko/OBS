@@ -9,16 +9,41 @@
                     <div class="card-body">
                         <h2 class="">Edit details</h2>
                         <div class="input-group">
-                            <form style="width: 100%;" method="POST" action="{{route('user.update', $user)}}" enctype="multipart/form-data">
-                                <span class="input-group-addon" id="basic-addon1">Full name *</span>
-                                <input class="form-control mb-3"  type="text" name="user_name" value="{{old('user_name', $user->name)}}" required>
-                                <span class="input-group-addon" id="basic-addon1">Email *</span>
-                                <input class="form-control mb-3" type="email" name="user_email" value="{{old('user_email', $user->email)}}" required>
-                                <span class="input-group-addon" id="basic-addon1">Address *</span>
-                                <input class="form-control mb-3" type="text" name="user_address" value="{{old('user_address', $user->address)}}" required>
-                                <span class="input-group-addon" id="basic-addon1">Phone no. *</span>
-                                <input class="form-control mb-3" type="number" name="user_phone" value="{{old('user_phone', $user->phone)}}" required>
-                                <small class="d-block mb-3">* Required info</small>
+                            <form style="width: 100%;" method="POST" action="{{route('user.update', $user)}}"
+                                  enctype="multipart/form-data">
+                                <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
+                                <input class="form-control @error('name') is-invalid @enderror" type="text" name="name"
+                                       value="{{old('name', $user->name)}}" >
+                                @error('name')
+                                <small class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                                <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
+                                <input class="form-control @error('email') is-invalid @enderror" type="email"
+                                       name="email" value="{{old('email', $user->email)}}" >
+                                @error('email')
+                                <small class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </small>
+                                @enderror
+                                <span class="input-group-addon d-block mt-3" id="basic-addon1">Address *</span>
+                                <input class="form-control @error('address') is-invalid @enderror" type="text"
+                                       name="address" value="{{old('address', $user->address)}}" >
+                                @error('address')
+                                <small class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                                @enderror
+                                <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
+                                <input class="form-control @error('phone') is-invalid @enderror" type="number"
+                                       name="phone" value="{{old('phone', $user->phone)}}" >
+                                @error('phone')
+                                <small class="invalid-feedback " role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </small>
+                                @enderror
+                                <small class="d-block mb-3 mt-3">* Required info</small>
                                 <button class="btn btn-primary btn-m" type="submit">Save</button>
                                 @csrf
                             </form>
