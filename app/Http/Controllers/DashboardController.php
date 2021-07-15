@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Statuses;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use App\Repositories\StatusRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,12 +21,14 @@ class DashboardController extends Controller
     private MailController $mail;
     private OrderRepository $orderRepository;
     private UserRepository $userRepository;
+    private StatusRepository $statusRepository;
 
     public function __construct()
     {
         $this->mail = new MailController();
         $this->orderRepository = new OrderRepository();
         $this->userRepository = new UserRepository();
+        $this->statusRepository = new StatusRepository();
     }
 
     public function index()
@@ -59,7 +62,7 @@ class DashboardController extends Controller
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
         $orders = $this->orderRepository->getAllOrderDate();
-        $statuses = Statuses::orderBy('id', 'desc')->take(5)->get();
+        $statuses = $this->statusRepository->getOrderStatuses();
 
         if ($orderStatus) {
             $orders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
@@ -81,7 +84,7 @@ class DashboardController extends Controller
 
     public function listUser(Request $request)
     {
-        $statuses = Statuses::query()->take(2)->get();
+        $statuses = $this->statusRepository->getUserStatuses();
         $userStatus = $request->user_status;
         $users = $this->userRepository->getAllOrderName();
 

@@ -11,12 +11,11 @@
                             <form class="mb-4" action="{{route('user.orders', $user)}}" method="GET">
                                 <span class="input-group-addon" id="basic-addon1">Filter by status</span>
                                 <select class="form-control mb-3" name="order_status">
-{{--                                    // TODO REMAKE | get status list from DB --}}
                                     <option value="0">All</option>
-                                    <option value="3" {{$orderStatus == '3' ? 'selected': ''}}>not confirmed</option>
-                                    <option value="4" {{$orderStatus == '4' ? 'selected': ''}}>confirmed</option>
-                                    <option value="5" {{$orderStatus == '5' ? 'selected': ''}}>completed</option>
-                                    <option value="6" {{$orderStatus == '6' ? 'selected': ''}}>cancelled</option>
+                                    @foreach($statuses as $status)
+                                        <option value="{{$status->id}}" {{$orderStatus == $status->id ? 'selected': ''}}>
+                                            {{$status->status}}</option>
+                                    @endforeach
                                 </select>
                                 <button class="btn btn-info">Filter</button>
                                 <a href="{{route('user.orders', $user)}}" class="btn btn-info">Reset</a>

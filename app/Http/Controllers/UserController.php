@@ -7,8 +7,10 @@ use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Order;
+use App\Models\Statuses;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use App\Repositories\StatusRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,10 +22,12 @@ use Illuminate\Support\Facades\Password;
 class UserController extends Controller
 {
     private OrderRepository $orderRepository;
+    private StatusRepository $statusRepository;
 
     public function __construct()
     {
         $this->orderRepository = new OrderRepository();
+        $this->statusRepository = new StatusRepository();
     }
 
     public function index(): View
@@ -55,6 +59,7 @@ class UserController extends Controller
     {
         $orderStatus = 0;
         $userOrders = $this->orderRepository->getByUser(Order::class, auth()->user()->id);
+        $statuses = $this->statusRepository->getOrderStatuses();
 
         if ($request->order_status) {
             $orderStatus = $request->order_status;
@@ -62,7 +67,8 @@ class UserController extends Controller
 
         }
 
-        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'orderStatus' => $orderStatus]);
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders,
+            'statuses' => $statuses, 'orderStatus' => $orderStatus]);
     }
 
     public function edit(User $user): View|RedirectResponse
@@ -115,7 +121,7 @@ class UserController extends Controller
     }
 
     // TODO REFACTOR | repeating function with same job
-    public function passFirst(PasswordResetRequest $request)
+    public function passFirstReset(PasswordResetRequest $request)
     {
         auth()->user()->update([
             'password' => Hash::make($request->password),
