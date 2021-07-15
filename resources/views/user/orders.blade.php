@@ -34,8 +34,8 @@
                                 <tbody>
                                 @foreach($userOrders as$order)
                                 <tr
-                                    @if($order->status_id != '5' &&
-                                        $order->status_id != '6')
+                                    @if($order->status_id != '6' &&
+                                        $order->status_id != '7')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif class="hover-zoom">

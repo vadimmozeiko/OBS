@@ -33,7 +33,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-       $notConfirmed = $this->orderRepository->getByStatusOrderDate(3);
+       $notConfirmed = $this->orderRepository->getByStatusOrderDate(4);
         return view('admin.index', ['notConfirmed' => $notConfirmed]);
     }
 

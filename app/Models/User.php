@@ -50,6 +50,8 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
+    protected $guarded = [];
+
     public function userOrders(): HasMany
     {
         return $this->hasMany('App\Models\Order', 'user_id', 'id');

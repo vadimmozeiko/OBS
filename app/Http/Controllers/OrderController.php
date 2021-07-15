@@ -73,7 +73,7 @@ class OrderController extends Controller
         if ($this->orderRepository->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
-        $order->status_id = '3';
+        $order->status_id = '4';
         $order->update($request->validated());
 
         $user = auth()->user()->id ?? null;
@@ -84,7 +84,7 @@ class OrderController extends Controller
 
     public function destroy(Order $order): RedirectResponse
     {
-        $order->status_id = '6';
+        $order->status_id = '7';
         $order->save();
         $this->mail->cancelled($order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');

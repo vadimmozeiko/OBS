@@ -38,4 +38,6 @@ use Illuminate\Support\Carbon;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
 }

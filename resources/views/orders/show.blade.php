@@ -15,23 +15,23 @@
                     <p><b>Price: </b>{{$order->price / 100}} Eur</p>
                     <div class="d-flex justify-content-center flex-wrap">
                         <a
-                            @if($order->status_id == '5' ||
-                                $order->status_id == '6')
+                            @if($order->status_id == '6' ||
+                                $order->status_id == '7')
                             style="pointer-events: none; background-color: #69bbff; border: none;"
                             @endif
                             class="btn btn-primary btn-m m-1"
                             href="https://www.google.com/calendar/render?action=TEMPLATE&text=OBS+booking&dates={{$order->date}}T050000Z/{{$order->date}}T190000Z&details=Your+booking+for+{{ $order->orderProducts->title }}+with+OBS&sf=true&output=xml"
                             target="_blank">Add to Google calendar</a>
                         <a
-                            @if($order->status_id == '5' ||
-                                $order->status_id == '6')
+                            @if($order->status_id == '6' ||
+                                $order->status_id == '7')
                             style="pointer-events: none; background-color: #69bbff; border: none;"
                             @endif
                             class="card-link btn btn-primary m-1" href="{{route('order.edit', $order)}}">Edit
                             booking</a>
                             <button class="card-link btn btn-danger m-1" type="button" data-toggle="modal" data-target="#exampleModalCenter"
-                                    @if($order->status_id == '5' ||
-                                        $order->status_id == '6')
+                                    @if($order->status_id == '6' ||
+                                        $order->status_id == '7')
                                     disabled
                                 @endif
                             >CANCEL

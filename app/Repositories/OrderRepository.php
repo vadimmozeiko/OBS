@@ -21,16 +21,16 @@ class OrderRepository extends BaseRepository
     {
         return Order::where('product_id', $request->product_id)
             ->where('date', $request->date)
-            ->where('status_id', '!=', '5')
             ->where('status_id', '!=', '6')
+            ->where('status_id', '!=', '7')
             ->first();
     }
 
     public function isEditable(Order $order): bool
     {
         if ($order->user_id != auth()->user()->id ||
-            $order->status_id == '5' ||
-            $order->status_id == '6') {
+            $order->status_id == '6' ||
+            $order->status_id == '7') {
 
             return true;
         }
@@ -50,22 +50,22 @@ class OrderRepository extends BaseRepository
     public function getReservedOrders(string $date): Collection|array
     {
         return Order::where('date', $date)
-            ->where('status_id', '3')
+            ->where('status_id', '4')
             ->get();
     }
 
     public function getConfirmedOrders(string $date): Collection|array
     {
         return Order::where('date', $date)
-            ->where('status_id', '4')
+            ->where('status_id', '5')
             ->get();
     }
 
     public function getAvailableOnly(string $date)
     {
         return Order::where('date', $date)
-            ->where('status_id', '!=', '5')
             ->where('status_id', '!=', '6')
+            ->where('status_id', '!=', '7')
             ->get();
     }
 

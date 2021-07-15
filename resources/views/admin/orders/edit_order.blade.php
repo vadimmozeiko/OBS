@@ -49,7 +49,7 @@
             <small class="d-block mt-3 mb-3">* Required info</small>
             <input type="hidden" name="product_id" value="{{$order->orderProducts->id}}">
             <button class="btn btn-primary btn-m
-            @if($order->status_id > 4)
+            @if($order->status_id > 5)
                 d-none
                 @endif
             " type="submit"

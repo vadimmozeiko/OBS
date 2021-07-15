@@ -10,11 +10,11 @@ class StatusRepository extends BaseRepository
 {
     public function getUserStatuses()
     {
-        return Statuses::query()->take(2)->get();
+        return Statuses::query()->take(3)->get();
     }
 
     public function getOrderStatuses()
     {
-       return Statuses::orderBy('id', 'desc')->take(5)->get();
+       return Statuses::orderBy('id', 'desc')->take(4)->get();
     }
 }

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         $faker = Faker\Factory::create('en_EN');
 
-        $statuses = ['inactive', 'active', 'not confirmed', 'confirmed', 'completed', 'cancelled', 'deleted'];
+        $statuses = ['new', 'active', 'deleted', 'not confirmed', 'confirmed', 'completed', 'cancelled'];
         foreach ($statuses as $status) {
             DB::table('statuses')->insert([
                 'status' => $status

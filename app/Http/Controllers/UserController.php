@@ -7,7 +7,6 @@ use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Order;
-use App\Models\Statuses;
 use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Repositories\StatusRepository;
@@ -93,7 +92,7 @@ class UserController extends Controller
         $inputCurrentPass = $request->current_password;
 
         if (Hash::check($inputCurrentPass, $currentPass)) {
-            $user->status_id = '7';
+            $user->status_id = '3';
             $user->email = 'del:' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();
@@ -132,7 +131,7 @@ class UserController extends Controller
 
     public function passReset(User $user)
     {
-        if ($user->status_id != 7) {
+        if ($user->status_id != 3) {
             $token = Password::getRepository()->create($user);
             $user->sendPasswordResetNotification($token);
             return redirect()->back()->with('success_message', 'Password reset link send successfully');

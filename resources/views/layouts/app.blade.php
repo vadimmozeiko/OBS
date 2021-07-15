@@ -22,7 +22,7 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 </head>
-<body>
+<body style="background-image: url({{asset('assets/img/bg.jpg')}});">
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light white-sm">
         <div class="container">

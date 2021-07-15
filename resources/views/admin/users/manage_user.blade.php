@@ -47,7 +47,7 @@
                         </form>
                         <form method="POST" action="{{route('pass.reset', $user)}}">
                             <button type="submit" class="card-link btn btn-warning btn-sm m-1"
-                                {{$user->status_id == 7 ? 'disabled' : ''}}
+                                {{$user->status_id == 3 ? 'disabled' : ''}}
                             >Reset Password
                             </button>
                             @csrf
