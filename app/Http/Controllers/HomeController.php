@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class HomeController extends Controller
 {
@@ -19,10 +24,14 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return Renderable
+     * @return Application|Factory|View
      */
-    public function index(): Renderable
+    public function index(): Application|Factory|View|RedirectResponse
     {
+
+        if(auth()->check() && auth()->user()->status_id == 1) {
+           return $this->firstLogin();
+        }
         return view('index');
     }
 
@@ -34,5 +43,10 @@ class HomeController extends Controller
     public function admin(): Renderable
     {
         return view('admin_login');
+    }
+
+    private function firstLogin()
+    {
+        return view('reset', auth()->user());
     }
 }

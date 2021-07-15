@@ -2,7 +2,7 @@
 
 body {
     font-family: 'Lora', serif;
-    background-image: url("https://images03.nicepage.com/c461c07a441a5d220e8feb1a/bf59b34654f955da8136c563/Untitled2.jpg");
+    background-image: url('./public/assets/img/bg.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;

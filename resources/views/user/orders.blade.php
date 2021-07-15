@@ -11,6 +11,7 @@
                             <form class="mb-4" action="{{route('user.orders', $user)}}" method="GET">
                                 <span class="input-group-addon" id="basic-addon1">Filter by status</span>
                                 <select class="form-control mb-3" name="order_status">
+{{--                                    // TODO REMAKE | get status list from DB --}}
                                     <option value="0">All</option>
                                     <option value="3" {{$orderStatus == '3' ? 'selected': ''}}>not confirmed</option>
                                     <option value="4" {{$orderStatus == '4' ? 'selected': ''}}>confirmed</option>

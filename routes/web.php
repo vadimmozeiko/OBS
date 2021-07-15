@@ -22,6 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('orders/{user}', [UserController::class, 'orders'])->name('user.orders');
         Route::get('password/{user}', [UserController::class, 'passEdit'])->name('user.passEdit');
         Route::post('password/{user}', [UserController::class, 'passUpdate'])->name('user.passUpdate');
+        Route::post('password/{user}', [UserController::class, 'passFirst'])->name('user.passFirst');
         Route::get('deleteConfirm/{user}', [UserController::class, 'deleteConfirm'])->name('user.deleteConfirm');
         Route::post('delete/{user}', [UserController::class, 'destroy'])->name('user.destroy');
     });

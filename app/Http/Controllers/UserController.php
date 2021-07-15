@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
@@ -111,6 +112,16 @@ class UserController extends Controller
     {
         auth()->user()->update(['password' => Hash::make($request->new_password)]);
         return redirect()->route('user.index')->with('success_message', 'Password changed successfully');
+    }
+
+    // TODO REFACTOR | repeating function with same job
+    public function passFirst(PasswordResetRequest $request)
+    {
+        auth()->user()->update([
+            'password' => Hash::make($request->password),
+            'status_id' => 2
+        ]);
+        return redirect()->route('index')->with('success_message', 'Password changed successfully');
     }
 
     public function passReset(User $user)

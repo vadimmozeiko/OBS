@@ -45,7 +45,6 @@ class LoginController extends Controller
         return [
             'email' => request()->email,
             'password' => request()->password,
-            'status_id' => 2
         ];
     }
 
