@@ -104,8 +104,8 @@
                 <div class="col-md-10">
                     <select class="form-control mb-3 @error('isAdmin') is-invalid @enderror" name="isAdmin">
                         <option value="">Select user type</option>
-                        <option value="0">Regular user</option>
-                        <option value="1">Admin user</option>
+                        <option value="0">Customer</option>
+                        <option value="1">Administrator</option>
                     </select>
                     @error('isAdmin')
                     <span class="invalid-feedback" role="alert">

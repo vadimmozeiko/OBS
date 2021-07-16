@@ -29,7 +29,7 @@
         </form>
         <form action="{{route('list.order')}}">
             <div class="form-group mb-2 d-flex">
-                <input class="form-control" name="search" type="text" placeholder="Search by date...">
+                <input class="form-control" name="search" type="text" placeholder="Quick search...">
                 <button type="submit" class="btn btn-primary mb-2 ml-3">Search</button>
             </div>
         </form>

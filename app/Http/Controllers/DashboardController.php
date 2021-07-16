@@ -150,9 +150,4 @@ class DashboardController extends Controller
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 
     }
-
-    public function searchOrders()
-    {
-
-    }
 }
