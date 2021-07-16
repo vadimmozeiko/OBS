@@ -32,7 +32,6 @@
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
                             >Details
                             </button>
-                            @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-primary btn-sm m-1"
