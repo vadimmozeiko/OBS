@@ -61,6 +61,7 @@ class DashboardController extends Controller
         $users = $this->orderRepository->getByStatus(User::class, 2);
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
+        $search = $request->search;
         $orders = $this->orderRepository->getAllOrderDate();
         $statuses = $this->statusRepository->getOrderStatuses();
 
@@ -74,6 +75,10 @@ class DashboardController extends Controller
 
         if ($userId && $orderStatus) {
             $orders = $this->orderRepository->getOrdersByIdByStatus($userId, $orderStatus);
+        }
+
+        if($search) {
+            $orders = $this->orderRepository->getOrdersByDate($search);
         }
 
         return view('admin.orders.manage_order',
@@ -143,6 +148,11 @@ class DashboardController extends Controller
         $this->mail->statusChange($order);
 
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
+
+    }
+
+    public function searchOrders()
+    {
 
     }
 }

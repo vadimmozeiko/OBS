@@ -15,7 +15,7 @@
             <div class="mt-3 mb-3">
                 <span class="input-group-addon" id="basic-addon1">Filter by user</span>
                 <select class="form-control select-search w-100" name="user_id">
-                    <option value="0" selected>Select user</option>
+                    <option value="0" selected>All</option>
                     @forelse($users as $user)
                         <option value="{{$user->id}}" {{$userId == $user->id ? 'selected': ''}}>#{{$user->id}}
                             - {{$user->name}}</option>
@@ -27,9 +27,12 @@
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.order')}}" class="btn btn-info">Reset</a>
         </form>
-        <div class="form-outline mb-2">
-            <input name="search" type="text" id="search-field" class="form-control" placeholder="Search...">
-        </div>
+        <form action="{{route('list.order')}}">
+            <div class="form-group mb-2 d-flex">
+                <input class="form-control" name="search" type="text" placeholder="Search by date...">
+                <button type="submit" class="btn btn-primary mb-2 ml-3">Search</button>
+            </div>
+        </form>
         <table class="table table-sortable">
             <thead>
             <tr>

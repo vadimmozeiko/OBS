@@ -75,4 +75,12 @@ class OrderRepository extends BaseRepository
             ->get();
     }
 
+    public function getOrdersByDate(string $search)
+    {
+        return Order::where('date', 'like', "%$search%")
+            ->orderBy('date')
+            ->paginate(10)
+            ->withQueryString();
+    }
+
 }
