@@ -14,6 +14,7 @@ use App\Repositories\StatusRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -155,4 +156,13 @@ class DashboardController extends Controller
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 
     }
+
+
+    public function loginAs($user): RedirectResponse
+    {
+        auth()->logout();
+        Auth::loginUsingId($user, true);
+        return redirect()->route('index');
+    }
+
 }

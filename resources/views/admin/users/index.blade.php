@@ -40,7 +40,7 @@
                     <td class="mobile-hide">{{$user->id}}</td>
                     <td>{{$user->name}}</td>
                     <td class="mobile-hide">{{$user->email}}</td>
-                    <td>{{$user->userStatus->status}}</td>
+                    <td class="mobile-hide">{{$user->userStatus->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
                         <form action="{{route('edit.user', $user)}}">
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
@@ -51,6 +51,13 @@
                             <button type="submit" class="card-link btn btn-warning btn-sm m-1"
                                 {{$user->status_id == 3 ? 'disabled' : ''}}
                             >Reset Password
+                            </button>
+                            @csrf
+                        </form>
+                        <form method="POST" action="{{route('login.as', $user)}}">
+                            <button type="submit" class="card-link btn btn-dark btn-sm m-1"
+                                {{$user->status_id == 3 ? 'disabled' : ''}}
+                            >Login As
                             </button>
                             @csrf
                         </form>

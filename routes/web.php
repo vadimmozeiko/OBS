@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -8,10 +9,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/faq', [App\Http\Controllers\HomeController::class, 'faq'])->name('faq');
-Route::get('/products/all', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
+Route::get('/products/all', [HomeController::class, 'products'])->name('products');
+
 
 
 Auth::routes(['verify' => true]);
@@ -40,6 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
         Route::get('', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::post('login/{user}', [DashboardController::class, 'loginAs'])->name('login.as');
 
         Route::group(['prefix' => 'orders'], function () {
             Route::get('', [DashboardController::class, 'listOrder'])->name('list.order');
