@@ -15,9 +15,12 @@
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.user')}}" class="btn btn-info">Reset</a>
         </form>
-        <div class="form-outline mb-2">
-            <input name="search" type="text" id="search-field" class="form-control" placeholder="Search...">
-        </div>
+        <form action="{{route('list.user')}}">
+            <div class="form-group mb-2 d-flex">
+                <input class="form-control" name="search" type="text" value="{{$search}}" placeholder="Quick search...">
+                <button type="submit" class="btn btn-primary mb-2 ml-3">Search</button>
+            </div>
+        </form>
         <table class="table table-sortable">
             <thead>
             <tr>

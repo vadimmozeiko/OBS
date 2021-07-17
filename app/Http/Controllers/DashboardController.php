@@ -78,12 +78,12 @@ class DashboardController extends Controller
         }
 
         if($search) {
-            $orders = $this->orderRepository->getOrdersByDate($search);
+            $orders = $this->orderRepository->search($search);
         }
 
         return view('admin.orders.manage_order',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
-            'statuses' => $statuses]);
+            'statuses' => $statuses, 'search' => $search]);
     }
 
 
@@ -91,13 +91,18 @@ class DashboardController extends Controller
     {
         $statuses = $this->statusRepository->getUserStatuses();
         $userStatus = $request->user_status;
+        $search = $request->search;
         $users = $this->userRepository->getAllOrderName();
 
         if ($userStatus) {
             $users = $this->userRepository->getByStatusOrderName($userStatus);
         }
+
+        if($search) {
+            $users = $this->userRepository->search($search);
+        }
         return view('admin.users.manage_user',
-            ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus]);
+            ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus, 'search' => $search]);
     }
 
 

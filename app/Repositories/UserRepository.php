@@ -17,4 +17,13 @@ class UserRepository extends BaseRepository
     {
         return User::where('status_id', $status)->orderBy('name')->paginate(10)->withQueryString();
     }
+
+    public function search(string $search)
+    {
+        return User::where('name', 'like', "%$search%")
+            ->orWhere('email', 'like', "%$search%")
+            ->orderBy('id')
+            ->paginate(10)
+            ->withQueryString();
+    }
 }

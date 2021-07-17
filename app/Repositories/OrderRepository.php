@@ -75,7 +75,7 @@ class OrderRepository extends BaseRepository
             ->get();
     }
 
-    public function getOrdersByDate(string $search)
+    public function search(string $search)
     {
         return Order::where('date', 'like', "%$search%")
             ->orWhere('user_name', 'like', "%$search%")
