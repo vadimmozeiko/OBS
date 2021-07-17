@@ -39,7 +39,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link menu hover-blue " href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('product.index')}}">Products</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('products')}}">Products</a></li>
                     <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('faq')}}">FAQ's</a></li>
                 </ul>
 

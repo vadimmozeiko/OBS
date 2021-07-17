@@ -46,7 +46,6 @@
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
                             >Details
                             </button>
-                            @csrf
                         </form>
                         <form method="POST" action="{{route('pass.reset', $user)}}">
                             <button type="submit" class="card-link btn btn-warning btn-sm m-1"

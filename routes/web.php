@@ -11,6 +11,8 @@ use App\Http\Controllers\OrderController;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/faq', [App\Http\Controllers\HomeController::class, 'faq'])->name('faq');
+Route::get('/products', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
+
 
 Auth::routes(['verify' => true]);
 
@@ -61,7 +63,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['prefix' => 'products'], function () {
     Route::get('', [ProductController::class, 'index'])->name('product.index');
-    Route::get('list', [ProductController::class, 'list'])->name('product.list');
     Route::get('details/{product}', [ProductController::class, 'details'])->name('product.details');
     Route::get('create', [ProductController::class, 'create'])->name('product.create');
     Route::post('store', [ProductController::class, 'store'])->name('product.store');

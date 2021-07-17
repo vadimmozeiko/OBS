@@ -37,7 +37,7 @@ class UserController extends Controller
 
     public function create(): View
     {
-        return view('admin.users.create_user');
+        return view('admin.users.create');
     }
 
 

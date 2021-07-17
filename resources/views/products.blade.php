@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex flex-wrap justify-content-center">
-        <form style="width: 80%;" action="{{route('product.index')}}">
+        <form style="width: 80%;" action="{{route('products')}}">
             <div class="form-row text-center justify-content-center">
                 <div class="col-10 col-sm-10 col-md-6 col-lg-6">
                     <input style="{{session()->get('style')}}" id="datepicker" class="datepicker form-control mb-3 text-center" type="text"

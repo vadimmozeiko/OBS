@@ -27,7 +27,7 @@
                         <td>{{$product->productStatus->status}}</td>
                         <td class="mobile-hide">{{$product->price / 100}} Eur</td>
                         <td class="d-flex mobile-hide">
-                            <form action="{{route('product.details', $product)}}">
+                            <form action="{{route('product.edit', $product)}}">
                                 <button type="submit" class="card-link btn btn-info btn-sm m-1"
                                 >Details
                                 </button>

@@ -18,7 +18,7 @@
                     @if(!empty($request->order_date))
                         {{route('order.create', $product)}}"
                     @else
-                        {{route('product.index')}}"
+                        {{route('products')}}"
                         >Check availability</a>
                     @endif
                 </div>

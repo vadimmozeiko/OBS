@@ -104,7 +104,7 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="{{route('product.list')}}">
+            <a class="nav-link" href="{{route('product.index')}}">
                 <i class="fas fa-list"></i>
                 <span>Manage products</span></a>
         </li>

@@ -2,50 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Contracts\View\Factory;
+use App\Models\Product;
+use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//    }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return Application|Factory|View
-     */
-    public function index(): Application|Factory|View|RedirectResponse
+    private OrderRepository $orderRepository;
+    private ProductRepository $productRepository;
+
+    public function __construct()
+    {
+        $this->orderRepository = new OrderRepository();
+        $this->productRepository = new ProductRepository();
+    }
+
+
+    public function index(): View
     {
 
-        if(auth()->check() && auth()->user()->status_id == 1) {
-           return $this->firstLogin();
+        if (auth()->check() && auth()->user()->status_id == 1) {
+            return $this->resetPassword();
         }
         return view('index');
     }
 
-    public function faq(): Renderable
+    public function products(Request $request): RedirectResponse|View
+    {
+        $orderDate = $request->order_date;
+        $products = $this->productRepository->getAll(Product::class);
+        $reserved = collect();
+        $today = Carbon::now();
+
+        if ($orderDate) {
+            if (Carbon::parse($orderDate) < $today) {
+                return redirect()->back()->with('info_message', 'Invalid date (for today bookings contact directly)');
+            }
+
+            $reserved = $this->orderRepository->getReservedOrders($orderDate);
+            $products = $this->orderRepository->getConfirmedOrders($orderDate);
+
+            if ($request->available_only) {
+                $products = $this->orderRepository->getAvailableOnly($orderDate);
+            }
+            $products = $this->productRepository->getBookableOnly($products);
+        }
+        return view('products', ['products' => $products, 'reserved' => $reserved]);
+    }
+
+
+    public function faq(): View
     {
         return view('faq');
     }
 
-    public function admin(): Renderable
+    public function admin(): View
     {
         return view('admin_login');
     }
 
-    private function firstLogin()
+    private function resetPassword(): View
     {
         return view('reset', auth()->user());
     }

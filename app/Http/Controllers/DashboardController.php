@@ -41,7 +41,7 @@ class DashboardController extends Controller
     {
         $products = $this->orderRepository->getAll(Product::class)->sortBy('title');
         $users = $this->orderRepository->getByStatus(User::class, 2)->sortBy('name');
-        return view('admin.orders.create_order', ['products' => $products, 'users' => $users]);
+        return view('admin.orders.create', ['products' => $products, 'users' => $users]);
     }
 
     public function storeOrder(OrderCreateRequest $request)
@@ -81,7 +81,7 @@ class DashboardController extends Controller
             $orders = $this->orderRepository->search($search);
         }
 
-        return view('admin.orders.manage_order',
+        return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
             'statuses' => $statuses, 'search' => $search]);
     }
@@ -101,14 +101,14 @@ class DashboardController extends Controller
         if($search) {
             $users = $this->userRepository->search($search);
         }
-        return view('admin.users.manage_user',
+        return view('admin.users.index',
             ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus, 'search' => $search]);
     }
 
 
     public function editOrder(Order $order)
     {
-        return view('admin.orders.edit_order', ['order' => $order]);
+        return view('admin.orders.edit', ['order' => $order]);
     }
 
     public function updateOrder(OrderUpdateRequest $request, Order $order): RedirectResponse
@@ -128,7 +128,7 @@ class DashboardController extends Controller
 
     public function editUser(User $user)
     {
-        return view('admin.users.edit_user', ['user' => $user]);
+        return view('admin.users.edit', ['user' => $user]);
     }
 
 
