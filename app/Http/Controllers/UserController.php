@@ -93,7 +93,7 @@ class UserController extends Controller
 
         if (Hash::check($inputCurrentPass, $currentPass)) {
             $user->status_id = '3';
-            $user->email = 'del:' . auth()->user()->id . $user->email;
+            $user->email = 'del#' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
