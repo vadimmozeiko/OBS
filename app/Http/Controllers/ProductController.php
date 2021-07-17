@@ -44,6 +44,18 @@ class ProductController extends Controller
         return view('products.index', ['products' => $products, 'reserved' => $reserved]);
     }
 
+    public function list()
+    {
+        $products = $this->productRepository->getAll(Product::class);
+
+        return view('admin.products.index', ['products' => $products]);
+    }
+
+    public function details(Product $product): View
+    {
+        return view('admin.products.details', ['product' => $product]);
+    }
+
 
     public function create()
     {

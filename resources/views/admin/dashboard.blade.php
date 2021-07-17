@@ -92,21 +92,21 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Reports
+            Products
         </div>
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Charts</span></a>
+            <a class="nav-link" href="{{route('product.create')}}">
+                <i class="far fa-plus-square"></i>
+                <span>Add new product</span></a>
         </li>
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Tables</span></a>
+            <a class="nav-link" href="{{route('product.list')}}">
+                <i class="fas fa-list"></i>
+                <span>Manage products</span></a>
         </li>
 
         <!-- Divider -->
