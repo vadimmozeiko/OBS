@@ -51,8 +51,8 @@ class DashboardController extends Controller
         }
 
         $order = Order::create($request->validated());
-
-        $this->mail->notConfirmed($order);
+        // TODO configure mail send here
+//        $this->mail->notConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
 
@@ -120,8 +120,8 @@ class DashboardController extends Controller
         $order->update($request->validated());
 
 //        $user = auth()->user()->id ?? null;
-
-        $this->mail->orderChange($order);
+        // TODO configure mail send here
+//        $this->mail->orderChange($order);
 
         return redirect()->back()->with('success_message', 'Booking details changed successfully');
     }
@@ -150,7 +150,7 @@ class DashboardController extends Controller
         $order->save();
 
         // TODO configure status change mail send here
-        $this->mail->statusChange($order);
+//        $this->mail->statusChange($order);
 
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 

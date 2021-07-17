@@ -71,7 +71,7 @@
                                 @endif
                             >Confirm
                             </button>
-                            <input type="hidden" name="status_id" value="4">
+                            <input type="hidden" name="status_id" value="5">
                             @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
@@ -82,7 +82,7 @@
                                     disabled
                                 @endif>Complete
                             </button>
-                            <input type="hidden" name="status_id" value="5">
+                            <input type="hidden" name="status_id" value="6">
                             @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
