@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('user_name', 64);
             $table->string('user_email', 128);
             $table->string('user_phone', 32);
+            $table->string('user_address', 128);
             $table->text('user_message')->nullable();
             $table->string('date',64);
             $table->foreignId('status_id');

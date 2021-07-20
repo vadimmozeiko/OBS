@@ -29,6 +29,17 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $fillable = [
+        'image',
+        'category',
+        'title',
+        'price',
+        'short_description',
+        'description',
+        'status_id'
+    ];
+
+
     public function productStatus(): BelongsTo
     {
         return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');

@@ -24,11 +24,11 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_name' => 'required | string | min:3 | max:255',
-            'user_email' => 'required | string | email | max:255',
-            'user_address' => 'required | string | max:255',
-            'user_phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9'],
-            'date' => 'required | date | after: today',
+            'user_name' => 'required | string | min:3 | max:64',
+            'user_email' => 'required | string | email | max:128',
+            'user_address' => 'required | string | min:3 | max:128',
+            'user_phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9', 'max:32'],
+            'date' => 'required | date | after: today | max:64',
             'status_id' => 'required | integer | min:1',
             'user_id' => 'nullable',
             'product_id' =>'required | integer | min:1',

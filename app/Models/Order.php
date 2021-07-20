@@ -37,6 +37,7 @@ class Order extends Model
         'user_email',
         'user_phone',
         'user_message',
+        'user_address',
         'status_id',
         'date',
         'price',

@@ -102,6 +102,7 @@ class DatabaseSeeder extends Seeder
                 'user_email' => $randomUser->email,
                 'user_phone' => $randomUser->phone,
                 'user_message' => $faker->text(200),
+                'user_address' => $randomUser->address,
                 'date' => $faker->dateTimeBetween($startDate = "now", $endDate = "60 days")->format('Y-m-d'),
                 'status_id' => rand(4, 7),
                 'price' => $randomProduct->price,

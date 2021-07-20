@@ -67,7 +67,7 @@ class OrderRepository extends BaseRepository
             ->get();
     }
 
-    public function getAvailableOnly(string $date)
+    public function getNotAvailable(string $date)
     {
         return Order::where('date', $date)
             ->where('status_id', '!=', '6')
