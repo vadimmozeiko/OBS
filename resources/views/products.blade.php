@@ -41,7 +41,6 @@
                             @else
                                 >BOOK NOW</button>
                             @endif
-                            @csrf
                         </form>
                     </div>
                 </div>

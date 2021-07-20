@@ -44,13 +44,14 @@ class HomeController extends Controller
                 return redirect()->back()->with('info_message', 'Invalid date (for today bookings contact directly)');
             }
 
-            $reserved = $this->orderRepository->getReservedOrders($orderDate);
-            $products = $this->orderRepository->getConfirmedOrders($orderDate);
+            $reserved = $this->orderRepository->getAvailableOnly($orderDate);
+//            $reserved = $this->orderRepository->getReservedOrders($orderDate);
+//            $products = $this->orderRepository->getConfirmedOrders($orderDate);
 
             if ($request->available_only) {
                 $products = $this->orderRepository->getAvailableOnly($orderDate);
+                $products = $this->productRepository->getBookableOnly($products);
             }
-            $products = $this->productRepository->getBookableOnly($products);
         }
         return view('products', ['products' => $products, 'reserved' => $reserved]);
     }
