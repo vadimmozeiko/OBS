@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
     <h2 class="">Booking #{{$order->id}} details</h2>

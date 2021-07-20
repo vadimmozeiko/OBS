@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
     <div class="justify-content-center pl-md-5 pr-md-5">
