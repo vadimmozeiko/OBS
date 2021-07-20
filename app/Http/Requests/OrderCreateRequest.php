@@ -24,6 +24,7 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'order_number' => 'required | integer',
             'user_name' => 'required | string | min:3 | max:64',
             'user_email' => 'required | string | email | max:128',
             'user_address' => 'required | string | min:3 | max:128',

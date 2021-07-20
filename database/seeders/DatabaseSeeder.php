@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Faker;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $year = Carbon::now()->year;
         $faker = Faker\Factory::create('en_EN');
 
         $statuses = ['new', 'active', 'deleted', 'not confirmed', 'confirmed', 'completed', 'cancelled'];
@@ -98,6 +100,7 @@ class DatabaseSeeder extends Seeder
             $randomUser = User::all()->random(1)->first();
             $randomProduct = Product::all()->random(1)->first();
             DB::table('orders')->insert([
+                'order_number' => $year . $faker->numberBetween(1, 99999),
                 'user_name' => $randomUser->name,
                 'user_email' => $randomUser->email,
                 'user_phone' => $randomUser->phone,

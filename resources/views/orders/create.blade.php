@@ -53,6 +53,7 @@
                                 <input type="hidden" name="user_id" value="{{$user->id}}">
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                 <input type="hidden" name="status_id" value="4">
+                                <input type="hidden" name="order_number" value="{{$orderNumber}}">
                                 <input type="hidden" name="price" value={{number_format($product->price / 100, 2)}}>
                                 <button class="btn btn-primary btn-m" type="submit">BOOK</button>
                                 @csrf

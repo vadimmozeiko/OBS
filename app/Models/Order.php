@@ -33,6 +33,7 @@ class Order extends Model
     protected $guarded = [];
 
     protected $fillable = [
+        'order_number',
         'user_name',
         'user_email',
         'user_phone',

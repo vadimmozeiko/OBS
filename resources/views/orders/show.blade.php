@@ -8,9 +8,10 @@
                     <h4>Your booking details: </h4>
                     <img class="mb-4 show-sm" src="{{$order->orderProducts->image}}" alt="booking image">
                     <p><b>Booking# </b>{{$order->id}}</p>
+                    <p><b>Date: </b>{{$order->date}}</p>
                     <p><b>Name: </b>{{$order->user_name}}</p>
                     <p><b>Email: </b>{{$order->user_email}}</p>
-                    <p><b>Date: </b>{{$order->date}}</p>
+                    <p><b>Address: </b>{{$order->user_address}}</p>
                     <p><b>Status: </b>{{$order->orderStatus->status}}</p>
                     <p><b>Price: </b>{{number_format($order->price / 100, 2)}} Eur</p>
                     <div class="d-flex justify-content-center flex-wrap">

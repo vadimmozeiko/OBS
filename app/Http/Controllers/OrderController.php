@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,13 +32,22 @@ class OrderController extends Controller
 
     public function create(Product $product, Request $request): View|RedirectResponse
     {
+
+        // TODO MOVE | to repository or manager
+        if (Order::all()->isEmpty()) {
+            $year = Carbon::now()->year;
+            $orderNumber = $year . sprintf("%'.04d\n", 0);
+        } else {
+            $orderNumber = Order::orderBy('order_number', 'desc')->first()->order_number;
+        }
         $user = auth()->user() ?? null;
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
                 ->with('style', 'background-color:#ffd1d1;');
         }
-        return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
+        return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request,
+            'orderNumber' => $orderNumber + 1]);
     }
 
     public function store(OrderCreateRequest $request): RedirectResponse
