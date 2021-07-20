@@ -20,7 +20,7 @@
         </form>
     </div>
     <div class="container d-flex flex-wrap justify-content-around">
-        @foreach($products as $product)
+        @forelse($products as $product)
             <div style="cursor: pointer;" class="col-sm-12 col-md-6 col-lg-4 mb-5 hover-animate">
                 <div class="card text-center p-4 h-100">
                     <div onclick="window.location='{{route('product.show', $product)}}'">
@@ -36,7 +36,7 @@
                             <input type="hidden" name="order_date" value="{{request()->get('order_date')}}">
                             <button type="submit" class="card-link btn btn-primary"
                                     @if(isset($reserved) && ($reserved->contains('product_id', $product->id)))
-                                    disabled>RESERVED
+                                    disabled>BOOKED
                             </button>
                             @else
                                 >BOOK NOW</button>
@@ -45,7 +45,9 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <h3 class="text-white pt-5">Sorry, looks like we are fully booked :(</h3>
+        @endforelse
     </div>
 @endsection
 

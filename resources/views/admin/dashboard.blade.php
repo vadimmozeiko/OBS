@@ -30,11 +30,13 @@
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        <li class="nav-item">
+        <li class="nav-item pt-3 pb-3">
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
                href="{{route('admin.dashboard')}}">
-                <div class="sidebar-brand-text mx-3">OBS Admin</div>
+                <div class="sidebar-brand-text mx-3">
+                    <img class="logo" src="{{asset('assets/img/logo.png')}}" alt="logo">
+                </div>
             </a>
         </li>
         <!-- Divider -->
