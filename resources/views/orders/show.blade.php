@@ -12,7 +12,7 @@
                     <p><b>Email: </b>{{$order->user_email}}</p>
                     <p><b>Date: </b>{{$order->date}}</p>
                     <p><b>Status: </b>{{$order->orderStatus->status}}</p>
-                    <p><b>Price: </b>{{$order->price / 100}} Eur</p>
+                    <p><b>Price: </b>{{number_format($order->price / 100, 2)}} Eur</p>
                     <div class="d-flex justify-content-center flex-wrap">
                         <a
                             @if($order->status_id == '6' ||

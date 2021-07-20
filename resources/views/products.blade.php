@@ -28,7 +28,7 @@
                         <div class="card-body">
                             <h2 class="product-title mb-3">{{$product->title}}</h2>
                             <p>{{$product->category}}</p>
-                            <p> &#128;{{$product->price / 100}} / 12 hours</p>
+                            <p> &#128;{{number_format($product->price / 100, 2)}} / 12 hours</p>
                         </div>
                     </div>
                     <div class="card-body p-0">
