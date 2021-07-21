@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
 
@@ -67,45 +67,14 @@
                     @enderror
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label for="password" class="col-md-10 col-form-label text-md-left">{{__('Password')}}</label>
-
-                <div class="col-md-10">
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                           name="password" autocomplete="new-password">
-
-                    @error('password')
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="password-confirm"
-                       class="col-md-10 col-form-label text-md-left">{{ __('Confirm Password') }}</label>
-
-                <div class="col-md-10">
-                    <input id="password-confirm" type="password"
-                           class="form-control @error('password_confirmation') is-invalid @enderror"
-                           name="password_confirmation"
-                           autocomplete="new-password">
-                    @error('password_confirmation')
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                    @enderror
-                </div>
-            </div>
-
+            <input type="hidden" name="password" value="{{hash("sha512", "tempPassword")}}">
+            <input type="hidden" name="password_confirmation" value="{{hash("sha512", "tempPassword")}}">
             <div class="form-group row">
                 <div class="col-md-10">
                     <select class="form-control mb-3 @error('isAdmin') is-invalid @enderror" name="isAdmin">
                         <option value="">Select user type</option>
-                        <option value="0">Regular user</option>
-                        <option value="1">Admin user</option>
+                        <option value="0">Customer</option>
+                        <option value="1">Administrator</option>
                     </select>
                     @error('isAdmin')
                     <span class="invalid-feedback" role="alert">

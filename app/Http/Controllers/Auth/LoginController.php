@@ -36,8 +36,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
         $this->redirectTo = url()->previous();
+        $this->middleware('guest')->except('logout');
     }
 
     protected function credentials(Request $request)
@@ -45,7 +45,6 @@ class LoginController extends Controller
         return [
             'email' => request()->email,
             'password' => request()->password,
-            'status_id' => 2
         ];
     }
 
@@ -54,7 +53,9 @@ class LoginController extends Controller
         if ( $user->isAdmin ) {
             return redirect()->route('admin.dashboard');
         }
+    }
 
-        return redirect('/');
+    protected function loggedOut(Request $request) {
+        return redirect()->back();
     }
 }

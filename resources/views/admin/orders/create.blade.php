@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
 
@@ -67,8 +67,7 @@
                 <select id="product" class="form-control select-search product w-100" name="product_id">
                     <option selected>Select product</option>
                     @forelse($products as $product)
-                        <option value="{{$product->id}}" data-price="{{$product->price / 100}}">{{$product->title}}
-                            - {{$product->price / 100}} Eur
+                        <option value="{{$product->id}}" data-price="{{number_format($product->price / 100, 2)}}">{{$product->title}}
                         </option>
                     @empty
                         <option value="0" disabled>No available products</option>
@@ -91,7 +90,7 @@
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Message</span>
             <textarea class="form-control mb-3"
                       name="user_message">{{old('user_message', '')}}</textarea>
-            <input type="hidden" name="status_id" value="3">
+            <input type="hidden" name="status_id" value="4">
             <small class="d-block mb-3">* Required info</small>
             <button class="btn btn-primary btn-m" type="submit">CREATE</button>
             @csrf

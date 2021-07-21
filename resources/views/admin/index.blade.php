@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
     <div class="justify-content-center pl-md-5 pr-md-5">
@@ -32,18 +32,17 @@
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
                             >Details
                             </button>
-                            @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-primary btn-sm m-1"
-                                    @if($order->status_id == '4' ||
-                                        $order->status_id == '5' ||
-                                        $order->status_id == '6')
+                                    @if($order->status_id == '5' ||
+                                        $order->status_id == '6' ||
+                                        $order->status_id == '7')
                                     disabled
                                 @endif
                             >Confirm
                             </button>
-                            <input type="hidden" name="status_id" value="4">
+                            <input type="hidden" name="status_id" value="5">
                             @csrf
                         </form>
                     </td>

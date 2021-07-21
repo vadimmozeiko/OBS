@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
     <h2 class="">Manage users</h2>
@@ -15,9 +15,12 @@
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.user')}}" class="btn btn-info">Reset</a>
         </form>
-        <div class="form-outline mb-2">
-            <input name="search" type="text" id="search-field" class="form-control" placeholder="Search...">
-        </div>
+        <form action="{{route('list.user')}}">
+            <div class="form-group mb-2 d-flex">
+                <input class="form-control" name="search" type="text" value="{{$search}}" placeholder="Quick search...">
+                <button type="submit" class="btn btn-primary mb-2 ml-3">Search</button>
+            </div>
+        </form>
         <table class="table table-sortable">
             <thead>
             <tr>
@@ -37,18 +40,24 @@
                     <td class="mobile-hide">{{$user->id}}</td>
                     <td>{{$user->name}}</td>
                     <td class="mobile-hide">{{$user->email}}</td>
-                    <td>{{$user->userStatus->status}}</td>
+                    <td class="mobile-hide">{{$user->userStatus->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
                         <form action="{{route('edit.user', $user)}}">
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
                             >Details
                             </button>
-                            @csrf
                         </form>
                         <form method="POST" action="{{route('pass.reset', $user)}}">
                             <button type="submit" class="card-link btn btn-warning btn-sm m-1"
-                                {{$user->status_id == 7 ? 'disabled' : ''}}
+                                {{$user->status_id == 3 ? 'disabled' : ''}}
                             >Reset Password
+                            </button>
+                            @csrf
+                        </form>
+                        <form method="POST" action="{{route('login.as', $user)}}">
+                            <button type="submit" class="card-link btn btn-dark btn-sm m-1"
+                                {{$user->status_id == 3 ? 'disabled' : ''}}
+                            >Login As
                             </button>
                             @csrf
                         </form>

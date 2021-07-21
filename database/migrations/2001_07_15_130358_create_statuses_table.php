@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\Statuses;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Statuses extends Migration
+class CreateStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +16,7 @@ class Statuses extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('status', 128);
+            $table->enum('status', Statuses::STATUSES);
         });
     }
 

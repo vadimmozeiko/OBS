@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Database\Factories\ProductFactory;
-use Illuminate\Database\Eloquent\Builder;
+use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -20,22 +20,28 @@ use Illuminate\Support\Carbon;
  * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static ProductFactory factory(...$parameters)
- * @method static Builder|Product newModelQuery()
- * @method static Builder|Product newQuery()
- * @method static Builder|Product query()
- * @method static Builder|Product whereCategory($value)
- * @method static Builder|Product whereCreatedAt($value)
- * @method static Builder|Product whereDescription($value)
- * @method static Builder|Product whereId($value)
- * @method static Builder|Product whereImage($value)
- * @method static Builder|Product wherePrice($value)
- * @method static Builder|Product whereShortDescription($value)
- * @method static Builder|Product whereTitle($value)
- * @method static Builder|Product whereUpdatedAt($value)
+
  * @mixin Eloquent
  */
 class Product extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    protected $fillable = [
+        'image',
+        'category',
+        'title',
+        'price',
+        'short_description',
+        'description',
+        'status_id'
+    ];
+
+
+    public function productStatus(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');
+    }
 }

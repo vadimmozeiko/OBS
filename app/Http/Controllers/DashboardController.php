@@ -10,9 +10,11 @@ use App\Models\Product;
 use App\Models\Statuses;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use App\Repositories\StatusRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -20,17 +22,19 @@ class DashboardController extends Controller
     private MailController $mail;
     private OrderRepository $orderRepository;
     private UserRepository $userRepository;
+    private StatusRepository $statusRepository;
 
     public function __construct()
     {
         $this->mail = new MailController();
         $this->orderRepository = new OrderRepository();
         $this->userRepository = new UserRepository();
+        $this->statusRepository = new StatusRepository();
     }
 
     public function index()
     {
-       $notConfirmed = $this->orderRepository->getByStatusOrderDate(3);
+       $notConfirmed = $this->orderRepository->getByStatusOrderDate(4);
         return view('admin.index', ['notConfirmed' => $notConfirmed]);
     }
 
@@ -38,7 +42,7 @@ class DashboardController extends Controller
     {
         $products = $this->orderRepository->getAll(Product::class)->sortBy('title');
         $users = $this->orderRepository->getByStatus(User::class, 2)->sortBy('name');
-        return view('admin.orders.create_order', ['products' => $products, 'users' => $users]);
+        return view('admin.orders.create', ['products' => $products, 'users' => $users]);
     }
 
     public function storeOrder(OrderCreateRequest $request)
@@ -48,8 +52,8 @@ class DashboardController extends Controller
         }
 
         $order = Order::create($request->validated());
-
-        $this->mail->notConfirmed($order);
+        // TODO configure mail send here
+//        $this->mail->notConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
 
@@ -58,8 +62,9 @@ class DashboardController extends Controller
         $users = $this->orderRepository->getByStatus(User::class, 2);
         $userId = $request->user_id;
         $orderStatus = $request->order_status;
+        $search = $request->search;
         $orders = $this->orderRepository->getAllOrderDate();
-        $statuses = Statuses::orderBy('id', 'desc')->take(5)->get();
+        $statuses = $this->statusRepository->getOrderStatuses();
 
         if ($orderStatus) {
             $orders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
@@ -73,29 +78,38 @@ class DashboardController extends Controller
             $orders = $this->orderRepository->getOrdersByIdByStatus($userId, $orderStatus);
         }
 
-        return view('admin.orders.manage_order',
+        if($search) {
+            $orders = $this->orderRepository->search($search);
+        }
+
+        return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
-            'statuses' => $statuses]);
+            'statuses' => $statuses, 'search' => $search]);
     }
 
 
     public function listUser(Request $request)
     {
-        $statuses = Statuses::query()->take(2)->get();
+        $statuses = $this->statusRepository->getUserStatuses();
         $userStatus = $request->user_status;
+        $search = $request->search;
         $users = $this->userRepository->getAllOrderName();
 
         if ($userStatus) {
             $users = $this->userRepository->getByStatusOrderName($userStatus);
         }
-        return view('admin.users.manage_user',
-            ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus]);
+
+        if($search) {
+            $users = $this->userRepository->search($search);
+        }
+        return view('admin.users.index',
+            ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus, 'search' => $search]);
     }
 
 
     public function editOrder(Order $order)
     {
-        return view('admin.orders.edit_order', ['order' => $order]);
+        return view('admin.orders.edit', ['order' => $order]);
     }
 
     public function updateOrder(OrderUpdateRequest $request, Order $order): RedirectResponse
@@ -107,15 +121,15 @@ class DashboardController extends Controller
         $order->update($request->validated());
 
 //        $user = auth()->user()->id ?? null;
-
-        $this->mail->orderChange($order);
+        // TODO configure mail send here
+//        $this->mail->orderChange($order);
 
         return redirect()->back()->with('success_message', 'Booking details changed successfully');
     }
 
     public function editUser(User $user)
     {
-        return view('admin.users.edit_user', ['user' => $user]);
+        return view('admin.users.edit', ['user' => $user]);
     }
 
 
@@ -137,9 +151,18 @@ class DashboardController extends Controller
         $order->save();
 
         // TODO configure status change mail send here
-        $this->mail->statusChange($order);
+//        $this->mail->statusChange($order);
 
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 
     }
+
+
+    public function loginAs($user): RedirectResponse
+    {
+        auth()->logout();
+        Auth::loginUsingId($user, true);
+        return redirect()->route('index');
+    }
+
 }

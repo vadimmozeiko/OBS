@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,13 +32,22 @@ class OrderController extends Controller
 
     public function create(Product $product, Request $request): View|RedirectResponse
     {
+
+        // TODO MOVE | to repository or manager
+        if (Order::all()->isEmpty()) {
+            $year = Carbon::now()->year;
+            $orderNumber = $year . sprintf("%'.06d\n", 0);
+        } else {
+            $orderNumber = Order::orderBy('order_number', 'desc')->first()->order_number;
+        }
         $user = auth()->user() ?? null;
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
                 ->with('style', 'background-color:#ffd1d1;');
         }
-        return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request]);
+        return view('orders.create', ['user' => $user, 'product' => $product, 'request' => $request,
+            'orderNumber' => $orderNumber + 1]);
     }
 
     public function store(OrderCreateRequest $request): RedirectResponse
@@ -73,7 +83,7 @@ class OrderController extends Controller
         if ($this->orderRepository->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
-        $order->status_id = '3';
+        $order->status_id = '4';
         $order->update($request->validated());
 
         $user = auth()->user()->id ?? null;
@@ -84,7 +94,7 @@ class OrderController extends Controller
 
     public function destroy(Order $order): RedirectResponse
     {
-        $order->status_id = '6';
+        $order->status_id = '7';
         $order->save();
         $this->mail->cancelled($order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');

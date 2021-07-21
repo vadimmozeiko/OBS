@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
     <h2 class="">Manage bookings</h2>
@@ -15,7 +15,7 @@
             <div class="mt-3 mb-3">
                 <span class="input-group-addon" id="basic-addon1">Filter by user</span>
                 <select class="form-control select-search w-100" name="user_id">
-                    <option value="0" selected>Select user</option>
+                    <option value="0" selected>All</option>
                     @forelse($users as $user)
                         <option value="{{$user->id}}" {{$userId == $user->id ? 'selected': ''}}>#{{$user->id}}
                             - {{$user->name}}</option>
@@ -27,9 +27,12 @@
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.order')}}" class="btn btn-info">Reset</a>
         </form>
-        <div class="form-outline mb-2">
-            <input name="search" type="text" id="search-field" class="form-control" placeholder="Search...">
-        </div>
+        <form action="{{route('list.order')}}">
+            <div class="form-group mb-2 d-flex">
+                <input class="form-control" name="search" type="text" value="{{$search}}" placeholder="Quick search...">
+                <button type="submit" class="btn btn-primary mb-2 ml-3">Search</button>
+            </div>
+        </form>
         <table class="table table-sortable">
             <thead>
             <tr>
@@ -58,39 +61,38 @@
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
                             >Details
                             </button>
-                            @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-primary btn-sm m-1"
-                                    @if($order->status_id == '4' ||
-                                        $order->status_id == '5' ||
-                                        $order->status_id == '6')
+                                    @if($order->status_id == '5' ||
+                                        $order->status_id == '6' ||
+                                        $order->status_id == '7')
                                     disabled
                                 @endif
                             >Confirm
-                            </button>
-                            <input type="hidden" name="status_id" value="4">
-                            @csrf
-                        </form>
-                        <form method="POST" action="{{route('change.order', $order)}}">
-                            <button type="submit" class="card-link btn btn-success btn-sm m-1"
-                                    @if($order->status_id == '3' ||
-                                        $order->status_id == '5' ||
-                                        $order->status_id == '6')
-                                    disabled
-                                @endif>Complete
                             </button>
                             <input type="hidden" name="status_id" value="5">
                             @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
+                            <button type="submit" class="card-link btn btn-success btn-sm m-1"
+                                    @if($order->status_id == '4' ||
+                                        $order->status_id == '6' ||
+                                        $order->status_id == '7')
+                                    disabled
+                                @endif>Complete
+                            </button>
+                            <input type="hidden" name="status_id" value="6">
+                            @csrf
+                        </form>
+                        <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-danger btn-sm m-1"
-                                    @if($order->status_id == '5' ||
-                                        $order->status_id == '6')
+                                    @if($order->status_id == '6' ||
+                                        $order->status_id == '7')
                                     disabled
                                 @endif>CANCEL
                             </button>
-                            <input type="hidden" name="status_id" value="6">
+                            <input type="hidden" name="status_id" value="7">
                             @csrf
                         </form>
                     </td>

@@ -21,16 +21,16 @@ class OrderRepository extends BaseRepository
     {
         return Order::where('product_id', $request->product_id)
             ->where('date', $request->date)
-            ->where('status_id', '!=', '5')
             ->where('status_id', '!=', '6')
+            ->where('status_id', '!=', '7')
             ->first();
     }
 
     public function isEditable(Order $order): bool
     {
         if ($order->user_id != auth()->user()->id ||
-            $order->status_id == '5' ||
-            $order->status_id == '6') {
+            $order->status_id == '6' ||
+            $order->status_id == '7') {
 
             return true;
         }
@@ -39,34 +39,50 @@ class OrderRepository extends BaseRepository
 
     public function getByStatusOrderDate(int $status)
     {
-        return Order::where('status_id', $status)->orderBy('date')->paginate(10)->withQueryString();
+        return Order::where('status_id', $status)
+            ->orderBy('date')
+            ->paginate(10)
+            ->withQueryString();
     }
 
     public function getOrdersByIdByStatus(int $userId, int $status)
     {
-        return Order::where([['user_id', $userId], ['status_id', $status]])->paginate(10)->withQueryString();
+        return Order::where([['user_id', $userId], ['status_id', $status]])
+            ->orderBy('date', 'desc')
+            ->paginate(10)
+            ->withQueryString();
     }
 
     public function getReservedOrders(string $date): Collection|array
-    {
-        return Order::where('date', $date)
-            ->where('status_id', '3')
-            ->get();
-    }
-
-    public function getConfirmedOrders(string $date): Collection|array
     {
         return Order::where('date', $date)
             ->where('status_id', '4')
             ->get();
     }
 
-    public function getAvailableOnly(string $date)
+    public function getConfirmedOrders(string $date): Collection|array
     {
         return Order::where('date', $date)
-            ->where('status_id', '!=', '5')
-            ->where('status_id', '!=', '6')
+            ->where('status_id', '5')
             ->get();
+    }
+
+    public function getNotAvailable(string $date)
+    {
+        return Order::where('date', $date)
+            ->where('status_id', '!=', '6')
+            ->where('status_id', '!=', '7')
+            ->get();
+    }
+
+    public function search(string $search)
+    {
+        return Order::where('date', 'like', "%$search%")
+            ->orWhere('user_name', 'like', "%$search%")
+            ->orWhere('id', 'like', "%$search%")
+            ->orderBy('date')
+            ->paginate(10)
+            ->withQueryString();
     }
 
 }

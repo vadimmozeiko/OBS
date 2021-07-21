@@ -69,7 +69,7 @@
                                                     <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
                                                         <b>Payment reference:</b> Order #{{ $order->id }}</p>
                                                     <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
-                                                        <b>Total:</b> {{$order->orderProducts->price / 100}} Eur</p>
+                                                        <b>Total:</b> {{number_format($order->orderProducts->price / 100, 2)}} Eur</p>
                                                 </td>
                                             </tr>
                                             <tr>

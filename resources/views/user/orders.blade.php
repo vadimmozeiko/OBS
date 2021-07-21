@@ -12,10 +12,10 @@
                                 <span class="input-group-addon" id="basic-addon1">Filter by status</span>
                                 <select class="form-control mb-3" name="order_status">
                                     <option value="0">All</option>
-                                    <option value="3" {{$orderStatus == '3' ? 'selected': ''}}>not confirmed</option>
-                                    <option value="4" {{$orderStatus == '4' ? 'selected': ''}}>confirmed</option>
-                                    <option value="5" {{$orderStatus == '5' ? 'selected': ''}}>completed</option>
-                                    <option value="6" {{$orderStatus == '6' ? 'selected': ''}}>cancelled</option>
+                                    @foreach($statuses as $status)
+                                        <option value="{{$status->id}}" {{$orderStatus == $status->id ? 'selected': ''}}>
+                                            {{$status->status}}</option>
+                                    @endforeach
                                 </select>
                                 <button class="btn btn-info">Filter</button>
                                 <a href="{{route('user.orders', $user)}}" class="btn btn-info">Reset</a>
@@ -34,8 +34,8 @@
                                 <tbody>
                                 @foreach($userOrders as$order)
                                 <tr
-                                    @if($order->status_id != '5' &&
-                                        $order->status_id != '6')
+                                    @if($order->status_id != '6' &&
+                                        $order->status_id != '7')
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif class="hover-zoom">
@@ -51,6 +51,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            <div class="d-flex justify-content-center">
+                                {!! $userOrders->links() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

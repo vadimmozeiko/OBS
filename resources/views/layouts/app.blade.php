@@ -22,13 +22,12 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 </head>
-<body>
+<body style="background-image: url({{asset('assets/img/bg.jpg')}});">
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light white-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
-            </a>
+            <div class="logo"></div></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
@@ -39,7 +38,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"><a class="nav-link menu hover-blue " href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('product.index')}}">Products</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('products')}}">Products</a></li>
                     <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('faq')}}">FAQ's</a></li>
                 </ul>
 
@@ -49,13 +48,13 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Sign In') }}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Sign Up') }}</a>
                             </li>
                         @endif
                     @else

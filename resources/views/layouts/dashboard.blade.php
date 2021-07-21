@@ -30,11 +30,13 @@
 
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        <li class="nav-item">
+        <li class="nav-item pt-3 pb-3">
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
                href="{{route('admin.dashboard')}}">
-                <div class="sidebar-brand-text mx-3">OBS Admin</div>
+                <div class="sidebar-brand-text mx-3">
+                    <img class="logo" src="{{asset('assets/img/logo.png')}}" alt="logo">
+                </div>
             </a>
         </li>
         <!-- Divider -->
@@ -92,21 +94,21 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Reports
+            Products
         </div>
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Charts</span></a>
+            <a class="nav-link" href="{{route('product.create')}}">
+                <i class="far fa-plus-square"></i>
+                <span>Add new product</span></a>
         </li>
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Tables</span></a>
+            <a class="nav-link" href="{{route('product.index')}}">
+                <i class="fas fa-list"></i>
+                <span>Manage products</span></a>
         </li>
 
         <!-- Divider -->

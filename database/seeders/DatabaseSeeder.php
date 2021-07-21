@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Product;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Faker;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $year = Carbon::now()->year;
         $faker = Faker\Factory::create('en_EN');
 
-        $statuses = ['inactive', 'active', 'not confirmed', 'confirmed', 'completed', 'cancelled', 'deleted'];
+        $statuses = ['new', 'active', 'deleted', 'not confirmed', 'confirmed', 'completed', 'cancelled'];
         foreach ($statuses as $status) {
             DB::table('statuses')->insert([
                 'status' => $status
@@ -34,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'address' => $faker->address,
             'phone' => rand(100000000, 199999999),
             'isAdmin' => 1,
-            'status_id' => rand(1, 2),
+            'status_id' => 2,
             'email_verified_at' => date("Y-m-d H:i:s"),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
@@ -98,12 +100,14 @@ class DatabaseSeeder extends Seeder
             $randomUser = User::all()->random(1)->first();
             $randomProduct = Product::all()->random(1)->first();
             DB::table('orders')->insert([
+                'order_number' => $year . $faker->numberBetween(100000, 900000),
                 'user_name' => $randomUser->name,
                 'user_email' => $randomUser->email,
                 'user_phone' => $randomUser->phone,
                 'user_message' => $faker->text(200),
+                'user_address' => $randomUser->address,
                 'date' => $faker->dateTimeBetween($startDate = "now", $endDate = "60 days")->format('Y-m-d'),
-                'status_id' => rand(3, 6),
+                'status_id' => rand(4, 7),
                 'price' => $randomProduct->price,
                 'user_id' => $randomUser->id,
                 'product_id' => $randomProduct->id,

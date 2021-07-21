@@ -18,7 +18,7 @@
                                 </small>
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">New password *</span>
-                                <input class="form-control @error('password') is-invalid @enderror" type="password" name="new_password">
+                                <input class="form-control @error('new_password') is-invalid @enderror" type="password" name="new_password">
                                 @error('new_password')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

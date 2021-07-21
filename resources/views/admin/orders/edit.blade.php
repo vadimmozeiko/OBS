@@ -1,4 +1,4 @@
-@extends('admin.dashboard')
+@extends('layouts.dashboard')
 
 @section('content')
     <h2 class="">Booking #{{$order->id}} details</h2>
@@ -34,7 +34,7 @@
                    type="text" name="date" value="{{old('date', $order->date)}}">
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Price *</span>
             <input class="form-control @error('price') is-invalid @enderror" type="text"
-                   name="price" value="{{old('price', $order->price / 100)}}">
+                   name="price" value="{{old('price', number_format($order->price / 100, 2))}}">
             @error('price')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
             <small class="d-block mt-3 mb-3">* Required info</small>
             <input type="hidden" name="product_id" value="{{$order->orderProducts->id}}">
             <button class="btn btn-primary btn-m
-            @if($order->status_id > 4)
+            @if($order->status_id > 5)
                 d-none
                 @endif
             " type="submit"
