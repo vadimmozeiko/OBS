@@ -36,7 +36,7 @@ class OrderController extends Controller
         // TODO MOVE | to repository or manager
         if (Order::all()->isEmpty()) {
             $year = Carbon::now()->year;
-            $orderNumber = $year . sprintf("%'.04d\n", 0);
+            $orderNumber = $year . sprintf("%'.06d\n", 0);
         } else {
             $orderNumber = Order::orderBy('order_number', 'desc')->first()->order_number;
         }

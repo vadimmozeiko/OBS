@@ -25,7 +25,6 @@ class HomeController extends Controller
 
     public function index(): View
     {
-
         if (auth()->check() && auth()->user()->status_id == 1) {
             return $this->resetPassword();
         }

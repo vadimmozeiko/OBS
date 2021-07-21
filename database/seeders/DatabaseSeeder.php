@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
             $randomUser = User::all()->random(1)->first();
             $randomProduct = Product::all()->random(1)->first();
             DB::table('orders')->insert([
-                'order_number' => $year . $faker->numberBetween(1, 99999),
+                'order_number' => $year . $faker->numberBetween(100000, 900000),
                 'user_name' => $randomUser->name,
                 'user_email' => $randomUser->email,
                 'user_phone' => $randomUser->phone,
