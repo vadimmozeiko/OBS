@@ -39,7 +39,7 @@
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif class="hover-zoom">
-                                    <td class="mobile-hide">{{$order->id}}</td>
+                                    <td class="mobile-hide">{{$order->order_number}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
                                     <td class="mobile-hide">{{$order->orderStatus->status}}</td>

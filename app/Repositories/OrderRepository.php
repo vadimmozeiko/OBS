@@ -79,7 +79,7 @@ class OrderRepository extends BaseRepository
     {
         return Order::where('date', 'like', "%$search%")
             ->orWhere('user_name', 'like', "%$search%")
-            ->orWhere('id', 'like', "%$search%")
+            ->orWhere('order_number', 'like', "%$search%")
             ->orderBy('date')
             ->paginate(10)
             ->withQueryString();

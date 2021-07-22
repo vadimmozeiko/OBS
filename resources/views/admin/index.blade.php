@@ -22,7 +22,7 @@
             <tbody>
             @foreach($notConfirmed as $order)
                 <tr class="hover-zoom">
-                    <td class="mobile-hide">{{$order->id}}</td>
+                    <td class="mobile-hide">{{$order->order_number}}</td>
                     <td>{{$order->date}}</td>
                     <td class="mobile-hide">{{$order->user_name}}</td>
                     <td>{{$order->orderProducts->title}}</td>

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h2 class="">Booking #{{$order->id}} details</h2>
+    <h2 class="">Booking #{{$order->order_number}} details</h2>
     <div class="input-group ">
         <form style="width: 100%;" method="POST" action="{{route('update.order', $order)}}"
               enctype="multipart/form-data">

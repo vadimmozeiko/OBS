@@ -32,21 +32,25 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         <li class="nav-item pt-3 pb-3">
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center"
-               href="{{route('admin.dashboard')}}">
-                <div class="sidebar-brand-text mx-3">
-                    <img class="logo" src="{{asset('assets/img/logo.png')}}" alt="logo">
-                </div>
-            </a>
+            <div class="sidebar-brand-text mx-3 d-flex align-items-center justify-content-center">
+                <img class="logo" src="{{asset('assets/img/logo.png')}}" alt="logo">
+            </div>
         </li>
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link text-center" href="{{route('index')}}">
+            <a class="nav-link" href="{{route('index')}}">
                 <i class="fas fa-globe"></i>
                 <span>Go to Web Page</span></a>
+        </li>
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.dashboard')}}">
+                <i class="fas fa-calendar-check"></i>
+                <span>New bookings</span></a>
         </li>
 
         <!-- Divider -->

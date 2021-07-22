@@ -7,7 +7,7 @@
                 <div class="card-body">
                     <h4>Your booking details: </h4>
                     <img class="mb-4 show-sm" src="{{$order->orderProducts->image}}" alt="booking image">
-                    <p><b>Booking# </b>{{$order->id}}</p>
+                    <p><b>Booking# </b>{{$order->order_number}}</p>
                     <p><b>Date: </b>{{$order->date}}</p>
                     <p><b>Name: </b>{{$order->user_name}}</p>
                     <p><b>Email: </b>{{$order->user_email}}</p>

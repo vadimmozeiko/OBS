@@ -157,7 +157,6 @@ class DashboardController extends Controller
 
     }
 
-
     public function loginAs($user): RedirectResponse
     {
         auth()->logout();
