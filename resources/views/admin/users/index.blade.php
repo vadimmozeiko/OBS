@@ -39,7 +39,13 @@
                 <tr class="hover-zoom">
                     <td class="mobile-hide">{{$user->id}}</td>
                     <td>{{$user->name}}</td>
-                    <td class="mobile-hide">{{$user->email}}</td>
+                    <td class="mobile-hide">
+                        @if(str_contains($user->email, 'del#'))
+                            account was deleted
+                        @else
+                        {{$user->email}}
+                        @endif
+                    </td>
                     <td class="mobile-hide">{{$user->userStatus->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
                         <form action="{{route('edit.user', $user)}}">

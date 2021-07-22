@@ -7,7 +7,8 @@
               enctype="multipart/form-data">
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
             <input class="form-control @error('user_name') is-invalid @enderror" type="text"
-                   name="user_name" value="{{old('user_name', $order->user_name)}}">
+                   name="user_name" value="{{old('user_name', $order->user_name)}}"
+                {{$order->status_id > 5 ? 'disabled' : ''}}>
             @error('user_name')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -15,7 +16,8 @@
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
             <input class="form-control @error('user_email') is-invalid @enderror" type="email"
-                   name="user_email" value="{{old('user_email', $order->user_email)}}">
+                   name="user_email" value="{{old('user_email', $order->user_email)}}"
+                {{$order->status_id > 5 ? 'disabled' : ''}}>
             @error('user_email')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -23,7 +25,8 @@
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
             <input class="form-control @error('user_phone') is-invalid @enderror" type="number"
-                   name="user_phone" value="{{old('user_phone', $order->user_phone)}}">
+                   name="user_phone" value="{{old('user_phone', $order->user_phone)}}"
+                {{$order->status_id > 5 ? 'disabled' : ''}}>
             @error('user_phone')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -31,10 +34,12 @@
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Booking date: *</span>
             <input id="datepicker" class="form-control @error('date') is-invalid @enderror"
-                   type="text" name="date" value="{{old('date', $order->date)}}">
+                   type="text" name="date" value="{{old('date', $order->date)}}"
+                {{$order->status_id > 5 ? 'disabled' : ''}}>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Price *</span>
             <input class="form-control @error('price') is-invalid @enderror" type="text"
-                   name="price" value="{{old('price', number_format($order->price / 100, 2))}}">
+                   name="price" value="{{old('price', number_format($order->price / 100, 2))}}"
+                {{$order->status_id > 5 ? 'disabled' : ''}}>
             @error('price')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

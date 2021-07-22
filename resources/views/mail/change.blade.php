@@ -12,7 +12,7 @@
                     <tbody>
                     <tr>
                         <td style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';padding:25px 0;text-align:center">
-                            <h2></h2>
+                            <img style="width: 100px; height: 100px;" src="https://i.ibb.co/zXv8ddR/Online-Booking-System-logos-transparent.png" alt="Online-Booking-System-logos-transparent" border="0">
                         </td>
                     </tr>
                     <tr>

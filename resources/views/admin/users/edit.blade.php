@@ -49,11 +49,7 @@
             <input class="form-control" type="text" value="{{$user->userStatus->status}}" disabled>
             <small class="d-block mt-3 mb-3">* Required info</small>
             <button class="btn btn-primary btn-m
-            @if($user->status_id == 3)
-                d-none
-                @endif
-                " type="submit"
-            >Save
+            {{$user->status_id == 3 ? 'd-none' : ''}}" type="submit">Save
             </button>
             <a class="card-link btn btn-primary m-1"
                href="{{route('list.user')}}">Back</a>
