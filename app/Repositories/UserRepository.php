@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 
 class UserRepository extends BaseRepository
@@ -30,5 +31,10 @@ class UserRepository extends BaseRepository
     public function getAuthUserId()
     {
       return auth()->user()->id;
+    }
+
+    public function update(UserUpdateRequest $request, User $user)
+    {
+        $user->update($request->validated());
     }
 }

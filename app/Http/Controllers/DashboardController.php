@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Managers\OrderManager;
+use App\Managers\UserManager;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Statuses;
@@ -19,67 +21,66 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
 
-    private MailController $mail;
-    private OrderRepository $orderRepository;
-    private UserRepository $userRepository;
     private StatusRepository $statusRepository;
 
-    public function __construct()
+    public function __construct(
+        private OrderManager $orderManager,
+        private UserManager $userManager
+    )
     {
-        $this->mail = new MailController();
-        $this->orderRepository = new OrderRepository();
-        $this->userRepository = new UserRepository();
         $this->statusRepository = new StatusRepository();
     }
 
     public function index()
     {
-       $notConfirmed = $this->orderRepository->getByStatusOrderDate(4);
+       $notConfirmed = $this->orderManager->getByStatusOrderDate(4);
         return view('admin.index', ['notConfirmed' => $notConfirmed]);
     }
 
     public function createOrder()
     {
-        $products = $this->orderRepository->getAll(Product::class)->sortBy('title');
-        $users = $this->orderRepository->getByStatus(User::class, 2)->sortBy('name');
-        return view('admin.orders.create', ['products' => $products, 'users' => $users]);
+        $orderNumber = $this->orderManager->getOrderNumber();
+        $products = $this->orderManager->getAll(Product::class)->sortBy('title');
+        $users = $this->userManager->getUserByStatus(User::class, 2)->sortBy('name');
+        return view('admin.orders.create', ['products' => $products, 'users' => $users,
+            'orderNumber' => $orderNumber + 1]);
     }
 
     public function storeOrder(OrderCreateRequest $request)
     {
-        if ($this->orderRepository->isBooked($request)) {
+        if ($this->orderManager->isBooked($request)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
-
-        $order = Order::create($request->validated());
-        // TODO configure mail send here
-//        $this->mail->notConfirmed($order);
+        $order = $this->orderManager->store($request);
+        $this->orderManager->SendNotConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
 
     public function listOrder(Request $request)
     {
-        $users = $this->orderRepository->getByStatus(User::class, 2);
-        $userId = $request->user_id;
-        $orderStatus = $request->order_status;
-        $search = $request->search;
-        $orders = $this->orderRepository->getAllOrderDate();
+        $users = $this->userManager->getUserByStatus(User::class, 2);
+        $userId = $request->get('user_id');
+        $orderStatus = $request->get('order_status');
+        $search = $request->get('search');
+        $orders = $this->orderManager->getAllOrderDate();
+
+        // TODO REFACTOR | status repository to be deleted
         $statuses = $this->statusRepository->getOrderStatuses();
 
         if ($orderStatus) {
-            $orders = $this->orderRepository->getByStatus(Order::class, $orderStatus);
+            $orders = $this->orderManager->getByStatus(Order::class, $orderStatus);
         }
 
         if ($userId) {
-            $orders = $this->orderRepository->getByUser(Order::class, $userId);
+            $orders = $this->orderManager->getByUser(Order::class, $userId);
         }
 
         if ($userId && $orderStatus) {
-            $orders = $this->orderRepository->getOrdersByIdByStatus($userId, $orderStatus);
+            $orders = $this->orderManager->getOrdersByIdByStatus($userId, $orderStatus);
         }
 
         if($search) {
-            $orders = $this->orderRepository->search($search);
+            $orders = $this->orderManager->search($search);
         }
 
         return view('admin.orders.index',
@@ -90,17 +91,18 @@ class DashboardController extends Controller
 
     public function listUser(Request $request)
     {
+        // TODO REMAKE | status repository to be deleted
         $statuses = $this->statusRepository->getUserStatuses();
         $userStatus = $request->user_status;
         $search = $request->search;
-        $users = $this->userRepository->getAllOrderName();
+        $users = $this->userManager->getAllOrderName();
 
         if ($userStatus) {
-            $users = $this->userRepository->getByStatusOrderName($userStatus);
+            $users = $this->orderManager->getByStatusOrderName($userStatus);
         }
 
         if($search) {
-            $users = $this->userRepository->search($search);
+            $users = $this->userManager->search($search);
         }
         return view('admin.users.index',
             ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus, 'search' => $search]);
@@ -114,13 +116,12 @@ class DashboardController extends Controller
 
     public function updateOrder(OrderUpdateRequest $request, Order $order): RedirectResponse
     {
-        if ($this->orderRepository->isBooked($request) && $order->getOriginal('date') != $request->date) {
+        if ($this->orderManager->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
-        $order->update($request->validated());
+        $this->orderManager->update($request, $order);
 
-//        $user = auth()->user()->id ?? null;
         // TODO configure mail send here
 //        $this->mail->orderChange($order);
 
@@ -135,20 +136,23 @@ class DashboardController extends Controller
 
     public function updateUser(UserUpdateRequest $request, User $user)
     {
-        $user->update($request->validated());
+        $this->userManager->update($request, $user);
 
         return redirect()->route('list.user')->with('success_message', 'Changes saved successfully');
     }
 
     public function statusChange(Order $order, Request $request)
     {
-        $status = $request->status_id;
+        $status = $request->get('status_id');
 
-        if ($order->status_id == $status) {
+        $orderStatus = $this->orderManager->getStatus($order);
+
+        if ($orderStatus == $status) {
             return redirect()->back()->with('info_message', 'Cannot change to same status');
         }
-        $order->status_id = $status;
-        $order->save();
+
+        $this->orderManager->changeOrderStatus($order, $status);
+        $this->orderManager->save($order);
 
         // TODO configure status change mail send here
 //        $this->mail->statusChange($order);

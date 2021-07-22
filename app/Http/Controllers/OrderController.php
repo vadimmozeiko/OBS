@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Managers\OrderManager;
+use App\Managers\UserManager;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -17,7 +18,9 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
 
-    public function __construct(private OrderManager $orderManager)
+    public function __construct(
+        private OrderManager $orderManager,
+        private UserManager $userManager)
     {
         $this->middleware('verified');
     }
@@ -31,7 +34,7 @@ class OrderController extends Controller
     {
 
         $orderNumber = $this->orderManager->getOrderNumber();
-        $user = $this->orderManager->getAuthUserId();
+        $user = $this->userManager->getAuthUserId();
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
@@ -76,7 +79,7 @@ class OrderController extends Controller
 
         $this->orderManager->changeOrderStatus($order, '4');
         $this->orderManager->update($request, $order);
-        $user = $this->orderManager->getAuthUserId();
+        $user = $this->userManager->getAuthUserId();
         $this->orderManager->SendOrderChange($order);
 
         return redirect()->route('user.orders', $user)->with('success_message', 'Booking details changed successfully');

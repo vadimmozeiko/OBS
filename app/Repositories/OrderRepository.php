@@ -110,4 +110,9 @@ class OrderRepository extends BaseRepository
         $order->status_id = $status;
     }
 
+    public function getStatus(Order $order)
+    {
+        return $order->status_id;
+    }
+
 }

@@ -37,6 +37,21 @@ class OrderManager
         return $this->orderRepository->isEditable($order);
     }
 
+    public function getByStatusOrderDate(int $status)
+    {
+        return $this->orderRepository->getByStatusOrderDate($status);
+    }
+
+    public function getAll($model)
+    {
+        return $this->orderRepository->getAll($model);
+    }
+
+    public function getByStatus($model, int $status)
+    {
+        return $this->orderRepository->getByStatus($model, $status);
+    }
+
     public function getOrderNumber(): int
     {
         if ($this->orderRepository->getAll(Order::class)->isEmpty()) {
@@ -47,6 +62,11 @@ class OrderManager
         }
 
         return $orderNumber;
+    }
+
+    public function getAllOrderDate()
+    {
+        return $this->orderRepository->getAllOrderDate();
     }
 
     public function getFirstProductById(OrderCreateRequest $request)
@@ -89,8 +109,29 @@ class OrderManager
         $this->orderRepository->changeOrderStatus($order, $status);
     }
 
-    public function getAuthUserId()
+
+    public function getByUser($model, int $userId)
     {
-       return $this->userRepository->getAuthUserId();
+        return $this->userRepository->getByUser($model, $userId);
+    }
+
+    public function getOrdersByIdByStatus(int $userId, int $orderStatus)
+    {
+        return $this->orderRepository->getOrdersByIdByStatus($userId, $orderStatus);
+    }
+
+    public function search(string $search)
+    {
+        return $this->orderRepository->search($search);
+    }
+
+    public function getByStatusOrderName(int $userStatus)
+    {
+        return $this->orderRepository->getByStatusOrderDate($userStatus);
+    }
+
+    public function getStatus(Order $order)
+    {
+        return $this->orderRepository->getStatus($order);
     }
 }
