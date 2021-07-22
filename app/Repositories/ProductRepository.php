@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Http\Requests\OrderCreateRequest;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 
@@ -17,5 +18,10 @@ class ProductRepository extends BaseRepository
         }
 
         return Product::whereNotIn('id', $unavailable)->get();
+    }
+
+    public function getFirstProductById(OrderCreateRequest $request)
+    {
+       return Product::where('id', $request->product_id)->first();
     }
 }

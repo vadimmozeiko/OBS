@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Managers\OrderManager;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -15,13 +16,9 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    private MailController $mail;
-    private OrderRepository $orderRepository;
 
-    public function __construct()
+    public function __construct(private OrderManager $orderManager)
     {
-        $this->mail = new MailController();
-        $this->orderRepository = new OrderRepository();
         $this->middleware('verified');
     }
 
@@ -33,14 +30,8 @@ class OrderController extends Controller
     public function create(Product $product, Request $request): View|RedirectResponse
     {
 
-        // TODO MOVE | to repository or manager
-        if (Order::all()->isEmpty()) {
-            $year = Carbon::now()->year;
-            $orderNumber = $year . sprintf("%'.06d\n", 0);
-        } else {
-            $orderNumber = Order::orderBy('order_number', 'desc')->first()->order_number;
-        }
-        $user = auth()->user() ?? null;
+        $orderNumber = $this->orderManager->getOrderNumber();
+        $user = $this->orderManager->getAuthUserId();
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
@@ -52,15 +43,14 @@ class OrderController extends Controller
 
     public function store(OrderCreateRequest $request): RedirectResponse
     {
-        $product = Product::where('id', $request->product_id)->first();
+        $product = $this->orderManager->getFirstProductById($request);
         $date = str_replace('-', '', "$request->date");
 
-        if ($this->orderRepository->isBooked($request)) {
+        if ($this->orderManager->isBooked($request)) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
-
-        $order = Order::create($request->validated());
-        $this->mail->notConfirmed($order);
+        $order = $this->orderManager->store($request);
+        $this->orderManager->SendNotConfirmed($order);
         return redirect()->route('order.index')->with(['order' => $order, 'product' => $product, 'date' => $date]);
     }
 
@@ -72,7 +62,7 @@ class OrderController extends Controller
     public function edit(Order $order, User $user): View|RedirectResponse
     {
 
-        if ($this->orderRepository->isEditable($order)) {
+        if ($this->orderManager->isEditable($order)) {
             return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
         }
         return view('orders.edit', ['order' => $order, 'user' => $user]);
@@ -80,23 +70,23 @@ class OrderController extends Controller
 
     public function update(OrderUpdateRequest $request, Order $order): RedirectResponse
     {
-        if ($this->orderRepository->isBooked($request) && $order->getOriginal('date') != $request->date) {
+        if ($this->orderManager->isBooked($request) && $order->getOriginal('date') != $request->date) {
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
-        $order->status_id = '4';
-        $order->update($request->validated());
 
-        $user = auth()->user()->id ?? null;
-        $this->mail->orderChange($order);
+        $this->orderManager->changeOrderStatus($order, '4');
+        $this->orderManager->update($request, $order);
+        $user = $this->orderManager->getAuthUserId();
+        $this->orderManager->SendOrderChange($order);
 
         return redirect()->route('user.orders', $user)->with('success_message', 'Booking details changed successfully');
     }
 
     public function destroy(Order $order): RedirectResponse
     {
-        $order->status_id = '7';
-        $order->save();
-        $this->mail->cancelled($order);
+        $this->orderManager->changeOrderStatus($order, '7');
+        $this->orderManager->save($order);
+        $this->orderManager->SendCancelled($order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
 }

@@ -85,4 +85,29 @@ class OrderRepository extends BaseRepository
             ->withQueryString();
     }
 
+    public function getLastOrderNumber(): int
+    {
+       return Order::orderBy('order_number', 'desc')->first()->order_number;
+    }
+
+    public function store(OrderCreateRequest $request)
+    {
+        return Order::create($request->validated());
+    }
+
+    public function update(OrderUpdateRequest $request, Order $order)
+    {
+        return $order->update($request->validated());
+    }
+
+    public function save(Order $order): void
+    {
+        $order->save();
+    }
+
+    public function changeOrderStatus(Order $order, string $status)
+    {
+        $order->status_id = $status;
+    }
+
 }

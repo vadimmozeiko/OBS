@@ -9,7 +9,8 @@
                 <div class="card-body">
                             <h3>{{session()->get('product')->title}}</h3>
                             <img class="mb-4 show-sm" src="{{session()->get('product')->image}}" alt="booking image">
-                        <h4>Your booking details: </h4>
+                        <h4 class="mb-4">Your booking details: </h4>
+                        <p><b>Booking #</b>{{session()->get('order')->order_number}}</p>
                         <p><b>Name: </b>{{session()->get('order')->user_name}}</p>
                         <p><b>Email: </b>{{session()->get('order')->user_email}}</p>
                         <p><b>Date: </b>{{session()->get('order')->date}}</p>

@@ -26,4 +26,9 @@ class UserRepository extends BaseRepository
             ->paginate(10)
             ->withQueryString();
     }
+
+    public function getAuthUserId()
+    {
+      return auth()->user()->id;
+    }
 }
