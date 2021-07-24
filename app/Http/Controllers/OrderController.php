@@ -34,7 +34,7 @@ class OrderController extends Controller
     {
 
         $orderNumber = $this->orderManager->getOrderNumber();
-        $user = $this->userManager->getAuthUserId();
+        $user = $this->userManager->getAuthUser();
         if (!$request->order_date) {
             return redirect()->back()
                 ->with('info_message', 'Select the date and check availability')
@@ -79,7 +79,7 @@ class OrderController extends Controller
 
         $this->orderManager->changeOrderStatus($order, '4');
         $this->orderManager->update($request, $order);
-        $user = $this->userManager->getAuthUserId();
+        $user = $this->userManager->getAuthUser();
         $this->orderManager->SendOrderChange($order);
 
         return redirect()->route('user.orders', $user)->with('success_message', 'Booking details changed successfully');

@@ -39,9 +39,9 @@ class UserManager
         $this->userRepository->update($request, $user);
     }
 
-    public function getAuthUserId()
+    public function getAuthUser()
     {
-        return $this->userRepository->getAuthUserId();
+        return $this->userRepository->getAuthUser();
     }
 
 

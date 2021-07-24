@@ -23,6 +23,15 @@
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
+            <span class="input-group-addon d-block mt-3" id="basic-addon1">Address *</span>
+            <input class="form-control @error('user_address') is-invalid @enderror" type="text"
+                   name="user_address" value="{{old('user_address', $order->user_address)}}"
+                {{$order->status_id > 5 ? 'disabled' : ''}}>
+            @error('user_address')
+            <small class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </small>
+            @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
             <input class="form-control @error('user_phone') is-invalid @enderror" type="number"
                    name="user_phone" value="{{old('user_phone', $order->user_phone)}}"

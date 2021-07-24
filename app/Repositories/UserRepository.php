@@ -28,9 +28,9 @@ class UserRepository extends BaseRepository
             ->withQueryString();
     }
 
-    public function getAuthUserId()
+    public function getAuthUser()
     {
-      return auth()->user()->id;
+      return auth()->user();
     }
 
     public function update(UserUpdateRequest $request, User $user)
