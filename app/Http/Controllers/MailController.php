@@ -3,14 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class MailController extends Controller
 {
+    private $bankDetails;
+
+    public function __construct()
+    {
+        $this->bankDetails = Payment::all()->first();
+    }
+
     public function notConfirmed($order)
     {
         $date = str_replace('-', '', "$order->date");
-        $data = ['order' => $order, 'date' => $date];
+        $data = ['order' => $order, 'date' => $date, 'bankDetails' => $this->bankDetails];
         Mail::send('mail.confirmation', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' is pending for approval');
