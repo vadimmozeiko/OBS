@@ -33,7 +33,7 @@ class DashboardController extends Controller
 
     public function index()
     {
-       $notConfirmed = $this->orderManager->getByStatusOrderDate(4);
+        $notConfirmed = $this->orderManager->getByStatusOrderDate(4);
         return view('admin.index', ['notConfirmed' => $notConfirmed]);
     }
 
@@ -63,9 +63,12 @@ class DashboardController extends Controller
         $orderStatus = $request->get('order_status');
         $search = $request->get('search');
         $orders = $this->orderManager->getAllOrderDate();
+        $products = $this->orderManager->getAll(Product::class);
+        $productsId = $request->get('product');
 
         // TODO REFACTOR | status repository to be deleted
         $statuses = $this->statusRepository->getOrderStatuses();
+
 
         if ($orderStatus) {
             $orders = $this->orderManager->getByStatus(Order::class, $orderStatus);
@@ -75,17 +78,29 @@ class DashboardController extends Controller
             $orders = $this->orderManager->getByUser(Order::class, $userId);
         }
 
+        if ($productsId) {
+            $orders = $this->orderManager->getByProductId($productsId);
+        }
+
         if ($userId && $orderStatus) {
             $orders = $this->orderManager->getOrdersByIdByStatus($userId, $orderStatus);
         }
 
-        if($search) {
+        if ($userId && $productsId) {
+            $orders = $this->orderManager->getOrdersByIdByProduct($userId, $productsId);
+        }
+
+        if ($userId && $orderStatus && $productsId) {
+            $orders = $this->orderManager->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
+        }
+
+        if ($search) {
             $orders = $this->orderManager->search($search);
         }
 
         return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
-            'statuses' => $statuses, 'search' => $search]);
+                'statuses' => $statuses, 'search' => $search, 'products' => $products, 'productId' => $productsId]);
     }
 
 
@@ -98,10 +113,10 @@ class DashboardController extends Controller
         $users = $this->userManager->getAllOrderName();
 
         if ($userStatus) {
-            $users = $this->orderManager->getByStatusOrderName($userStatus);
+            $users = $this->userManager->getByStatusOrderName($userStatus);
         }
 
-        if($search) {
+        if ($search) {
             $users = $this->userManager->search($search);
         }
         return view('admin.users.index',

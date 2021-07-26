@@ -24,6 +24,14 @@
                     @endforelse
                 </select>
             </div>
+            <span class="input-group-addon" id="basic-addon1">Filter by product</span>
+            <select class="form-control mb-3" name="product">
+                <option value="0">All</option>
+                @foreach($products as $product)
+                    <option value="{{$product->id}}" {{$productId == $product->id ? 'selected': ''}}>
+                        {{$product->title}}</option>
+                @endforeach
+            </select>
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.order')}}" class="btn btn-info">Reset</a>
         </form>

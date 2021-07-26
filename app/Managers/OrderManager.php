@@ -134,4 +134,19 @@ class OrderManager
     {
         return $this->orderRepository->getStatus($order);
     }
+
+    public function getByProductId(int $productsId)
+    {
+        return $this->orderRepository->getByProductId($productsId);
+    }
+
+    public function getOrdersByIdByProduct(int $userId, int $productsId)
+    {
+        return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
+    }
+
+    public function getOrdersByIdByStatusByProduct(int $userId, int $orderStatus, int $productsId)
+    {
+        return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
+    }
 }

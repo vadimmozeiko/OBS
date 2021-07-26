@@ -44,5 +44,10 @@ class UserManager
         return $this->userRepository->getAuthUser();
     }
 
+    public function getByStatusOrderName(int $userStatus)
+    {
+        return $this->userRepository->getByStatusOrderName($userStatus);
+    }
+
 
 }
