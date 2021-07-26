@@ -32,7 +32,6 @@ class OrderController extends Controller
 
     public function create(Product $product, Request $request): View|RedirectResponse
     {
-
         $orderNumber = $this->orderManager->getOrderNumber();
         $user = $this->userManager->getAuthUser();
         if (!$request->order_date) {

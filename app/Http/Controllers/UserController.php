@@ -6,6 +6,7 @@ use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Managers\OrderManager;
 use App\Models\Order;
 use App\Models\User;
 use App\Repositories\OrderRepository;
@@ -19,8 +20,10 @@ use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
-
-    public function __construct(private OrderRepository $orderRepository)
+    // TODO REFACTOR | change to manager
+    public function __construct(
+        private OrderRepository $orderRepository,
+        private OrderManager $orderManager)
     {
     }
 
@@ -39,10 +42,13 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-
+        // TODO REFACTOR | change to manager
         $user = User::create($request->validated());
+        // TODO REFACTOR | change to manager
 
         $user->notify(new VerifyEmail);
+
+        $this->orderManager->SendWelcome($user);
 
 //        $this->passReset($user);
 
@@ -53,10 +59,12 @@ class UserController extends Controller
     public function orders(User $user, Request $request): View
     {
         $orderStatus = 0;
+        // TODO REFACTOR | change to manager
         $userOrders = $this->orderRepository->getByUser(Order::class, auth()->user()->id);
 
         if ($request->order_status) {
             $orderStatus = $request->order_status;
+            // TODO REFACTOR | change to manager
             $userOrders = $this->orderRepository->getOrdersByIdByStatus(auth()->user()->id, $orderStatus);
 
         }
@@ -66,6 +74,7 @@ class UserController extends Controller
 
     public function edit(User $user): View|RedirectResponse
     {
+        // TODO REFACTOR | change to manager
         if (auth()->user()->id == $user->id) {
             return view('user.edit', ['user' => $user]);
         }
@@ -82,9 +91,11 @@ class UserController extends Controller
 
     public function destroy(User $user, Request $request)
     {
+        // TODO REFACTOR | change to manager
         $currentPass = auth()->user()->getAuthPassword();
         $inputCurrentPass = $request->current_password;
 
+        // TODO REFACTOR | change to manager
         if (Hash::check($inputCurrentPass, $currentPass)) {
             $user->status = User::STATUS_DELETED;
             $user->email = 'del#' . auth()->user()->id . $user->email;
@@ -109,6 +120,7 @@ class UserController extends Controller
 
     public function passUpdate(PasswordUpdateRequest $request)
     {
+        // TODO REFACTOR | change to manager
         auth()->user()->update(['password' => Hash::make($request->new_password)]);
         return redirect()->route('user.index')->with('success_message', 'Password changed successfully');
     }
@@ -116,6 +128,7 @@ class UserController extends Controller
     // TODO REFACTOR | repeating function with same job
     public function passFirstReset(PasswordResetRequest $request)
     {
+        // TODO REFACTOR | change to manager
         auth()->user()->update([
             'password' => Hash::make($request->password),
             'status' => User::STATUS_ACTIVE,
@@ -125,6 +138,7 @@ class UserController extends Controller
 
     public function passReset(User $user)
     {
+        // TODO REFACTOR | change to manager
         if ($user->status != User::STATUS_DELETED) {
             $token = Password::getRepository()->create($user);
             $user->sendPasswordResetNotification($token);

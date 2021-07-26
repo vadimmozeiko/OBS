@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\DB;
 
 class MailController extends Controller
 {
@@ -56,6 +56,16 @@ class MailController extends Controller
         Mail::send('mail.cancelled', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' was cancelled');
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
+    public function welcome(User $user)
+    {
+        $data = ['name' => auth()->user()->name, 'user' => $user];
+        Mail::send('mail.welcome', $data, function ($message) use ($user) {
+            $message->to($user->email, $user->name)->subject
+            ('Welcome to OBS');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }

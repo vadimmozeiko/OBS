@@ -8,6 +8,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
@@ -104,6 +105,11 @@ class OrderManager
         $this->mailController->cancelled($order);
     }
 
+    public function SendWelcome(User $user)
+    {
+        $this->mailController->welcome($user);
+    }
+
     public function changeOrderStatus(Order $order, string $status): void
     {
         $this->orderRepository->changeOrderStatus($order, $status);
@@ -148,5 +154,15 @@ class OrderManager
     public function getOrdersByIdByStatusByProduct(int $userId, int $orderStatus, int $productsId)
     {
         return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
+    }
+
+    public function getNotAvailable(string $orderDate)
+    {
+        return $this->orderRepository->getNotAvailable($orderDate);
+    }
+
+    public function getBookableOnly($products)
+    {
+        return $this->productRepository->getBookableOnly($products);
     }
 }

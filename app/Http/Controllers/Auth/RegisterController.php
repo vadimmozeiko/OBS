@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
-            'status' => User::STATUS_NOT_VERIFIED,
+            'status' => User::STATUS_ACTIVE,
         ]);
     }
 }

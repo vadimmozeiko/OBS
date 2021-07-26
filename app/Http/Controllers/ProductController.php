@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-
+    // TODO REFACTOR | change to manager
     private OrderRepository $orderRepository;
     private ProductRepository $productRepository;
 
