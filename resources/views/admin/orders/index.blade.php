@@ -7,9 +7,9 @@
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>
             <select class="form-control mb-3" name="order_status">
                 <option value="0">All</option>
-                @foreach($statuses as $status)
-                    <option value="{{$status->id}}" {{$orderStatus == $status->id ? 'selected': ''}}>
-                        {{$status->status}}</option>
+                @foreach(\App\Models\Order::STATUSES as $status)
+                    <option value="{{$status}}" {{$orderStatus == $status ? 'selected': ''}}>
+                        {{$status}}</option>
                 @endforeach
             </select>
             <div class="mt-3 mb-3">
@@ -24,6 +24,14 @@
                     @endforelse
                 </select>
             </div>
+            <span class="input-group-addon" id="basic-addon1">Filter by product</span>
+            <select class="form-control mb-3" name="product">
+                <option value="0">All</option>
+                @foreach($products as $product)
+                    <option value="{{$product->id}}" {{$productId == $product->id ? 'selected': ''}}>
+                        {{$product->title}}</option>
+                @endforeach
+            </select>
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.order')}}" class="btn btn-info">Reset</a>
         </form>
@@ -51,11 +59,11 @@
             <tbody>
             @foreach($orders as $order)
                 <tr class="hover-zoom">
-                    <td class="mobile-hide">{{$order->id}}</td>
+                    <td class="mobile-hide">{{$order->order_number}}</td>
                     <td>{{$order->date}}</td>
-                    <td class="mobile-hide">{{$order->user_name}}</td>
+                    <td class="mobile-hide">{{$order->name}}</td>
                     <td>{{$order->orderProducts->title}}</td>
-                    <td class="mobile-hide">{{$order->orderStatus->status}}</td>
+                    <td class="mobile-hide">{{$order->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
                         <form action="{{route('edit.order', $order)}}">
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
@@ -64,35 +72,35 @@
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-primary btn-sm m-1"
-                                    @if($order->status_id == '5' ||
-                                        $order->status_id == '6' ||
-                                        $order->status_id == '7')
+                                    @if($order->status == \App\Models\Order::STATUS_CONFIRMED ||
+                                        $order->status == \App\Models\Order::STATUS_COMPLETED ||
+                                        $order->status == \App\Models\Order::STATUS_CANCELLED)
                                     disabled
                                 @endif
                             >Confirm
                             </button>
-                            <input type="hidden" name="status_id" value="5">
+                            <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_CONFIRMED}}">
                             @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-success btn-sm m-1"
-                                    @if($order->status_id == '4' ||
-                                        $order->status_id == '6' ||
-                                        $order->status_id == '7')
+                                    @if($order->status == \App\Models\Order::STATUS_NOT_CONFIRMED ||
+                                        $order->status == \App\Models\Order::STATUS_COMPLETED ||
+                                        $order->status == \App\Models\Order::STATUS_CANCELLED)
                                     disabled
                                 @endif>Complete
                             </button>
-                            <input type="hidden" name="status_id" value="6">
+                            <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_COMPLETED}}">
                             @csrf
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-danger btn-sm m-1"
-                                    @if($order->status_id == '6' ||
-                                        $order->status_id == '7')
+                                    @if($order->status == \App\Models\Order::STATUS_COMPLETED ||
+                                        $order->status == \App\Models\Order::STATUS_CANCELLED)
                                     disabled
                                 @endif>CANCEL
                             </button>
-                            <input type="hidden" name="status_id" value="7">
+                            <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_CANCELLED}}">
                             @csrf
                         </form>
                     </td>

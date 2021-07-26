@@ -1,40 +1,60 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h2 class="">Booking #{{$order->id}} details</h2>
+    <h2 class="">Booking #{{$order->order_number}} details</h2>
     <div class="input-group ">
         <form style="width: 100%;" method="POST" action="{{route('update.order', $order)}}"
               enctype="multipart/form-data">
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
-            <input class="form-control @error('user_name') is-invalid @enderror" type="text"
-                   name="user_name" value="{{old('user_name', $order->user_name)}}">
-            @error('user_name')
+            <input class="form-control @error('name') is-invalid @enderror" type="text"
+                   name="name" value="{{old('name', $order->name)}}"
+                {{$order->status == \App\Models\Order::STATUS_COMPLETED ||
+                    $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
+            @error('name')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
-            <input class="form-control @error('user_email') is-invalid @enderror" type="email"
-                   name="user_email" value="{{old('user_email', $order->user_email)}}">
-            @error('user_email')
+            <input class="form-control @error('email') is-invalid @enderror" type="email"
+                   name="email" value="{{old('email', $order->email)}}"
+                {{$order->status == \App\Models\Order::STATUS_COMPLETED ||
+                    $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
+            @error('email')
+            <small class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </small>
+            @enderror
+            <span class="input-group-addon d-block mt-3" id="basic-addon1">Address *</span>
+            <input class="form-control @error('address') is-invalid @enderror" type="text"
+                   name="address" value="{{old('address', $order->address)}}"
+                {{$order->status == \App\Models\Order::STATUS_COMPLETED ||
+                    $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
+            @error('address')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
-            <input class="form-control @error('user_phone') is-invalid @enderror" type="number"
-                   name="user_phone" value="{{old('user_phone', $order->user_phone)}}">
-            @error('user_phone')
+            <input class="form-control @error('phone') is-invalid @enderror" type="number"
+                   name="phone" value="{{old('phone', $order->phone)}}"
+                {{$order->status == \App\Models\Order::STATUS_COMPLETED ||
+                    $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
+            @error('phone')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Booking date: *</span>
             <input id="datepicker" class="form-control @error('date') is-invalid @enderror"
-                   type="text" name="date" value="{{old('date', $order->date)}}">
+                   type="text" name="date" value="{{old('date', $order->date)}}"
+                {{$order->status == \App\Models\Order::STATUS_COMPLETED ||
+                    $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Price *</span>
             <input class="form-control @error('price') is-invalid @enderror" type="text"
-                   name="price" value="{{old('price', number_format($order->price / 100, 2))}}">
+                   name="price" value="{{old('price', number_format($order->price / 100, 2))}}"
+                {{$order->status == \App\Models\Order::STATUS_COMPLETED ||
+                    $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
             @error('price')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -45,11 +65,12 @@
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Last time updated at: </span>
             <input class="form-control" type="text" value="{{$order->updated_at}}" disabled>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Status: </span>
-            <input class="form-control" type="text" value="{{$order->orderStatus->status}}" disabled>
+            <input class="form-control" type="text" value="{{$order->status}}" disabled>
             <small class="d-block mt-3 mb-3">* Required info</small>
             <input type="hidden" name="product_id" value="{{$order->orderProducts->id}}">
             <button class="btn btn-primary btn-m
-            @if($order->status_id > 5)
+            @if($order->status == \App\Models\Order::STATUS_COMPLETED ||
+                    $order->status == \App\Models\Order::STATUS_CANCELLED)
                 d-none
                 @endif
             " type="submit"

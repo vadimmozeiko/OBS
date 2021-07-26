@@ -24,7 +24,7 @@
                     <tr class="hover-zoom">
                         <td class="mobile-hide">{{$product->id}}</td>
                         <td>{{$product->title}}</td>
-                        <td>{{$product->productStatus->status}}</td>
+                        <td>{{$product->status}}</td>
                         <td class="mobile-hide">{{number_format($product->price / 100, 2)}} Eur</td>
                         <td class="d-flex mobile-hide">
                             <form action="{{route('product.edit', $product)}}">

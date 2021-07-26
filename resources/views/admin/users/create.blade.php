@@ -67,8 +67,8 @@
                     @enderror
                 </div>
             </div>
-            <input type="hidden" name="password" value="{{hash("sha512", "tempPassword")}}">
-            <input type="hidden" name="password_confirmation" value="{{hash("sha512", "tempPassword")}}">
+            <input type="hidden" name="password" value="{{$tempPassword}}">
+            <input type="hidden" name="password_confirmation" value="{{$tempPassword}}">
             <div class="form-group row">
                 <div class="col-md-10">
                     <select class="form-control mb-3 @error('isAdmin') is-invalid @enderror" name="isAdmin">
@@ -83,7 +83,7 @@
                     @enderror
                 </div>
             </div>
-            <input type="hidden" name="status_id" value="2">
+            <input type="hidden" name="status" value="{{\App\Models\User::STATUS_NOT_VERIFIED}}">
             <div class="form-group row mb-0">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary">

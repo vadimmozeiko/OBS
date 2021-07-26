@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -51,6 +52,9 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ( $user->isAdmin ) {
+            if ($user->status == User::STATUS_NOT_VERIFIED) {
+                return view('reset', auth()->user());
+            }
             return redirect()->route('admin.dashboard');
         }
     }

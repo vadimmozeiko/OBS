@@ -65,7 +65,7 @@
                 </div>
             </div>
 
-            <input type="hidden" name="status_id" value="2">
+            <input type="hidden" name="status" value="{{\App\Models\Product::STATUS_AVAILABLE}}">
             <div class="form-group row mb-0">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary">Save</button>

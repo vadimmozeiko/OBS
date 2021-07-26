@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use Carbon\Carbon;
@@ -25,7 +26,7 @@ class HomeController extends Controller
 
     public function index(): View
     {
-        if (auth()->check() && auth()->user()->status_id == 1) {
+        if (auth()->check() && auth()->user()->status == User::STATUS_NOT_VERIFIED) {
             return $this->resetPassword();
         }
         return view('index');
@@ -44,14 +45,11 @@ class HomeController extends Controller
             }
 
             $reserved = $this->orderRepository->getNotAvailable($orderDate);
-//            $reserved = $this->orderRepository->getReservedOrders($orderDate);
-//            $products = $this->orderRepository->getConfirmedOrders($orderDate);
 
             if ($request->available_only) {
                 $products = $this->orderRepository->getNotAvailable($orderDate);
                 $products = $this->productRepository->getBookableOnly($products);
             }
-//            $products = $this->productRepository->getBookableOnly($products);
         }
         return view('products', ['products' => $products, 'reserved' => $reserved]);
     }

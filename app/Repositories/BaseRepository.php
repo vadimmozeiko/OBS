@@ -11,9 +11,9 @@ class BaseRepository
         return $model::paginate(10)->withQueryString();
     }
 
-    public function getByStatus($model, int $status)
+    public function getByStatus($model, string $status)
     {
-        return $model::where('status_id', $status)->paginate(10)->withQueryString();
+        return $model::where('status', $status)->paginate(10)->withQueryString();
     }
 
     public function getByUser($model, int $userId)

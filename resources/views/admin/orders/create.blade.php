@@ -28,33 +28,33 @@
                 @enderror
             </div>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
-            <input id="name" class="form-control @error('user_name') is-invalid @enderror" type="text"
-                   name="user_name" value="{{old('user_name')}}" autocomplete="off">
-            @error('user_name')
+            <input id="name" class="form-control @error('name') is-invalid @enderror" type="text"
+                   name="name" value="{{old('name')}}" autocomplete="off">
+            @error('name')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
-            <input id="email" class="form-control @error('user_email') is-invalid @enderror" type="email"
-                   name="user_email" value="{{old('user_email')}}" autocomplete="off">
-            @error('user_email')
+            <input id="email" class="form-control @error('email') is-invalid @enderror" type="email"
+                   name="email" value="{{old('email')}}" autocomplete="off">
+            @error('email')
             <small class="invalid-feedback " role="alert">
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Address *</span>
-            <input id="address" class="form-control @error('user_address') is-invalid @enderror" type="text"
-                   name="user_address" value="{{old('user_address')}}" autocomplete="off">
-            @error('user_address')
+            <input id="address" class="form-control @error('address') is-invalid @enderror" type="text"
+                   name="address" value="{{old('address')}}" autocomplete="off">
+            @error('address')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
-            <input id="phone" class="form-control @error('user_phone') is-invalid @enderror" type="number"
-                   name="user_phone" value="{{old('user_phone')}}" autocomplete="off">
-            @error('user_phone')
+            <input id="phone" class="form-control @error('phone') is-invalid @enderror" type="number"
+                   name="phone" value="{{old('phone')}}" autocomplete="off">
+            @error('phone')
             <small class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </small>
@@ -89,8 +89,9 @@
             @enderror
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Message</span>
             <textarea class="form-control mb-3"
-                      name="user_message">{{old('user_message', '')}}</textarea>
-            <input type="hidden" name="status_id" value="4">
+                      name="message">{{old('message', '')}}</textarea>
+            <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_NOT_CONFIRMED}}">
+            <input type="hidden" name="order_number" value="{{$orderNumber}}">
             <small class="d-block mb-3">* Required info</small>
             <button class="btn btn-primary btn-m" type="submit">CREATE</button>
             @csrf

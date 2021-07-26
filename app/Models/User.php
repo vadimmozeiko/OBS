@@ -36,14 +36,21 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $guarded = [];
 
+
+    public const STATUS_NOT_VERIFIED = 'not verified';
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_DELETED = 'deleted';
+
+
+    public const STATUSES = [
+        self::STATUS_NOT_VERIFIED,
+        self::STATUS_ACTIVE,
+        self::STATUS_DELETED,
+    ];
+
     public function userOrders(): HasMany
     {
         return $this->hasMany('App\Models\Order', 'user_id', 'id');
-    }
-
-    public function userStatus(): BelongsTo
-    {
-        return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');
     }
 
     /**
@@ -57,7 +64,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'address',
         'phone',
         'password',
-        'status_id',
+        'status',
         'isAdmin'
     ];
 

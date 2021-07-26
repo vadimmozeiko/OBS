@@ -22,11 +22,11 @@
             <tbody>
             @foreach($notConfirmed as $order)
                 <tr class="hover-zoom">
-                    <td class="mobile-hide">{{$order->id}}</td>
+                    <td class="mobile-hide">{{$order->order_number}}</td>
                     <td>{{$order->date}}</td>
-                    <td class="mobile-hide">{{$order->user_name}}</td>
+                    <td class="mobile-hide">{{$order->name}}</td>
                     <td>{{$order->orderProducts->title}}</td>
-                    <td class="mobile-hide">{{$order->orderStatus->status}}</td>
+                    <td class="mobile-hide">{{$order->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
                         <form action="{{route('edit.order', $order)}}">
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
@@ -35,14 +35,14 @@
                         </form>
                         <form method="POST" action="{{route('change.order', $order)}}">
                             <button type="submit" class="card-link btn btn-primary btn-sm m-1"
-                                    @if($order->status_id == '5' ||
-                                        $order->status_id == '6' ||
-                                        $order->status_id == '7')
+                                    @if($order->status_id == \App\Models\Order::STATUS_CONFIRMED ||
+                                        $order->status_id == \App\Models\Order::STATUS_COMPLETED ||
+                                        $order->status_id == \App\Models\Order::STATUS_CANCELLED)
                                     disabled
                                 @endif
                             >Confirm
                             </button>
-                            <input type="hidden" name="status_id" value="5">
+                            <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_CONFIRMED}}">
                             @csrf
                         </form>
                     </td>

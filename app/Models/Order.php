@@ -34,26 +34,34 @@ class Order extends Model
 
     protected $fillable = [
         'order_number',
-        'user_name',
-        'user_email',
-        'user_phone',
-        'user_message',
-        'user_address',
-        'status_id',
+        'name',
+        'email',
+        'phone',
+        'message',
+        'address',
+        'status',
         'date',
         'price',
         'user_id',
         'product_id'
     ];
 
+    public const STATUS_NOT_CONFIRMED = 'not confirmed';
+    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_COMPLETED = 'completed';
+    public const STATUS_CANCELLED = 'cancelled';
+
+
+    public const STATUSES = [
+        self::STATUS_NOT_CONFIRMED,
+        self::STATUS_CONFIRMED,
+        self::STATUS_COMPLETED,
+        self::STATUS_CANCELLED,
+    ];
+
     public function orderProducts(): BelongsTo
     {
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
-    }
-
-    public function orderStatus(): BelongsTo
-    {
-        return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');
     }
 
     public function setPriceAttribute($value){

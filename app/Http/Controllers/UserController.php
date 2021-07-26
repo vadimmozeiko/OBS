@@ -9,7 +9,6 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\Order;
 use App\Models\User;
 use App\Repositories\OrderRepository;
-use App\Repositories\StatusRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,13 +19,9 @@ use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
-    private OrderRepository $orderRepository;
-    private StatusRepository $statusRepository;
 
-    public function __construct()
+    public function __construct(private OrderRepository $orderRepository)
     {
-        $this->orderRepository = new OrderRepository();
-        $this->statusRepository = new StatusRepository();
     }
 
     public function index(): View
@@ -37,7 +32,8 @@ class UserController extends Controller
 
     public function create(): View
     {
-        return view('admin.users.create');
+        $tempPassword = bcrypt("tempPassword");
+        return view('admin.users.create', ['tempPassword' => $tempPassword]);
     }
 
 
@@ -48,7 +44,7 @@ class UserController extends Controller
 
         $user->notify(new VerifyEmail);
 
-        $this->passReset($user);
+//        $this->passReset($user);
 
         return redirect()->back()->with('success_message', 'User created successfully');
     }
@@ -58,7 +54,6 @@ class UserController extends Controller
     {
         $orderStatus = 0;
         $userOrders = $this->orderRepository->getByUser(Order::class, auth()->user()->id);
-        $statuses = $this->statusRepository->getOrderStatuses();
 
         if ($request->order_status) {
             $orderStatus = $request->order_status;
@@ -66,8 +61,7 @@ class UserController extends Controller
 
         }
 
-        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders,
-            'statuses' => $statuses, 'orderStatus' => $orderStatus]);
+        return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'orderStatus' => $orderStatus]);
     }
 
     public function edit(User $user): View|RedirectResponse
@@ -92,7 +86,7 @@ class UserController extends Controller
         $inputCurrentPass = $request->current_password;
 
         if (Hash::check($inputCurrentPass, $currentPass)) {
-            $user->status_id = '3';
+            $user->status = User::STATUS_DELETED;
             $user->email = 'del#' . auth()->user()->id . $user->email;
             $user->save();
             Auth::logout();
@@ -124,14 +118,14 @@ class UserController extends Controller
     {
         auth()->user()->update([
             'password' => Hash::make($request->password),
-            'status_id' => 2
+            'status' => User::STATUS_ACTIVE,
         ]);
         return redirect()->route('index')->with('success_message', 'Password changed successfully');
     }
 
     public function passReset(User $user)
     {
-        if ($user->status_id != 3) {
+        if ($user->status != User::STATUS_DELETED) {
             $token = Password::getRepository()->create($user);
             $user->sendPasswordResetNotification($token);
             return redirect()->back()->with('success_message', 'Password reset link send successfully');
