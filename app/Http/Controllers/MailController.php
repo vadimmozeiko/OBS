@@ -12,7 +12,7 @@ class MailController extends Controller
         $date = str_replace('-', '', "$order->date");
         $data = ['order' => $order, 'date' => $date];
         Mail::send('mail.confirmation', $data, function ($message) use ($order) {
-            $message->to(auth()->user()->email, auth()->user()->name)->subject
+            $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' is pending for approval');
             $message->attach('C:\xampp\htdocs\obs\public\assets\documents\Terms and Conditions.pdf');
             // TODO enable when using Docker Container
@@ -25,7 +25,7 @@ class MailController extends Controller
     {
         $data = ['name' => auth()->user()->name, 'order' => $order];
         Mail::send('mail.change', $data, function ($message) use ($order) {
-            $message->to(auth()->user()->email, auth()->user()->name)->subject
+            $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' details were changed');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
@@ -35,7 +35,7 @@ class MailController extends Controller
     {
         $data = ['name' => auth()->user()->name, 'order' => $order];
         Mail::send('mail.change', $data, function ($message) use ($order) {
-            $message->to(auth()->user()->email, auth()->user()->name)->subject
+            $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' status was changed');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
@@ -45,7 +45,7 @@ class MailController extends Controller
     {
         $data = ['name' => auth()->user()->name, 'order' => $order];
         Mail::send('mail.cancelled', $data, function ($message) use ($order) {
-            $message->to(auth()->user()->email, auth()->user()->name)->subject
+            $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' was cancelled');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
