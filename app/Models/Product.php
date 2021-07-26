@@ -39,6 +39,18 @@ class Product extends Model
         'status_id'
     ];
 
+    public const STATUS_AVAILABLE = 'available';
+    public const STATUS_UNAVAILABLE = 'unavailable';
+    public const STATUS_BROKEN= 'broken';
+
+
+    public const STATUSES = [
+        self::STATUS_AVAILABLE,
+        self::STATUS_UNAVAILABLE,
+        self::STATUS_BROKEN,
+    ];
+
+
 
     public function productStatus(): BelongsTo
     {

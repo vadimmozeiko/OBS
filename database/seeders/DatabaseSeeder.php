@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,13 +23,6 @@ class DatabaseSeeder extends Seeder
         $year = Carbon::now()->year;
         $faker = Faker\Factory::create('en_EN');
 
-        $statuses = ['new', 'active', 'deleted', 'not confirmed', 'confirmed', 'completed', 'cancelled'];
-        foreach ($statuses as $status) {
-            DB::table('statuses')->insert([
-                'status' => $status
-            ]);
-        }
-
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'vadim.mozeiko@gmail.com',
@@ -36,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'address' => $faker->address,
             'phone' => rand(100000000, 199999999),
             'isAdmin' => 1,
-            'status_id' => 2,
+            'status' => User::STATUS_ACTIVE,
             'email_verified_at' => date("Y-m-d H:i:s"),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
@@ -51,7 +45,7 @@ class DatabaseSeeder extends Seeder
 //                'password' => Hash::make($faker->password(8, 12)),
                 'password' => Hash::make('1234'),
                 'isAdmin' => 0,
-                'status_id' => rand(1, 2),
+                'status' => $faker->randomElement(User::STATUSES),
                 'email_verified_at' => date("Y-m-d H:i:s"),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
@@ -90,7 +84,7 @@ class DatabaseSeeder extends Seeder
                 'price' => rand(6000, 9000),
                 'short_description' => $faker->text(100),
                 'description' => $faker->realTextBetween(500, 1000),
-                'status_id' => 2,
+                'status' => $faker->randomElement(Product::STATUSES),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);
@@ -107,7 +101,7 @@ class DatabaseSeeder extends Seeder
                 'user_message' => $faker->text(200),
                 'user_address' => $randomUser->address,
                 'date' => $faker->dateTimeBetween($startDate = "now", $endDate = "60 days")->format('Y-m-d'),
-                'status_id' => rand(4, 7),
+                'status' => $faker->randomElement(Order::STATUSES),
                 'price' => $randomProduct->price,
                 'user_id' => $randomUser->id,
                 'product_id' => $randomProduct->id,

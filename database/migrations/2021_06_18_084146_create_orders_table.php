@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,8 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('user_address', 128);
             $table->text('user_message')->nullable();
             $table->string('date',64);
-            $table->foreignId('status_id');
-            $table->foreign('status_id')->references('id')->on('statuses');
+            $table->enum('status', Order::STATUSES);
             $table->integer('price');
             $table->foreignId('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');

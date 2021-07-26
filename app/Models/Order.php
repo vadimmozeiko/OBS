@@ -46,6 +46,19 @@ class Order extends Model
         'product_id'
     ];
 
+    public const STATUS_NOT_CONFIRMED = 'not confirmed';
+    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_COMPLETED = 'completed';
+    public const STATUS_CANCELLED = 'cancelled';
+
+
+    public const STATUSES = [
+        self::STATUS_NOT_CONFIRMED,
+        self::STATUS_CONFIRMED,
+        self::STATUS_COMPLETED,
+        self::STATUS_CANCELLED,
+    ];
+
     public function orderProducts(): BelongsTo
     {
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
