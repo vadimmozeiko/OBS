@@ -77,7 +77,7 @@ class OrderController extends Controller
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
 
-        $this->orderManager->changeOrderStatus($order, '4');
+        $this->orderManager->changeOrderStatus($order, Order::STATUS_NOT_CONFIRMED);
         $this->orderManager->update($request, $order);
         $user = $this->userManager->getAuthUser();
         $this->orderManager->SendOrderChange($order);
@@ -87,7 +87,7 @@ class OrderController extends Controller
 
     public function destroy(Order $order): RedirectResponse
     {
-        $this->orderManager->changeOrderStatus($order, '7');
+        $this->orderManager->changeOrderStatus($order, Order::STATUS_CANCELLED);
         $this->orderManager->save($order);
         $this->orderManager->SendCancelled($order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');

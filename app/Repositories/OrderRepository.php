@@ -24,33 +24,33 @@ class OrderRepository extends BaseRepository
     {
         return Order::where('product_id', $request->product_id)
             ->where('date', $request->date)
-            ->where('status_id', '!=', '6')
-            ->where('status_id', '!=', '7')
+            ->where('status', '!=', Order::STATUS_COMPLETED)
+            ->where('status', '!=', Order::STATUS_CANCELLED)
             ->first();
     }
 
     public function isEditable(Order $order): bool
     {
         if ($order->user_id != auth()->user()->id ||
-            $order->status_id == '6' ||
-            $order->status_id == '7') {
+            $order->status == Order::STATUS_COMPLETED ||
+            $order->status == Order::STATUS_CANCELLED) {
 
             return true;
         }
         return false;
     }
 
-    public function getByStatusOrderDate(int $status)
+    public function getByStatusOrderDate(string $status)
     {
-        return Order::where('status_id', $status)
+        return Order::where('status', $status)
             ->orderBy('date')
             ->paginate(10)
             ->withQueryString();
     }
 
-    public function getOrdersByIdByStatus(int $userId, int $status)
+    public function getOrdersByIdByStatus(int $userId, string $status)
     {
-        return Order::where([['user_id', $userId], ['status_id', $status]])
+        return Order::where([['user_id', $userId], ['status', $status]])
             ->orderBy('date', 'desc')
             ->paginate(10)
             ->withQueryString();
@@ -59,22 +59,22 @@ class OrderRepository extends BaseRepository
     public function getReservedOrders(string $date): Collection|array
     {
         return Order::where('date', $date)
-            ->where('status_id', '4')
+            ->where('status', Order::STATUS_NOT_CONFIRMED)
             ->get();
     }
 
     public function getConfirmedOrders(string $date): Collection|array
     {
         return Order::where('date', $date)
-            ->where('status_id', '5')
+            ->where('status', Order::STATUS_CONFIRMED)
             ->get();
     }
 
     public function getNotAvailable(string $date)
     {
         return Order::where('date', $date)
-            ->where('status_id', '!=', '6')
-            ->where('status_id', '!=', '7')
+            ->where('status', '!=', Order::STATUS_COMPLETED)
+            ->where('status', '!=', Order::STATUS_CANCELLED)
             ->get();
     }
 
@@ -110,12 +110,12 @@ class OrderRepository extends BaseRepository
 
     public function changeOrderStatus(Order $order, string $status)
     {
-        $order->status_id = $status;
+        $order->status = $status;
     }
 
-    public function getStatus(Order $order)
+    public function getStatus(Order $order): string
     {
-        return $order->status_id;
+        return $order->status;
     }
 
     public function getByProductId(int $productsId)
@@ -131,9 +131,9 @@ class OrderRepository extends BaseRepository
             ->withQueryString();
     }
 
-    public function getOrdersByIdByStatusByProduct(int $userId, int $orderStatus, int $productsId)
+    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
     {
-        return Order::where([['user_id', $userId], ['status_id', $orderStatus] ,['product_id', $productsId]])
+        return Order::where([['user_id', $userId], ['status', $orderStatus] ,['product_id', $productsId]])
             ->orderBy('date', 'desc')
             ->paginate(10)
             ->withQueryString();

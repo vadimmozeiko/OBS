@@ -30,7 +30,7 @@ class UserCreateRequest extends FormRequest
             'email' => 'required | string | email | max:255| unique:users',
             'password' => 'required | string | min:8 | confirmed',
             'password_confirmation' => 'required | same:password',
-            'status_id' => 'required | integer | min:1' ,
+            'status' => 'required | string' ,
             'isAdmin' => 'required'
         ];
     }

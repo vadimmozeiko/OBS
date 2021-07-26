@@ -36,7 +36,7 @@ class Product extends Model
         'price',
         'short_description',
         'description',
-        'status_id'
+        'status'
     ];
 
     public const STATUS_AVAILABLE = 'available';

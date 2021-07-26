@@ -37,7 +37,7 @@ class OrderManager
         return $this->orderRepository->isEditable($order);
     }
 
-    public function getByStatusOrderDate(int $status)
+    public function getByStatusOrderDate(string $status)
     {
         return $this->orderRepository->getByStatusOrderDate($status);
     }

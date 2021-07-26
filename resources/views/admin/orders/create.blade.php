@@ -90,7 +90,7 @@
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Message</span>
             <textarea class="form-control mb-3"
                       name="user_message">{{old('user_message', '')}}</textarea>
-            <input type="hidden" name="status_id" value="4">
+            <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_NOT_CONFIRMED}}">
             <input type="hidden" name="order_number" value="{{$orderNumber}}">
             <small class="d-block mb-3">* Required info</small>
             <button class="btn btn-primary btn-m" type="submit">CREATE</button>

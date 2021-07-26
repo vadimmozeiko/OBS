@@ -12,9 +12,9 @@
                                 <span class="input-group-addon" id="basic-addon1">Filter by status</span>
                                 <select class="form-control mb-3" name="order_status">
                                     <option value="0">All</option>
-                                    @foreach($statuses as $status)
-                                        <option value="{{$status->id}}" {{$orderStatus == $status->id ? 'selected': ''}}>
-                                            {{$status->status}}</option>
+                                    @foreach(\App\Models\Order::STATUSES as $status)
+                                        <option value="{{$status}}" {{$orderStatus == $status ? 'selected': ''}}>
+                                            {{$status}}</option>
                                     @endforeach
                                 </select>
                                 <button class="btn btn-info">Filter</button>
@@ -34,15 +34,15 @@
                                 <tbody>
                                 @foreach($userOrders as$order)
                                 <tr
-                                    @if($order->status_id != '6' &&
-                                        $order->status_id != '7')
+                                    @if($order->status != \App\Models\Order::STATUS_COMPLETED &&
+                                        $order->status != \App\Models\Order::STATUS_CANCELLED)
                                     style="cursor:pointer;"
                                     onclick="window.location='{{route('order.edit', $order)}}'"
                                     @endif class="hover-zoom">
                                     <td class="mobile-hide">{{$order->order_number}}</td>
                                     <td>{{$order->date}}</td>
                                     <td>{{$order->orderProducts->title}}</td>
-                                    <td class="mobile-hide">{{$order->orderStatus->status}}</td>
+                                    <td class="mobile-hide">{{$order->status}}</td>
                                     <td class="d-flex mobile-hide">
                                         <a class="card-link btn btn-primary btn-sm m-1"
                                            href="{{route('order.show', $order)}}">Details</a>

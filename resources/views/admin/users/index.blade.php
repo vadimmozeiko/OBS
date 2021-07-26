@@ -7,9 +7,9 @@
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>
             <select class="form-control mb-3" name="user_status">
                 <option value="0">All</option>
-                @foreach($statuses as $status)
-                    <option value="{{$status->id}}" {{$userStatus == $status->id ? 'selected': ''}}>
-                        {{$status->status}}</option>
+                @foreach(\App\Models\User::STATUSES as $status)
+                    <option value="{{$status}}" {{$userStatus == $status ? 'selected': ''}}>
+                        {{$status}}</option>
                 @endforeach
             </select>
             <button class="btn btn-info">Filter</button>
@@ -46,7 +46,7 @@
                         {{$user->email}}
                         @endif
                     </td>
-                    <td class="mobile-hide">{{$user->userStatus->status}}</td>
+                    <td class="mobile-hide">{{$user->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
                         <form action="{{route('edit.user', $user)}}">
                             <button type="submit" class="card-link btn btn-info btn-sm m-1"
@@ -55,14 +55,14 @@
                         </form>
                         <form method="POST" action="{{route('pass.reset', $user)}}">
                             <button type="submit" class="card-link btn btn-warning btn-sm m-1"
-                                {{$user->status_id == 3 ? 'disabled' : ''}}
+                                {{$user->status_id == \App\Models\User::STATUS_DELETED ? 'disabled' : ''}}
                             >Reset Password
                             </button>
                             @csrf
                         </form>
                         <form method="POST" action="{{route('login.as', $user)}}">
                             <button type="submit" class="card-link btn btn-dark btn-sm m-1"
-                                {{$user->status_id == 3 ? 'disabled' : ''}}
+                                {{$user->status_id == \App\Models\User::STATUS_DELETED ? 'disabled' : ''}}
                             >Login As
                             </button>
                             @csrf

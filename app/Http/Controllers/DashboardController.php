@@ -20,20 +20,16 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-
-    private StatusRepository $statusRepository;
-
     public function __construct(
         private OrderManager $orderManager,
         private UserManager $userManager
     )
     {
-        $this->statusRepository = new StatusRepository();
     }
 
     public function index()
     {
-        $notConfirmed = $this->orderManager->getByStatusOrderDate(4);
+        $notConfirmed = $this->orderManager->getByStatusOrderDate(Order::STATUS_NOT_CONFIRMED);
         return view('admin.index', ['notConfirmed' => $notConfirmed]);
     }
 
@@ -41,7 +37,7 @@ class DashboardController extends Controller
     {
         $orderNumber = $this->orderManager->getOrderNumber();
         $products = $this->orderManager->getAll(Product::class)->sortBy('title');
-        $users = $this->userManager->getUserByStatus(User::class, 2)->sortBy('name');
+        $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
         return view('admin.orders.create', ['products' => $products, 'users' => $users,
             'orderNumber' => $orderNumber + 1]);
     }
@@ -58,17 +54,13 @@ class DashboardController extends Controller
 
     public function listOrder(Request $request)
     {
-        $users = $this->userManager->getUserByStatus(User::class, 2);
+        $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
         $userId = $request->get('user_id');
         $orderStatus = $request->get('order_status');
         $search = $request->get('search');
         $orders = $this->orderManager->getAllOrderDate();
         $products = $this->orderManager->getAll(Product::class);
         $productsId = $request->get('product');
-
-        // TODO REFACTOR | status repository to be deleted
-        $statuses = $this->statusRepository->getOrderStatuses();
-
 
         if ($orderStatus) {
             $orders = $this->orderManager->getByStatus(Order::class, $orderStatus);
@@ -100,14 +92,13 @@ class DashboardController extends Controller
 
         return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
-                'statuses' => $statuses, 'search' => $search, 'products' => $products, 'productId' => $productsId]);
+              'search' => $search, 'products' => $products, 'productId' => $productsId]);
     }
 
 
     public function listUser(Request $request)
     {
         // TODO REMAKE | status repository to be deleted
-        $statuses = $this->statusRepository->getUserStatuses();
         $userStatus = $request->user_status;
         $search = $request->search;
         $users = $this->userManager->getAllOrderName();
@@ -120,7 +111,7 @@ class DashboardController extends Controller
             $users = $this->userManager->search($search);
         }
         return view('admin.users.index',
-            ['users' => $users, 'statuses' => $statuses, 'userStatus' => $userStatus, 'search' => $search]);
+            ['users' => $users, 'userStatus' => $userStatus, 'search' => $search]);
     }
 
 
@@ -158,7 +149,7 @@ class DashboardController extends Controller
 
     public function statusChange(Order $order, Request $request)
     {
-        $status = $request->get('status_id');
+        $status = $request->get('status');
 
         $orderStatus = $this->orderManager->getStatus($order);
 

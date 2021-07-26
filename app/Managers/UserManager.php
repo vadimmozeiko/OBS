@@ -19,7 +19,7 @@ class UserManager
     {
     }
 
-    public function getUserByStatus($model, int $status)
+    public function getUserByStatus($model, string $status)
     {
        return $this->userRepository->getByStatus($model,$status);
     }
@@ -44,9 +44,19 @@ class UserManager
         return $this->userRepository->getAuthUser();
     }
 
-    public function getByStatusOrderName(int $userStatus)
+    public function getByStatusOrderName(string $userStatus)
     {
         return $this->userRepository->getByStatusOrderName($userStatus);
+    }
+
+    public function getAllUsers($model)
+    {
+        return $this->userRepository->getAllUsers($model);
+    }
+
+    public function getAll($model)
+    {
+        return $this->userRepository->getAll($model);
     }
 
 

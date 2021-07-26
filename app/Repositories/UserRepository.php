@@ -14,9 +14,14 @@ class UserRepository extends BaseRepository
         return User::orderBy('name')->paginate(10)->withQueryString();
     }
 
-    public function getByStatusOrderName(int $status)
+    public function getAllUsers($model)
     {
-        return User::where('status_id', $status)->orderBy('name')->paginate(10)->withQueryString();
+        return $model::all();
+    }
+
+    public function getByStatusOrderName(string $status)
+    {
+        return User::where('status', $status)->orderBy('name')->paginate(10)->withQueryString();
     }
 
     public function search(string $search)
