@@ -17,11 +17,11 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('order_number');
-            $table->string('user_name', 64);
-            $table->string('user_email', 128);
-            $table->string('user_phone', 32);
-            $table->string('user_address', 128);
-            $table->text('user_message')->nullable();
+            $table->string('name', 64);
+            $table->string('email', 128);
+            $table->string('phone', 32);
+            $table->string('address', 128);
+            $table->text('message')->nullable();
             $table->string('date',64);
             $table->enum('status', Order::STATUSES);
             $table->integer('price');

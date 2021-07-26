@@ -95,11 +95,11 @@ class DatabaseSeeder extends Seeder
             $randomProduct = Product::all()->random(1)->first();
             DB::table('orders')->insert([
                 'order_number' => $year . $faker->numberBetween(100000, 900000),
-                'user_name' => $randomUser->name,
-                'user_email' => $randomUser->email,
-                'user_phone' => $randomUser->phone,
-                'user_message' => $faker->text(200),
-                'user_address' => $randomUser->address,
+                'name' => $randomUser->name,
+                'email' => $randomUser->email,
+                'phone' => $randomUser->phone,
+                'message' => $faker->text(200),
+                'address' => $randomUser->address,
                 'date' => $faker->dateTimeBetween($startDate = "now", $endDate = "60 days")->format('Y-m-d'),
                 'status' => $faker->randomElement(Order::STATUSES),
                 'price' => $randomProduct->price,

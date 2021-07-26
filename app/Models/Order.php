@@ -34,11 +34,11 @@ class Order extends Model
 
     protected $fillable = [
         'order_number',
-        'user_name',
-        'user_email',
-        'user_phone',
-        'user_message',
-        'user_address',
+        'name',
+        'email',
+        'phone',
+        'message',
+        'address',
         'status',
         'date',
         'price',
@@ -62,11 +62,6 @@ class Order extends Model
     public function orderProducts(): BelongsTo
     {
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
-    }
-
-    public function orderStatus(): BelongsTo
-    {
-        return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');
     }
 
     public function setPriceAttribute($value){

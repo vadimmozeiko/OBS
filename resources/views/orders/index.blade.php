@@ -11,8 +11,8 @@
                             <img class="mb-4 show-sm" src="{{session()->get('product')->image}}" alt="booking image">
                         <h4 class="mb-4">Your booking details: </h4>
                         <p><b>Booking #</b>{{session()->get('order')->order_number}}</p>
-                        <p><b>Name: </b>{{session()->get('order')->user_name}}</p>
-                        <p><b>Email: </b>{{session()->get('order')->user_email}}</p>
+                        <p><b>Name: </b>{{session()->get('order')->name}}</p>
+                        <p><b>Email: </b>{{session()->get('order')->email}}</p>
                         <p><b>Date: </b>{{session()->get('order')->date}}</p>
                         <p><b>Status: </b>{{session()->get('order')->status}}</p>
                         <a class="btn btn-primary btn-m"

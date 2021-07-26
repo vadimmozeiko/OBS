@@ -38,11 +38,11 @@ class UserCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'user_name.required' => 'Please fill the name field',
-            'user_name.max' => 'Name is too long',
-            'user_address.required' => 'Please fill the address field',
-            'user_address.max' => 'Address is too long',
-            'user_phone.required' => 'Please fill the phone no. field',
+            'name.required' => 'Please fill the name field',
+            'name.max' => 'Name is too long',
+            'address.required' => 'Please fill the address field',
+            'address.max' => 'Address is too long',
+            'phone.required' => 'Please fill the phone no. field',
             'isAdmin.required' => 'Please select user type',
         ];
     }

@@ -5,7 +5,7 @@
     <div class="justify-content-center pl-md-5 pr-md-5">
         <form class="mb-4" action="{{route('list.user')}}" method="GET">
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>
-            <select class="form-control mb-3" name="user_status">
+            <select class="form-control mb-3" name="status">
                 <option value="0">All</option>
                 @foreach(\App\Models\User::STATUSES as $status)
                     <option value="{{$status}}" {{$userStatus == $status ? 'selected': ''}}>
@@ -73,7 +73,7 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-            {!! $users->appends(['user_status' => $userStatus])->links() !!}
+            {!! $users->appends(['status' => $userStatus])->links() !!}
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
 @endsection

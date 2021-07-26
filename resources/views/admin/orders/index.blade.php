@@ -61,7 +61,7 @@
                 <tr class="hover-zoom">
                     <td class="mobile-hide">{{$order->order_number}}</td>
                     <td>{{$order->date}}</td>
-                    <td class="mobile-hide">{{$order->user_name}}</td>
+                    <td class="mobile-hide">{{$order->name}}</td>
                     <td>{{$order->orderProducts->title}}</td>
                     <td class="mobile-hide">{{$order->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">

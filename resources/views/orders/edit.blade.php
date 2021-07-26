@@ -12,33 +12,33 @@
                             <form style="width: 100%;" method="POST" action="{{route('order.update', $order)}}"
                                   enctype="multipart/form-data">
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
-                                <input class="form-control @error('user_name') is-invalid @enderror" type="text"
-                                       name="user_name" value="{{old('user_name', $order->user_name)}}">
-                                @error('user_name')
+                                <input class="form-control @error('name') is-invalid @enderror" type="text"
+                                       name="name" value="{{old('name', $order->name)}}">
+                                @error('name')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </small>
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
-                                <input class="form-control @error('user_email') is-invalid @enderror" type="email"
-                                       name="user_email" value="{{old('user_email', $order->user_email)}}">
-                                @error('user_email')
+                                <input class="form-control @error('email') is-invalid @enderror" type="email"
+                                       name="email" value="{{old('email', $order->email)}}">
+                                @error('email')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </small>
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Address *</span>
-                                <input class="form-control @error('user_address') is-invalid @enderror" type="text"
-                                       name="user_address" value="{{old('user_address', $order->user_address)}}">
-                                @error('user_address')
+                                <input class="form-control @error('address') is-invalid @enderror" type="text"
+                                       name="address" value="{{old('address', $order->address)}}">
+                                @error('address')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </small>
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
-                                <input class="form-control @error('user_phone') is-invalid @enderror" type="number"
-                                       name="user_phone" value="{{old('user_phone', $order->user_phone)}}">
-                                @error('user_phone')
+                                <input class="form-control @error('phone') is-invalid @enderror" type="number"
+                                       name="phone" value="{{old('phone', $order->phone)}}">
+                                @error('phone')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </small>

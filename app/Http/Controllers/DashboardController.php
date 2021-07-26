@@ -99,7 +99,7 @@ class DashboardController extends Controller
     public function listUser(Request $request)
     {
         // TODO REMAKE | status repository to be deleted
-        $userStatus = $request->user_status;
+        $userStatus = $request->status;
         $search = $request->search;
         $users = $this->userManager->getAllOrderName();
 

@@ -50,10 +50,4 @@ class Product extends Model
         self::STATUS_BROKEN,
     ];
 
-
-
-    public function productStatus(): BelongsTo
-    {
-        return $this->belongsTo('App\Models\Statuses', 'status_id', 'id');
-    }
 }
