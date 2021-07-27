@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
+use App\Managers\ProductManager;
 use App\Models\Product;
-use App\Repositories\OrderRepository;
-use App\Repositories\ProductRepository;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
 
-    public function __construct(private ProductRepository $productRepository)
+    public function __construct(private ProductManager $productManager)
     {
     }
 
     public function index(): View
     {
-        $products = $this->productRepository->getAll(Product::class);
+        $products = $this->productManager->getAll(Product::class);
 
         return view('admin.products.index', ['products' => $products]);
     }
@@ -25,13 +26,27 @@ class ProductController extends Controller
 
     public function create()
     {
-        //
+        return view('admin.products.create');
     }
 
 
-    public function store(Request $request)
+    public function store(ProductCreateRequest $request)
     {
-        //
+        $product = $this->productManager->store($request);
+
+        if ($request->has('image')) {
+            $image = $request->file('image');
+            $imageName = $request->get('title') . '-' . Carbon::now()->timestamp . '.' . $image->getClientOriginalExtension();
+
+            $path = public_path() . '/assets/img/products/';
+
+            $url = asset('assets/img/products/' . $imageName);
+
+            $image->move($path, $imageName);
+
+            $product->update(['image' => $url]);
+        }
+        return redirect()->route('product.index')->with('success_message', 'Product added successfully');
     }
 
     public function show(Product $product): View
@@ -46,9 +61,11 @@ class ProductController extends Controller
     }
 
 
-    public function update(Request $request, Product $product)
+    public function update(ProductCreateRequest $request, Product $product)
     {
-        //
+        $this->productManager->update($request, $product);
+
+        return redirect()->route('product.index')->with('success_message', 'Product updated successfully');
     }
 
 

@@ -47,7 +47,6 @@ class ProductSeeder extends Seeder
                 'category' => $categories[rand(0, count($categories) - 1)],
                 'title' => $titles[$key],
                 'price' => rand(6000, 9000),
-                'short_description' => $faker->text(100),
                 'description' => $faker->realTextBetween(500, 1000),
                 'status' => $faker->randomElement(Product::STATUSES),
                 'created_at' => date("Y-m-d H:i:s"),

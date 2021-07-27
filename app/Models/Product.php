@@ -34,7 +34,6 @@ class Product extends Model
         'category',
         'title',
         'price',
-        'short_description',
         'description',
         'status'
     ];
