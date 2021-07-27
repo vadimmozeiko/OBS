@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Managers\OrderManager;
+use App\Managers\ProductManager;
 use App\Managers\UserManager;
-use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -16,7 +16,8 @@ class HomeController extends Controller
 
     public function __construct(
         private OrderManager $orderManager,
-        private UserManager $userManager
+        private UserManager $userManager,
+        private ProductManager $productManager
     )
     {
     }
@@ -33,7 +34,7 @@ class HomeController extends Controller
     public function products(Request $request): RedirectResponse|View
     {
         $orderDate = $request->order_date;
-        $products = $this->orderManager->getAll(Product::class);
+        $products = $this->productManager->getAvailableProducts();
         $reserved = collect();
         $today = Carbon::now();
 

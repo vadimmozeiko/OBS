@@ -24,4 +24,9 @@ class ProductRepository extends BaseRepository
     {
        return Product::where('id', $request->product_id)->first();
     }
+
+    public function getAvailableProducts()
+    {
+        return Product::where('status', Product::STATUS_AVAILABLE)->get();
+    }
 }

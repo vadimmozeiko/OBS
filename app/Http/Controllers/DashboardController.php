@@ -6,6 +6,7 @@ use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Managers\OrderManager;
+use App\Managers\ProductManager;
 use App\Managers\UserManager;
 use App\Models\Order;
 use App\Models\Product;
@@ -18,7 +19,8 @@ class DashboardController extends Controller
 {
     public function __construct(
         private OrderManager $orderManager,
-        private UserManager $userManager
+        private UserManager $userManager,
+        private ProductManager $productManager
     )
     {
     }
@@ -32,7 +34,7 @@ class DashboardController extends Controller
     public function createOrder()
     {
         $orderNumber = $this->orderManager->getOrderNumber();
-        $products = $this->orderManager->getAll(Product::class)->sortBy('title');
+        $products = $this->productManager->getAvailableProducts()->sortBy('title');
         $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
         return view('admin.orders.create', ['products' => $products, 'users' => $users,
             'orderNumber' => $orderNumber + 1]);
