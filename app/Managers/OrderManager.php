@@ -121,7 +121,7 @@ class OrderManager
         return $this->userRepository->getByUser($model, $userId);
     }
 
-    public function getOrdersByIdByStatus(int $userId, int $orderStatus)
+    public function getOrdersByIdByStatus(int $userId, string $orderStatus)
     {
         return $this->orderRepository->getOrdersByIdByStatus($userId, $orderStatus);
     }

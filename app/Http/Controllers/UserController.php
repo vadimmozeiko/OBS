@@ -80,9 +80,9 @@ class UserController extends Controller
         $currentPass = $this->userManager->getAuthUser()->getAuthPassword();
         $inputCurrentPass = $request->current_password;
 
-        $this->userManager->delete($user);
         $isValidPassword = $this->userManager->checkPass($currentPass, $inputCurrentPass);
         if ($isValidPassword) {
+            $this->userManager->delete($user);
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
         } else {
             return redirect()->back()->with('info_message', 'Password doesnt match our records');
