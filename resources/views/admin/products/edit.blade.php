@@ -10,6 +10,20 @@
                 <img src="{{$product->image}}" alt="product image">
                 <input type="hidden" value="{{$product->image}}">
             </div>
+
+            <div class="form-group row">
+                <label for="image" class="col-md-10 col-form-label text-md-left">Image </label>
+                <div class="col-md-10">
+                    <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image"
+                           value="{{old('image')}}" autocomplete="image" autofocus>
+                    @error('image')
+                    <span class="invalid-feedback" role="alert">
+                     <strong>{{$message}}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
+
             <div class="form-group row">
                 <label for="title" class="col-md-10 col-form-label text-md-left">Title *</label>
 
@@ -58,7 +72,7 @@
             </div>
 
             <div class="form-group row">
-                <label for="price" class="col-md-10 col-form-label text-md-left">Description *</label>
+                <label for="price" class="col-md-10 col-form-label text-md-left">Description </label>
                 <div class="col-md-10">
                     <textarea rows="5" class="form-control"
                       name="description">{{old('description', $product->description)}}</textarea>
@@ -77,7 +91,6 @@
                 </div>
             </div>
             <small class="d-block mb-3">* Required info</small>
-            <input type="hidden" name="status" value="{{\App\Models\Product::STATUS_AVAILABLE}}">
             <div class="form-group row mb-0">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary">Save</button>

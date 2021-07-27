@@ -7,7 +7,7 @@
         <form method="POST" action="{{route('product.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="form-group row">
-                <label for="image" class="col-md-10 col-form-label text-md-left">Image *</label>
+                <label for="image" class="col-md-10 col-form-label text-md-left">Image </label>
                 <div class="col-md-10">
                     <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image"
                            value="{{old('image')}}" autocomplete="image" autofocus>
@@ -18,6 +18,7 @@
                     @enderror
                 </div>
             </div>
+
             <div class="form-group row">
                 <label for="title" class="col-md-10 col-form-label text-md-left">Title *</label>
                 <div class="col-md-10">
@@ -60,7 +61,7 @@
             </div>
 
             <div class="form-group row">
-                <label for="price" class="col-md-10 col-form-label text-md-left">Description *</label>
+                <label for="price" class="col-md-10 col-form-label text-md-left">Description </label>
                 <div class="col-md-10">
                     <textarea rows="5" class="form-control"
                               name="description">{{old('description')}}</textarea>
@@ -69,12 +70,17 @@
             <div class="form-group row">
                 <label for="price" class="col-md-10 col-form-label text-md-left">Status *</label>
                 <div class="col-md-10">
-                    <select class="form-control mb-3" name="status">
+                    <select class="form-control mb-3" name="status" >
                         <option value="0">Select status</option>
                         @foreach(\App\Models\Product::STATUSES as $status)
                             <option value="{{$status}}">{{$status}}</option>
                         @endforeach
                     </select>
+                    @error('status')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{$message}}</strong>
+                     </span>
+                    @enderror
                 </div>
             </div>
             <small class="d-block mb-3">* Required info</small>

@@ -36,4 +36,9 @@ class ProductManager
     {
        $this->productRepository->update($request, $product);
     }
+
+    public function changeStatus(Product $product, string $status)
+    {
+        $this->productRepository->changeStatus($product, $status);
+    }
 }

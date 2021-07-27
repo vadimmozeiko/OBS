@@ -17,7 +17,7 @@ class UserRepository extends BaseRepository
 {
     public function getAllOrderName()
     {
-        return User::orderBy('name')->paginate(10)->withQueryString();
+        return User::where('isAdmin', 0)->orderBy('name')->paginate(10)->withQueryString();
     }
 
     public function getAllUsers($model)

@@ -40,4 +40,11 @@ class ProductRepository extends BaseRepository
     {
         $product->update($request->validated());
     }
+
+    public function changeStatus(Product $product, string $status)
+    {
+        $product->update([
+            'status' => $status
+        ]);
+    }
 }

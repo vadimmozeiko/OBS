@@ -33,7 +33,7 @@ class ProductController extends Controller
     public function store(ProductCreateRequest $request)
     {
         $product = $this->productManager->store($request);
-
+        $product->update(['image' => 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg']);
         if ($request->has('image')) {
             $image = $request->file('image');
             $imageName = $request->get('title') . '-' . Carbon::now()->timestamp . '.' . $image->getClientOriginalExtension();
@@ -69,8 +69,11 @@ class ProductController extends Controller
     }
 
 
-    public function destroy(Product $product)
+    public function changeStatus(Product $product, Request $request)
     {
-        //
+        $status = $request->get('status');
+        $this->productManager->changeStatus($product, $status);
+
+        return redirect()->route('product.index')->with('success_message', 'Product deleted successfully');
     }
 }
