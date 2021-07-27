@@ -4,7 +4,7 @@
 
     <h2 class="">Product details #{{$product->id}}</h2>
     <div class="pl-md-5 pr-md-5 mb-5">
-        <form method="POST" action="{{route('product.update', $product)}}">
+        <form method="POST" action="{{route('product.update', $product)}}" enctype="multipart/form-data">
             @csrf
             <div class="col-md-6 mb-md-2 p-md-4">
                 <img src="{{$product->image}}" alt="product image">

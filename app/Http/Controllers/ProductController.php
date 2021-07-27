@@ -35,16 +35,7 @@ class ProductController extends Controller
         $product = $this->productManager->store($request);
         $product->update(['image' => 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg']);
         if ($request->has('image')) {
-            $image = $request->file('image');
-            $imageName = $request->get('title') . '-' . Carbon::now()->timestamp . '.' . $image->getClientOriginalExtension();
-
-            $path = public_path() . '/assets/img/products/';
-
-            $url = asset('assets/img/products/' . $imageName);
-
-            $image->move($path, $imageName);
-
-            $product->update(['image' => $url]);
+            $this->productManager->insertImage($request, $product);
         }
         return redirect()->route('product.index')->with('success_message', 'Product added successfully');
     }
@@ -64,6 +55,10 @@ class ProductController extends Controller
     public function update(ProductCreateRequest $request, Product $product)
     {
         $this->productManager->update($request, $product);
+
+        if ($request->has('image')) {
+            $this->productManager->insertImage($request, $product);
+        }
 
         return redirect()->route('product.index')->with('success_message', 'Product updated successfully');
     }

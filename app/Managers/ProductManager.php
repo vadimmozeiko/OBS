@@ -7,6 +7,7 @@ namespace App\Managers;
 use App\Http\Requests\ProductCreateRequest;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
+use Carbon\Carbon;
 
 class ProductManager
 {
@@ -40,5 +41,20 @@ class ProductManager
     public function changeStatus(Product $product, string $status)
     {
         $this->productRepository->changeStatus($product, $status);
+    }
+
+    public function insertImage(ProductCreateRequest $request, Product $product)
+    {
+        $image = $request->file('image');
+        $imageName = $request->get('title') . '-' . Carbon::now()->timestamp . '.' . $image->getClientOriginalExtension();
+
+        $path = public_path() . '/assets/img/products/';
+
+        $url = asset('assets/img/products/' . $imageName);
+
+        $image->move($path, $imageName);
+
+        $this->productRepository->changeImage($product, $url);
+
     }
 }

@@ -47,4 +47,9 @@ class ProductRepository extends BaseRepository
             'status' => $status
         ]);
     }
+
+    public function changeImage(Product $product, string $url)
+    {
+        $product->update(['image' => $url]);
+    }
 }
