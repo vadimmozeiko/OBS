@@ -62,7 +62,7 @@ class UserController extends Controller
     public function edit(User $user): View|RedirectResponse
     {
         $authUser = $this->userManager->getAuthUser();
-        if ($authUser == $user->id) {
+        if ($authUser->id == $user->id) {
             return view('user.edit', ['user' => $user]);
         }
         return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');

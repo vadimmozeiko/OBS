@@ -22,7 +22,6 @@ class OrderController extends Controller
         private OrderManager $orderManager,
         private UserManager $userManager)
     {
-        $this->middleware('verified');
     }
 
     public function index(): View

@@ -10,14 +10,9 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // TODO REFACTOR | change to manager
-    private OrderRepository $orderRepository;
-    private ProductRepository $productRepository;
 
-    public function __construct()
+    public function __construct(private ProductRepository $productRepository)
     {
-        $this->orderRepository = new OrderRepository();
-        $this->productRepository = new ProductRepository();
     }
 
     public function index(): View

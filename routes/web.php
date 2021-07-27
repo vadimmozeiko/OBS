@@ -18,7 +18,7 @@ Route::get('/products/all', [HomeController::class, 'products'])->name('products
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('', [UserController::class, 'index'])->name('user.index');
         Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
