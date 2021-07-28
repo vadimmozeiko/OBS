@@ -33,7 +33,7 @@ class OrderCreateRequest extends FormRequest
             'status' => 'required | string',
             'user_id' => 'nullable',
             'product_id' =>'required | integer | min:1',
-            'price' => ['required', 'regex:/^\d*(\.\d{2})?$/']
+            'price' => 'required | integer'
         ];
     }
 
@@ -49,7 +49,7 @@ class OrderCreateRequest extends FormRequest
             'phone.regex' => 'Invalid phone no.',
             'date.after' => 'Incorrect date (for today bookings contact directly)',
             'product_id.integer' => 'Please select the product',
-
+            'price.integer' => 'Incorrect format, enter price in cents',
         ];
     }
 }

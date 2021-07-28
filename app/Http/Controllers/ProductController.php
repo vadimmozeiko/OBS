@@ -69,6 +69,6 @@ class ProductController extends Controller
         $status = $request->get('status');
         $this->productManager->changeStatus($product, $status);
 
-        return redirect()->route('product.index')->with('success_message', 'Product deleted successfully');
+        return redirect()->route('product.index')->with('success_message', 'Product status changed successfully');
     }
 }
