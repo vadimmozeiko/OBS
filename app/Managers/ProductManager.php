@@ -45,6 +45,14 @@ class ProductManager
 
     public function insertImage(ProductCreateRequest $request, Product $product)
     {
+        if($product->image) {
+            $imagePath = explode('/', $product->image);
+            $imageName = array_pop($imagePath);
+            $path = public_path() . '/assets/img/products/' . $imageName;
+            if(file_exists($path)) {
+                unlink($path);
+            }
+        }
         $image = $request->file('image');
         $imageName = $request->get('title') . '-' . Carbon::now()->timestamp . '.' . $image->getClientOriginalExtension();
 

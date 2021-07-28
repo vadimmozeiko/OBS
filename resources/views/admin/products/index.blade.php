@@ -38,7 +38,7 @@
                                         @if($product->status == \App\Models\Product::STATUS_AVAILABLE)
                                         disabled
                                     @endif
-                                >AVAILABLE
+                                >Available
                                 </button>
                                 @csrf
                             </form>
@@ -48,17 +48,17 @@
                                     @if($product->status == \App\Models\Product::STATUS_UNAVAILABLE)
                                         disabled
                                     @endif
-                                >UNAVAILABLE
+                                >Unavailable
                                 </button>
                                 @csrf
                             </form>
                             <form class="mobile-hide" action="{{route('product.changeStatus', $product)}}" method="POST">
                                 <input type="hidden" name="status" value="{{\App\Models\Product::STATUS_BROKEN}}">
-                                <button type="submit" class="card-link btn btn-danger btn-sm m-1"
+                                <button type="submit" class="card-link btn btn-dark btn-sm m-1"
                                         @if($product->status == \App\Models\Product::STATUS_BROKEN)
                                         disabled
                                     @endif
-                                >BROKEN
+                                >Broken
                                 </button>
                                 @csrf
                             </form>

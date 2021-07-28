@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductCreateRequest extends FormRequest
 {
@@ -24,10 +25,11 @@ class ProductCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'image' => 'sometimes | mimes:jpg,gif,png',
             'title' => 'required | string | min:3 | max:64',
             'category' => 'required | string | min:3 | max:64',
             'description' => 'required | string',
-            'status' => 'required | string',
+            'status' => 'required | string | in:available, unavailable, broken',
             'price' => ['required', 'regex:/^\d*(\.\d{2})?$/']
         ];
     }
@@ -35,6 +37,7 @@ class ProductCreateRequest extends FormRequest
     public function messages()
     {
         return [
+//            'image.mimes' => 'Title is too short (min. 3 characters)',
             'title.min' => 'Title is too short (min. 3 characters)',
             'title.required' => 'Please fill the title field',
             'category.min' => 'Category is too short (min. 3 characters)',

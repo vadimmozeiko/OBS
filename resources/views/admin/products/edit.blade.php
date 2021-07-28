@@ -82,18 +82,25 @@
             <div class="form-group row">
                 <label for="price" class="col-md-10 col-form-label text-md-left">Status *</label>
                 <div class="col-md-10">
-                    <select class="form-control mb-3" name="status">
-                        <option value="0">Select status</option>
+                    <select class="form-control mb-3 @error('status') is-invalid @enderror" name="status">
+                        <option value=0>Select status</option>
                         @foreach(\App\Models\Product::STATUSES as $status)
                             <option value="{{$status}}" {{$product->status == $status ? 'selected': ''}}>{{$status}}</option>
                         @endforeach
                     </select>
+                    @error('status')
+                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                    @enderror
                 </div>
             </div>
             <small class="d-block mb-3">* Required info</small>
             <div class="form-group row mb-0">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary">Save</button>
+                    <a class="card-link btn btn-primary m-1"
+                       href="{{route('product.index')}}">Back</a>
                 </div>
             </div>
         </form>

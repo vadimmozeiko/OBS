@@ -70,7 +70,7 @@
             <div class="form-group row">
                 <label for="price" class="col-md-10 col-form-label text-md-left">Status *</label>
                 <div class="col-md-10">
-                    <select class="form-control mb-3" name="status" >
+                    <select class="form-control mb-3 @error('status') is-invalid @enderror" name="status" >
                         <option value="0">Select status</option>
                         @foreach(\App\Models\Product::STATUSES as $status)
                             <option value="{{$status}}">{{$status}}</option>
