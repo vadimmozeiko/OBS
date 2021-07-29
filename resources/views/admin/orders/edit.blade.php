@@ -52,7 +52,7 @@
                     $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Price *</span>
             <input class="form-control @error('price') is-invalid @enderror" type="text"
-                   name="price" value="{{old('price', number_format($order->price / 100, 2))}}"
+                   name="price" value="{{old('price', $order->price)}}"
                 {{$order->status == \App\Models\Order::STATUS_COMPLETED ||
                     $order->status == \App\Models\Order::STATUS_CANCELLED ? 'disabled' : ''}}>
             @error('price')

@@ -48,7 +48,7 @@ class OrderManager
         return $this->orderRepository->getAll($model);
     }
 
-    public function getByStatus($model, int $status)
+    public function getByStatus($model, string $status)
     {
         return $this->orderRepository->getByStatus($model, $status);
     }
@@ -151,7 +151,7 @@ class OrderManager
         return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
     }
 
-    public function getOrdersByIdByStatusByProduct(int $userId, int $orderStatus, int $productsId)
+    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
     {
         return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
     }

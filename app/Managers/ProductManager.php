@@ -18,6 +18,11 @@ class ProductManager
     {
     }
 
+    public function getUnavailableDates(Product $product)
+    {
+       return $this->productRepository->getUnavailableDates($product);
+    }
+
     public function getAvailableProducts()
     {
         return $this->productRepository->getAvailableProducts();

@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\ProductCreateRequest;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 
@@ -51,5 +52,14 @@ class ProductRepository extends BaseRepository
     public function changeImage(Product $product, string $url)
     {
         $product->update(['image' => $url]);
+    }
+
+    public function getUnavailableDates(Product $product)
+    {
+        return Order::where('product_id', $product->id)
+            ->where('status', '!=' , Order::STATUS_COMPLETED)
+            ->where('status', '!=' , Order::STATUS_CANCELLED)
+            ->orderBy('date')
+            ->get(['date']);
     }
 }

@@ -30,6 +30,7 @@ class OrderUpdateRequest extends FormRequest
             'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
             'date' => 'required | date | after: today',
             'product_id' => 'required | integer | min:1',
+            'price' => 'required | integer'
         ];
     }
 
@@ -43,7 +44,8 @@ class OrderUpdateRequest extends FormRequest
             'address.max' => 'Address is too long',
             'phone.required' => 'Please fill the phone no. field',
             'phone.regex' => 'Invalid phone no.',
-            'date.after' => 'Incorrect date (for today bookings contact directly)'
+            'date.after' => 'Incorrect date (for today bookings contact directly)',
+            'price.integer' => 'Incorrect format, enter price in cents',
         ];
     }
 }

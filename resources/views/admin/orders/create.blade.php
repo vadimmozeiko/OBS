@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-
+    @inject('productManager', 'App\Managers\ProductManager')
     <h2 class="">Create new booking</h2>
     <div class="input-group pl-md-5 pr-md-5">
         <form style="width: 100%;" method="POST" action="{{route('store.order')}}"
@@ -12,17 +12,14 @@
                     <option value="" selected>Select user</option>
                     @forelse($users as $user)
                         <option value="{{$user->id}}"
-                                data-name="{{$user->name}}"
-                                data-email="{{$user->email}}"
-                                data-address="{{$user->address}}"
-                                data-phone="{{$user->phone}}"
+                                data-user="{{json_encode($user)}}"
                         >#{{$user->id}} - {{$user->name}}</option>
                     @empty
                         <option value="0" disabled>No users</option>
                     @endforelse
                 </select>
                 @error('user_id')
-                <div >
+                <div>
                     <small class="text-danger">{{ $message }}</small>
                 </div>
                 @enderror
@@ -59,15 +56,12 @@
                 <strong>{{ $message }}</strong>
             </small>
             @enderror
-            <span class="input-group-addon d-block mt-3" id="basic-addon1">Booking date *</span>
-            <input id="datepicker" class="form-control @error('date') is-invalid @enderror"
-                   type="text" name="date"
-                   value="{{old('date')}}" autocomplete="off">
             <div class="mt-3">
                 <select id="product" class="form-control select-search product w-100" name="product_id">
                     <option selected>Select product</option>
                     @forelse($products as $product)
-                        <option value="{{$product->id}}" data-price="{{$product->price}}">{{$product->title}}
+                        <option value="{{$product->id}}" data-price="{{$product->price}}"
+                                data-av="{{$productManager->getUnavailableDates($product)}}">{{$product->title}}
                         </option>
                     @empty
                         <option value="0" disabled>No available products</option>
@@ -79,6 +73,10 @@
                 </div>
                 @enderror
             </div>
+            <span class="input-group-addon d-block mt-3" id="basic-addon1">Booking date *</span>
+            <input id="datepicker" class="form-control @error('date') is-invalid @enderror"
+                   type="text" name="date"
+                   value="{{old('date')}}" autocomplete="off">
             <span class="input-group-addon d-block mt-3 price" id="basic-addon1">Price. *</span>
             <input id="price" class="form-control @error('price') is-invalid @enderror" type="text"
                    name="price" value="{{old('price')}}" autocomplete="off">
@@ -98,37 +96,38 @@
         </form>
     </div>
     <script>
-        $('#datepicker').datepicker({
-            format: 'yyyy-mm-dd',
-            weekStartDay: 1,
-            minDate: function () {
-                const date = new Date();
-                date.setDate(date.getDate() + 1);
-                return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            },
-            maxDate: function () {
-                const date = new Date();
-                date.setDate(date.getDate() + 90);
-                return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            },
-            uiLibrary: 'bootstrap4',
-            showRightIcon: false
-        });
-
         $('#product').on('change', function () {
+            let unavailableDates = [];
+            const data = $(this).children('option:selected').data('av');
             const price = $(this).children('option:selected').data('price');
             $('#price').val(price);
+            data.forEach(element => unavailableDates.push(element.date));
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                weekStartDay: 1,
+                minDate: function () {
+                    const date = new Date();
+                    date.setDate(date.getDate() + 1);
+                    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                },
+                maxDate: function () {
+                    const date = new Date();
+                    date.setDate(date.getDate() + 90);
+                    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                },
+                disableDates: unavailableDates,
+                uiLibrary: 'bootstrap4',
+                showRightIcon: false
+            });
         });
 
+
         $('#user').on('change', function () {
-            const name = $(this).children('option:selected').data('name');
-            const email = $(this).children('option:selected').data('email');
-            const address = $(this).children('option:selected').data('address');
-            const phone = $(this).children('option:selected').data('phone');
-            $('#name').val(name);
-            $('#email').val(email);
-            $('#address').val(address);
-            $('#phone').val(phone);
+            const user = $(this).children('option:selected').data('user');
+            $('#name').val(user.name);
+            $('#email').val(user.email);
+            $('#address').val(user.address);
+            $('#phone').val(user.phone);
         });
     </script>
 @endsection
