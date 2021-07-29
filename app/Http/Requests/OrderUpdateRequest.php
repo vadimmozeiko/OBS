@@ -24,11 +24,11 @@ class OrderUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required | string | max:255',
-            'email' => 'required | string | email | max:255',
+            'name' => 'required | string | min:3 | max:32',
+            'email' => 'required | string | email | max:128',
             'address' => 'required | string | min:3 | max:128',
-            'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-            'date' => 'required | date | after: today',
+            'phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9', 'max:32'],
+            'date' => 'required | date | after: today | max:32',
             'product_id' => 'required | integer | min:1',
             'price' => 'required | integer'
         ];

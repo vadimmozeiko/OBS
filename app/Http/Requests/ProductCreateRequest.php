@@ -28,7 +28,7 @@ class ProductCreateRequest extends FormRequest
             'image' => 'sometimes | mimes:jpg,gif,png',
             'title' => 'required | string | min:3 | max:64',
             'category' => 'required | string | min:3 | max:64',
-            'description' => 'required | string',
+            'description' => 'sometimes',
             'status' => 'required | string | in:available, unavailable, broken',
             'price' => 'required | integer'
         ];

@@ -25,11 +25,11 @@ class OrderCreateRequest extends FormRequest
     {
         return [
             'order_number' => 'required | integer',
-            'name' => 'required | string | min:3 | max:64',
+            'name' => 'required | string | min:3 | max:32',
             'email' => 'required | string | email | max:128',
             'address' => 'required | string | min:3 | max:128',
             'phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9', 'max:32'],
-            'date' => 'required | date | after: today | max:64',
+            'date' => 'required | date | after: today | max:32',
             'status' => 'required | string',
             'user_id' => 'nullable',
             'product_id' =>'required | integer | min:1',
