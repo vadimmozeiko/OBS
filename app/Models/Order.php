@@ -64,8 +64,8 @@ class Order extends Model
         return $this->belongsTo('App\Models\Product', 'product_id', 'id');
     }
 
-//    public function setPriceAttribute($value){
-//        $value *= 100;
-//        $this->attributes['price'] = (int)$value;
-//    }
+    public function setPriceAttribute($value){
+        $value *= 100;
+        $this->attributes['price'] = (int)$value;
+    }
 }

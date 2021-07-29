@@ -30,7 +30,7 @@ class ProductCreateRequest extends FormRequest
             'category' => 'required | string | min:3 | max:64',
             'description' => 'sometimes',
             'status' => 'required | string | in:available, unavailable, broken',
-            'price' => 'required | integer'
+            'price' => 'required |'
         ];
     }
 

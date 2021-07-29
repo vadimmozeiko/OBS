@@ -49,4 +49,9 @@ class Product extends Model
         self::STATUS_BROKEN,
     ];
 
+    public function setPriceAttribute($value){
+        $value *= 100;
+        $this->attributes['price'] = (int)$value;
+    }
+
 }

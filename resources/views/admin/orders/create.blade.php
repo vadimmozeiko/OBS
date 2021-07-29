@@ -60,7 +60,7 @@
                 <select id="product" class="form-control select-search product w-100" name="product_id">
                     <option selected>Select product</option>
                     @forelse($products as $product)
-                        <option value="{{$product->id}}" data-price="{{$product->price}}"
+                        <option value="{{$product->id}}" data-price="{{number_format($product->price / 100, 2)}}"
                                 data-av="{{$productManager->getUnavailableDates($product)}}">{{$product->title}}
                         </option>
                     @empty

@@ -29,11 +29,11 @@ class OrderCreateRequest extends FormRequest
             'email' => 'required | string | email | max:128',
             'address' => 'required | string | min:3 | max:128',
             'phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9', 'max:32'],
-            'date' => 'required | date | after: today | max:32',
+            'date' => 'required | date | after: yesterday | max:32',
             'status' => 'required | string',
             'user_id' => 'nullable',
             'product_id' =>'required | integer | min:1',
-            'price' => 'required | integer'
+            'price' => 'required'
         ];
     }
 
@@ -49,7 +49,6 @@ class OrderCreateRequest extends FormRequest
             'phone.regex' => 'Invalid phone no.',
             'date.after' => 'Incorrect date (for today bookings contact directly)',
             'product_id.integer' => 'Please select the product',
-            'price.integer' => 'Incorrect format, enter price in cents',
         ];
     }
 }

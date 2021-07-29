@@ -61,7 +61,7 @@
                 <div class="col-md-10">
                     <input id="price" type="text" class="form-control @error('price') is-invalid @enderror"
                            name="price"
-                           value="{{old('price', $product->price)}}" autocomplete="price">
+                           value="{{old('price', number_format($product->price / 100, 2))}}" autocomplete="price">
 
                     @error('price')
                     <span class="invalid-feedback" role="alert">
