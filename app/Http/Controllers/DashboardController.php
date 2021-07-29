@@ -157,6 +157,9 @@ class DashboardController extends Controller
         $this->orderManager->changeOrderStatus($order, $status);
         $this->orderManager->save($order);
 
+        if($status == Order::STATUS_COMPLETED) {
+            $this->orderManager->SendCompleted($order);
+        }
         // TODO configure status change mail send here
 //        $this->mail->statusChange($order);
 

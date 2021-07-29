@@ -105,6 +105,11 @@ class OrderManager
         $this->mailController->cancelled($order);
     }
 
+    public function SendCompleted(Order $order)
+    {
+        $this->mailController->completed($order);
+    }
+
     public function SendWelcome(User $user)
     {
         $this->mailController->welcome($user);

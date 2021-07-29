@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Repositories\OrderRepository;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -90,4 +91,11 @@ class OrderController extends Controller
         $this->orderManager->SendCancelled($order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
+//
+//    public function generateInvoice(Order $order)
+//    {
+//        $time = Carbon::now()->timezone('Europe/Vilnius');
+//        $pdf = PDF::loadView('layouts.pdf', ['order' => $order, 'time' => $time]);
+//        return $pdf->download('invoice-#' . $order->order_number .  '.pdf');
+//    }
 }
