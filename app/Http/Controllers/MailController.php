@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade as PDF;
-use Carbon\Carbon;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
@@ -72,14 +71,12 @@ class MailController extends Controller
         });
     }
 
-    public function completed(Order $order)
+    public function completed(Order $order, $pdf)
     {
-        $time = Carbon::now()->timezone('Europe/Vilnius');
-        $pdf = PDF::loadView('layouts.pdf', ['order' => $order, 'time' => $time]);
         $data = ['order' => $order];
-        Mail::send('mail.welcome', $data, function ($message) use ($order, $pdf) {
+        Mail::send('mail.completed', $data, function ($message) use ($order, $pdf) {
             $message->to($order->email, $order->name)->subject
-            ('Booking #'. $order->order_number . ' invoice')->attachData($pdf->output(), "$order->order_number.pdf");
+            ('Booking #'. $order->order_number . ' ' . 'invoice')->attachData($pdf, "$order->order_number.pdf");
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }

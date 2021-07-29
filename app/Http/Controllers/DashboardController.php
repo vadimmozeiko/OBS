@@ -90,7 +90,7 @@ class DashboardController extends Controller
 
         return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
-              'search' => $search, 'products' => $products, 'productId' => $productsId]);
+                'search' => $search, 'products' => $products, 'productId' => $productsId]);
     }
 
 
@@ -154,12 +154,15 @@ class DashboardController extends Controller
             return redirect()->back()->with('info_message', 'Cannot change to same status');
         }
 
+        if ($status == Order::STATUS_COMPLETED) {
+            $pdf = $this->orderManager->generateInvoiceAndSave($order);
+            $this->orderManager->SendCompleted($order, $pdf);
+            $this->orderManager->storeToFile($order, $pdf);
+
+        }
         $this->orderManager->changeOrderStatus($order, $status);
         $this->orderManager->save($order);
 
-        if($status == Order::STATUS_COMPLETED) {
-            $this->orderManager->SendCompleted($order);
-        }
         // TODO configure status change mail send here
 //        $this->mail->statusChange($order);
 

@@ -38,7 +38,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
         Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
         Route::get('show/{order}', [OrderController::class, 'show'])->name('order.show');
-//        Route::post('pdf/{order}', [OrderController::class, 'generateInvoice'])->name('order.invoice');
     });
 
     Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {

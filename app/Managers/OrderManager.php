@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
+//use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 
 class OrderManager
@@ -105,9 +107,9 @@ class OrderManager
         $this->mailController->cancelled($order);
     }
 
-    public function SendCompleted(Order $order)
+    public function SendCompleted(Order $order, $pdf)
     {
-        $this->mailController->completed($order);
+        $this->mailController->completed($order, $pdf);
     }
 
     public function SendWelcome(User $user)
@@ -169,5 +171,18 @@ class OrderManager
     public function getBookableOnly($products)
     {
         return $this->productRepository->getBookableOnly($products);
+    }
+
+    public function generateInvoiceAndSave(Order $order)
+    {
+        $time = Carbon::now()->timezone('Europe/Vilnius');
+        $pdf = PDF::loadView('layouts.pdf', ['order' => $order, 'time' => $time]);
+        return $pdf->output();
+    }
+
+    public function storeToFile(Order $order, $pdf)
+    {
+        $fileName = "$order->order_number" . '.pdf';
+        file_put_contents(public_path() . '/assets/invoices/'.$fileName, $pdf);
     }
 }
