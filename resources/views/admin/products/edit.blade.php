@@ -11,6 +11,12 @@
                 <input type="hidden" value="{{$product->image}}">
             </div>
 
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="delete_image">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Delete image?</label>
+            </div>
+
             <div class="form-group row">
                 <label for="image" class="col-md-10 col-form-label text-md-left">Image </label>
                 <div class="col-md-10">

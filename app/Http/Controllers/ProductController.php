@@ -54,10 +54,17 @@ class ProductController extends Controller
 
     public function update(ProductCreateRequest $request, Product $product)
     {
+        if($product->image) {
+            $this->productManager->deleteOldImage($product);
+        }
+
         $this->productManager->update($request, $product);
 
         if ($request->has('image')) {
             $this->productManager->insertImage($request, $product);
+        } else if ($request->has('delete_image')) {
+            $this->productManager->deleteOldImage($product);
+            $product->update(['image' => 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg']);
         }
 
         return redirect()->route('product.index')->with('success_message', 'Product updated successfully');

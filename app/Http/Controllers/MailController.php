@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
-use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
-    private $bankDetails;
+    private Payment $bankDetails;
 
     public function __construct()
     {

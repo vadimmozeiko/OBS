@@ -1,21 +1,3 @@
-{{--<!DOCTYPE html>--}}
-{{--<html lang="en">--}}
-{{--<head>--}}
-{{--    <meta charset="UTF-8">--}}
-{{--    <meta http-equiv="X-UA-Compatible" content="IE=edge">--}}
-{{--    <meta name="viewport" content="width=device-width, initial-scale=1.0">--}}
-{{--    <title>{{$order->order_number}}</title>--}}
-{{--</head>--}}
-{{--<body>--}}
-{{--<h1>Booking #{{$order->order_number}} invoice</h1>--}}
-{{--<p>Report date: {{$time}}</p>--}}
-{{--<h3>{{$order->name}}</h3>--}}
-{{--<p> Phone no: <b>{{$order->phone}}</b></p>--}}
-{{--<p> Email: <b>{{$order->email}}</b></p>--}}
-{{--<p> Price: <b>{{$order->price / 100}} Eur</b></p>--}}
-{{--</body>--}}
-{{--</html>--}}
-
 <!DOCTYPE html>
 <html>
 <head>
