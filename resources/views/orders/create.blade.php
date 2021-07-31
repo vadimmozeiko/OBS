@@ -44,8 +44,8 @@
                                 </small>
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Booking date *</span>
-                                <input id="datepicker" class="form-control @error('date') is-invalid @enderror" type="text" name="date"
-                                       value="{{old('date', $request->order_date)}}">
+                                <input class="form-control @error('date') is-invalid @enderror" type="text" name="date"
+                                       value="{{old('date', $request->order_date)}}" readonly>
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Message</span>
                                 <textarea class="form-control mb-3"
                                           name="message">{{old('message', $request->message)}}</textarea>
@@ -54,7 +54,7 @@
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                 <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_NOT_CONFIRMED}}">
                                 <input type="hidden" name="order_number" value="{{$orderNumber}}">
-                                <input type="hidden" name="price" value={{number_format($product->price / 100, 2)}}>
+                                <input type="hidden" name="price" value={{$product->price}}>
                                 <button class="btn btn-primary btn-m" type="submit">BOOK</button>
                                 @csrf
                             </form>

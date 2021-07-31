@@ -34,7 +34,6 @@ class Product extends Model
         'category',
         'title',
         'price',
-        'short_description',
         'description',
         'status'
     ];
@@ -49,5 +48,10 @@ class Product extends Model
         self::STATUS_UNAVAILABLE,
         self::STATUS_BROKEN,
     ];
+
+    public function setPriceAttribute($value){
+        $value *= 100;
+        $this->attributes['price'] = (int)$value;
+    }
 
 }

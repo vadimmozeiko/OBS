@@ -9,8 +9,6 @@ use App\Managers\UserManager;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use App\Repositories\OrderRepository;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,7 +20,6 @@ class OrderController extends Controller
         private OrderManager $orderManager,
         private UserManager $userManager)
     {
-        $this->middleware('verified');
     }
 
     public function index(): View
@@ -32,7 +29,6 @@ class OrderController extends Controller
 
     public function create(Product $product, Request $request): View|RedirectResponse
     {
-
         $orderNumber = $this->orderManager->getOrderNumber();
         $user = $this->userManager->getAuthUser();
         if (!$request->order_date) {

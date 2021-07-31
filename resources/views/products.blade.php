@@ -5,7 +5,8 @@
         <form style="width: 80%;" action="{{route('products')}}">
             <div class="form-row text-center justify-content-center">
                 <div class="col-10 col-sm-10 col-md-6 col-lg-6">
-                    <input style="{{session()->get('style')}}" id="datepicker" class="datepicker form-control mb-3 text-center" type="text"
+                    <input style="{{session()->get('style')}}" id="datepicker"
+                           class="datepicker form-control mb-3 text-center" type="text"
                            name="order_date"
                            @if(!empty(request()->has('order_date'))) value="{{request()->get('order_date')}}"
                            @else placeholder="Pick the date" @endif autocomplete="off" required>

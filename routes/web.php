@@ -18,7 +18,7 @@ Route::get('/products/all', [HomeController::class, 'products'])->name('products
 
 Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('', [UserController::class, 'index'])->name('user.index');
         Route::get('edit/{user}', [UserController::class, 'edit'])->name('user.edit');
@@ -71,7 +71,7 @@ Route::group(['prefix' => 'products'], function () {
     Route::post('store', [ProductController::class, 'store'])->name('product.store');
     Route::get('edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
     Route::post('update/{product}', [ProductController::class, 'update'])->name('product.update');
-    Route::post('delete/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+    Route::post('change/{product}', [ProductController::class, 'changeStatus'])->name('product.changeStatus');
     Route::get('show/{product}', [ProductController::class, 'show'])->name('product.show');
 });
 

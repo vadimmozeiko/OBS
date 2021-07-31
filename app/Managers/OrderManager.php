@@ -8,9 +8,12 @@ use App\Http\Controllers\MailController;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
+//use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 
 class OrderManager
@@ -47,7 +50,7 @@ class OrderManager
         return $this->orderRepository->getAll($model);
     }
 
-    public function getByStatus($model, int $status)
+    public function getByStatus($model, string $status)
     {
         return $this->orderRepository->getByStatus($model, $status);
     }
@@ -104,6 +107,16 @@ class OrderManager
         $this->mailController->cancelled($order);
     }
 
+    public function SendCompleted(Order $order, $pdf)
+    {
+        $this->mailController->completed($order, $pdf);
+    }
+
+    public function SendWelcome(User $user)
+    {
+        $this->mailController->welcome($user);
+    }
+
     public function changeOrderStatus(Order $order, string $status): void
     {
         $this->orderRepository->changeOrderStatus($order, $status);
@@ -115,7 +128,7 @@ class OrderManager
         return $this->userRepository->getByUser($model, $userId);
     }
 
-    public function getOrdersByIdByStatus(int $userId, int $orderStatus)
+    public function getOrdersByIdByStatus(int $userId, string $orderStatus)
     {
         return $this->orderRepository->getOrdersByIdByStatus($userId, $orderStatus);
     }
@@ -145,8 +158,31 @@ class OrderManager
         return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
     }
 
-    public function getOrdersByIdByStatusByProduct(int $userId, int $orderStatus, int $productsId)
+    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
     {
         return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
+    }
+
+    public function getNotAvailable(string $orderDate)
+    {
+        return $this->orderRepository->getNotAvailable($orderDate);
+    }
+
+    public function getBookableOnly($products)
+    {
+        return $this->productRepository->getBookableOnly($products);
+    }
+
+    public function generateInvoiceAndSave(Order $order)
+    {
+        $time = Carbon::now()->timezone('Europe/Vilnius');
+        $pdf = PDF::loadView('layouts.pdf', ['order' => $order, 'time' => $time]);
+        return $pdf->output();
+    }
+
+    public function storeToFile(Order $order, $pdf)
+    {
+        $fileName = "$order->order_number" . '.pdf';
+        file_put_contents(public_path() . '/assets/invoices/'.$fileName, $pdf);
     }
 }

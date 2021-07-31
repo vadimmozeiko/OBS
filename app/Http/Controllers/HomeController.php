@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Managers\OrderManager;
+use App\Managers\ProductManager;
+use App\Managers\UserManager;
 use App\Models\User;
-use App\Repositories\OrderRepository;
-use App\Repositories\ProductRepository;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -14,19 +14,18 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
 
-    private OrderRepository $orderRepository;
-    private ProductRepository $productRepository;
-
-    public function __construct()
+    public function __construct(
+        private OrderManager $orderManager,
+        private UserManager $userManager,
+        private ProductManager $productManager
+    )
     {
-        $this->orderRepository = new OrderRepository();
-        $this->productRepository = new ProductRepository();
     }
-
 
     public function index(): View
     {
-        if (auth()->check() && auth()->user()->status == User::STATUS_NOT_VERIFIED) {
+        $user = $this->userManager->getAuthUser();
+        if (auth()->check() && $user->status == User::STATUS_NOT_VERIFIED) {
             return $this->resetPassword();
         }
         return view('index');
@@ -35,7 +34,7 @@ class HomeController extends Controller
     public function products(Request $request): RedirectResponse|View
     {
         $orderDate = $request->order_date;
-        $products = $this->productRepository->getAll(Product::class);
+        $products = $this->productManager->getAvailableProducts();
         $reserved = collect();
         $today = Carbon::now();
 
@@ -44,11 +43,11 @@ class HomeController extends Controller
                 return redirect()->back()->with('info_message', 'Invalid date (for today bookings contact directly)');
             }
 
-            $reserved = $this->orderRepository->getNotAvailable($orderDate);
+            $reserved = $this->orderManager->getNotAvailable($orderDate);
 
             if ($request->available_only) {
-                $products = $this->orderRepository->getNotAvailable($orderDate);
-                $products = $this->productRepository->getBookableOnly($products);
+                $products = $this->orderManager->getNotAvailable($orderDate);
+                $products = $this->orderManager->getBookableOnly($products);
             }
         }
         return view('products', ['products' => $products, 'reserved' => $reserved]);

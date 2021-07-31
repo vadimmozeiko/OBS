@@ -4,7 +4,7 @@
 
     <h2 class="">Register new user</h2>
     <div class="pl-md-5 pr-md-5">
-        <form method="POST" action="{{route('user.store')}}">
+        <form style="width: 100%;" method="POST" action="{{route('user.store')}}">
             @csrf
 
             <div class="form-group row">

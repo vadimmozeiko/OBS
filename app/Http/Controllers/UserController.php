@@ -6,27 +6,26 @@ use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Managers\OrderManager;
+use App\Managers\UserManager;
 use App\Models\Order;
 use App\Models\User;
-use App\Repositories\OrderRepository;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
-
-    public function __construct(private OrderRepository $orderRepository)
+    public function __construct(
+        private OrderManager $orderManager,
+        private UserManager $userManager)
     {
     }
 
     public function index(): View
     {
-        $user = auth()->user();
+        $user = $this->userManager->getAuthUser();
         return view('user.index', ['user' => $user]);
     }
 
@@ -39,12 +38,10 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-
-        $user = User::create($request->validated());
-
+        $user = $this->userManager->store($request);
         $user->notify(new VerifyEmail);
 
-//        $this->passReset($user);
+        $this->orderManager->SendWelcome($user);
 
         return redirect()->back()->with('success_message', 'User created successfully');
     }
@@ -53,20 +50,19 @@ class UserController extends Controller
     public function orders(User $user, Request $request): View
     {
         $orderStatus = 0;
-        $userOrders = $this->orderRepository->getByUser(Order::class, auth()->user()->id);
+        $userOrders = $this->orderManager->getByUser(Order::class, $user->id);
 
         if ($request->order_status) {
             $orderStatus = $request->order_status;
-            $userOrders = $this->orderRepository->getOrdersByIdByStatus(auth()->user()->id, $orderStatus);
-
+            $userOrders = $this->orderManager->getOrdersByIdByStatus($user->id, $orderStatus);
         }
-
         return view('user.orders', ['user' => $user, 'userOrders' => $userOrders, 'orderStatus' => $orderStatus]);
     }
 
     public function edit(User $user): View|RedirectResponse
     {
-        if (auth()->user()->id == $user->id) {
+        $authUser = $this->userManager->getAuthUser();
+        if ($authUser->id == $user->id) {
             return view('user.edit', ['user' => $user]);
         }
         return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');
@@ -75,21 +71,18 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        $user->update($request->validated());
-
+        $this->userManager->update($request, $user);
         return redirect()->route('user.index')->with('success_message', 'Changes saved successfully');
     }
 
     public function destroy(User $user, Request $request)
     {
-        $currentPass = auth()->user()->getAuthPassword();
+        $currentPass = $this->userManager->getAuthUser()->getAuthPassword();
         $inputCurrentPass = $request->current_password;
 
-        if (Hash::check($inputCurrentPass, $currentPass)) {
-            $user->status = User::STATUS_DELETED;
-            $user->email = 'del#' . auth()->user()->id . $user->email;
-            $user->save();
-            Auth::logout();
+        $isValidPassword = $this->userManager->checkPass($currentPass, $inputCurrentPass);
+        if ($isValidPassword) {
+            $this->userManager->delete($user);
             return redirect()->route('index')->with('success_message', 'Account was deleted successfully');
         } else {
             return redirect()->back()->with('info_message', 'Password doesnt match our records');
@@ -109,25 +102,23 @@ class UserController extends Controller
 
     public function passUpdate(PasswordUpdateRequest $request)
     {
-        auth()->user()->update(['password' => Hash::make($request->new_password)]);
+        $authUser = $this->userManager->getAuthUser();
+        $this->userManager->updatePass($authUser, $request);
         return redirect()->route('user.index')->with('success_message', 'Password changed successfully');
     }
 
-    // TODO REFACTOR | repeating function with same job
     public function passFirstReset(PasswordResetRequest $request)
     {
-        auth()->user()->update([
-            'password' => Hash::make($request->password),
-            'status' => User::STATUS_ACTIVE,
-        ]);
+        $authUser = $this->userManager->getAuthUser();
+        $this->userManager->resetPass($authUser, $request);
         return redirect()->route('index')->with('success_message', 'Password changed successfully');
     }
 
     public function passReset(User $user)
     {
-        if ($user->status != User::STATUS_DELETED) {
-            $token = Password::getRepository()->create($user);
-            $user->sendPasswordResetNotification($token);
+        $isNotDeleted = $this->userManager->isNotDeleted($user);
+        if ($isNotDeleted) {
+            $this->userManager->sendResetEmail($user);
             return redirect()->back()->with('success_message', 'Password reset link send successfully');
         }
         return redirect()->back()->with('info_message', 'Whoops, looks like something went wrong');

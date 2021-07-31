@@ -24,12 +24,13 @@ class OrderUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required | string | max:255',
-            'email' => 'required | string | email | max:255',
+            'name' => 'required | string | min:3 | max:32',
+            'email' => 'required | string | email | max:128',
             'address' => 'required | string | min:3 | max:128',
-            'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
-            'date' => 'required | date | after: today',
+            'phone' => ['required' , 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:9', 'max:32'],
+            'date' => 'required | date | after: yesterday | max:32',
             'product_id' => 'required | integer | min:1',
+            'price' => 'required'
         ];
     }
 
@@ -43,7 +44,7 @@ class OrderUpdateRequest extends FormRequest
             'address.max' => 'Address is too long',
             'phone.required' => 'Please fill the phone no. field',
             'phone.regex' => 'Invalid phone no.',
-            'date.after' => 'Incorrect date (for today bookings contact directly)'
+            'date.after' => 'Incorrect date (for today bookings contact directly)',
         ];
     }
 }

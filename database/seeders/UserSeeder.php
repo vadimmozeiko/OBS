@@ -20,8 +20,8 @@ class UserSeeder extends Seeder
         $faker = Faker\Factory::create('en_EN');
         DB::table('users')->insert([
             'name' => 'Admin',
-            'email' => 'vadim.mozeiko@gmail.com',
-            'password' => Hash::make('1234'),
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('adminpass'),
             'address' => $faker->address,
             'phone' => rand(100000000, 199999999),
             'isAdmin' => 1,
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'updated_at' => date("Y-m-d H:i:s"),
         ]);
 
-        User::factory()->count(100)->create();
+        User::factory()->count(300)->create();
 
     }
 }

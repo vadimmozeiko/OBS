@@ -16,12 +16,11 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('image', 256);
+            $table->string('image', 255)->nullable(true);
             $table->string('category', 64);
-            $table->string('title', 128);
+            $table->string('title', 64);
             $table->string('price', 64);
-            $table->string('short_description',128);
-            $table->text('description');
+            $table->text('description')->nullable(true);
             $table->enum('status', Product::STATUSES);
             $table->timestamps();
         });

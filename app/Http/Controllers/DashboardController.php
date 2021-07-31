@@ -6,14 +6,11 @@ use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Managers\OrderManager;
+use App\Managers\ProductManager;
 use App\Managers\UserManager;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Statuses;
 use App\Models\User;
-use App\Repositories\OrderRepository;
-use App\Repositories\StatusRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +19,8 @@ class DashboardController extends Controller
 {
     public function __construct(
         private OrderManager $orderManager,
-        private UserManager $userManager
+        private UserManager $userManager,
+        private ProductManager $productManager
     )
     {
     }
@@ -36,7 +34,7 @@ class DashboardController extends Controller
     public function createOrder()
     {
         $orderNumber = $this->orderManager->getOrderNumber();
-        $products = $this->orderManager->getAll(Product::class)->sortBy('title');
+        $products = $this->productManager->getAvailableProducts()->sortBy('title');
         $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
         return view('admin.orders.create', ['products' => $products, 'users' => $users,
             'orderNumber' => $orderNumber + 1]);
@@ -92,7 +90,7 @@ class DashboardController extends Controller
 
         return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
-              'search' => $search, 'products' => $products, 'productId' => $productsId]);
+                'search' => $search, 'products' => $products, 'productId' => $productsId]);
     }
 
 
@@ -156,6 +154,12 @@ class DashboardController extends Controller
             return redirect()->back()->with('info_message', 'Cannot change to same status');
         }
 
+        if ($status == Order::STATUS_COMPLETED) {
+            $pdf = $this->orderManager->generateInvoiceAndSave($order);
+            $this->orderManager->SendCompleted($order, $pdf);
+            $this->orderManager->storeToFile($order, $pdf);
+
+        }
         $this->orderManager->changeOrderStatus($order, $status);
         $this->orderManager->save($order);
 

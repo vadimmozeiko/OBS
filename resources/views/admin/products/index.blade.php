@@ -26,11 +26,41 @@
                         <td>{{$product->title}}</td>
                         <td>{{$product->status}}</td>
                         <td class="mobile-hide">{{number_format($product->price / 100, 2)}} Eur</td>
-                        <td class="d-flex mobile-hide">
+                        <td class="d-flex mobile-hide justify-content-end">
                             <form action="{{route('product.edit', $product)}}">
                                 <button type="submit" class="card-link btn btn-info btn-sm m-1"
                                 >Details
                                 </button>
+                            </form>
+                            <form class="mobile-hide" action="{{route('product.changeStatus', $product)}}" method="POST">
+                                <input type="hidden" name="status" value="{{\App\Models\Product::STATUS_AVAILABLE}}">
+                                <button type="submit" class="card-link btn btn-success btn-sm m-1"
+                                        @if($product->status == \App\Models\Product::STATUS_AVAILABLE)
+                                        disabled
+                                    @endif
+                                >Available
+                                </button>
+                                @csrf
+                            </form>
+                            <form class="mobile-hide" action="{{route('product.changeStatus', $product)}}" method="POST">
+                                <input type="hidden" name="status" value="{{\App\Models\Product::STATUS_UNAVAILABLE}}">
+                                <button type="submit" class="card-link btn btn-warning btn-sm m-1"
+                                    @if($product->status == \App\Models\Product::STATUS_UNAVAILABLE)
+                                        disabled
+                                    @endif
+                                >Unavailable
+                                </button>
+                                @csrf
+                            </form>
+                            <form class="mobile-hide" action="{{route('product.changeStatus', $product)}}" method="POST">
+                                <input type="hidden" name="status" value="{{\App\Models\Product::STATUS_BROKEN}}">
+                                <button type="submit" class="card-link btn btn-dark btn-sm m-1"
+                                        @if($product->status == \App\Models\Product::STATUS_BROKEN)
+                                        disabled
+                                    @endif
+                                >Broken
+                                </button>
+                                @csrf
                             </form>
                         </td>
                     </tr>
@@ -39,6 +69,6 @@
             </table>
         @endif
         <div class="d-flex justify-content-center">
-{{--            {!! $product->links() !!}--}}
+            {!! $products->links() !!}
         </div>
 @endsection

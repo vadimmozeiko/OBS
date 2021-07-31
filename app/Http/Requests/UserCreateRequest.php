@@ -24,10 +24,10 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required | string | max:255',
-            'address' => 'required | string | max:255',
-            'phone' => 'required | numeric | min:11',
-            'email' => 'required | string | email | max:255| unique:users',
+            'name' => 'required | string | min:3 |max:255',
+            'address' => 'required | string | min:3 | max:255',
+            'phone' => 'required | numeric | min:9 | max:32',
+            'email' => 'required | string | email | max:255 | unique:users',
             'password' => 'required | string | min:8 | confirmed',
             'password_confirmation' => 'required | same:password',
             'status' => 'required | string' ,
