@@ -41,7 +41,7 @@ class UserController extends Controller
         $user = $this->userManager->store($request);
         $user->notify(new VerifyEmail);
 
-        $this->orderManager->SendWelcome($user);
+        $this->userManager->SendRegister($user);
 
         return redirect()->back()->with('success_message', 'User created successfully');
     }

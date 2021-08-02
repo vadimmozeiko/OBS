@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Managers\ProductManager;
+use App\Managers\UserManager;
+use App\Models\Product;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -36,7 +39,10 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        private UserManager $userManager,
+        private ProductManager $productManager,
+    )
     {
         $this->middleware('guest');
         $this->redirectTo = url()->previous();
@@ -67,7 +73,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'address' => $data['address'],
@@ -75,5 +81,15 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'status' => User::STATUS_ACTIVE,
         ]);
+
+        $emailData = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+        ];
+
+        $products = $this->productManager->getAll(Product::class);
+        $this->userManager->SendWelcome($emailData, $products);
+
+        return $user;
     }
 }

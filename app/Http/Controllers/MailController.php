@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -62,11 +63,21 @@ class MailController extends Controller
         });
     }
 
-    public function welcome(User $user)
+    public function register(User $user)
     {
-        $data = ['name' => auth()->user()->name, 'user' => $user];
-        Mail::send('mail.welcome', $data, function ($message) use ($user) {
+        $data = ['user' => $user];
+        Mail::send('mail.register', $data, function ($message) use ($user) {
             $message->to($user->email, $user->name)->subject
+            ('Welcome to OBS');
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
+    public function welcome($user, $products)
+    {
+        $data = ['user' => $user, 'products' => $products];
+        Mail::send('mail.welcome', $data, function ($message) use ($user) {
+            $message->to($user['email'], $user['name'])->subject
             ('Welcome to OBS');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });

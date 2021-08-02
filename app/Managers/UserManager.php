@@ -4,6 +4,7 @@
 namespace App\Managers;
 
 
+use App\Http\Controllers\MailController;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
@@ -20,7 +21,8 @@ class UserManager
      * UserManager constructor.
      */
     public function __construct(
-        private UserRepository $userRepository
+        private UserRepository $userRepository,
+        private MailController $mailController
     )
     {
     }
@@ -101,5 +103,14 @@ class UserManager
         $user->sendPasswordResetNotification($token);
     }
 
+    public function SendRegister(User $user)
+    {
+        $this->mailController->register($user);
+    }
+
+    public function SendWelcome($user, $products)
+    {
+        $this->mailController->welcome($user, $products);
+    }
 
 }

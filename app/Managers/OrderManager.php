@@ -112,10 +112,6 @@ class OrderManager
         $this->mailController->completed($order, $pdf);
     }
 
-    public function SendWelcome(User $user)
-    {
-        $this->mailController->welcome($user);
-    }
 
     public function changeOrderStatus(Order $order, string $status): void
     {
