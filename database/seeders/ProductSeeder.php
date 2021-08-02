@@ -48,7 +48,7 @@ class ProductSeeder extends Seeder
                 'title' => $titles[$key],
                 'price' => rand(6000, 9000),
                 'description' => $faker->realTextBetween(100, 300),
-                'status' => $faker->randomElement(Product::STATUSES),
+                'status' => Product::STATUS_AVAILABLE,
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);

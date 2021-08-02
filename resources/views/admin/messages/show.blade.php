@@ -39,7 +39,15 @@
                 <input id="received_at" type="text" class="form-control" name="created_at" value="{{$message->created_at}}" disabled>
             </div>
         </div>
-
+        @if($message->status == \App\Models\Contact::STATUS_REPLIED)
+        <div class="form-group row">
+            <label for="received_at" class="col-md-10 col-form-label text-md-left">Replied at</label>
+            <div class="col-md-10">
+                <input id="received_at" type="text" class="form-control" name="created_at" value="{{$message->updated_at}}" disabled>
+            </div>
+        </div>
+        @endif
+        <div class="d-flex">
         <form action="{{route('message.reply', $message)}}">
             <button type="submit" class="card-link btn btn-primary btn-m m-1
                     @if($message->status == \App\Models\Contact::STATUS_REPLIED)
@@ -50,7 +58,7 @@
         </form>
         <form action="{{route('message.update', $message)}}" method="POST">
             <input type="hidden" name="status" value="{{\App\Models\Contact::STATUS_READ}}">
-            <button type="submit" class="card-link btn btn-warning btn-sm m-1
+            <button type="submit" class="card-link btn btn-warning btn-m m-1
                     @if($message->status == \App\Models\Contact::STATUS_READ||
                         $message->status == \App\Models\Contact::STATUS_REPLIED)
                     d-none
@@ -59,5 +67,8 @@
             </button>
             @csrf
         </form>
+        <a class="card-link btn btn-primary m-1"
+           href="{{url()->previous()}}">Back</a>
+        </div>
     </div>
 @endsection
