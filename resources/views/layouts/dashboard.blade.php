@@ -46,6 +46,14 @@
                 <span>Go to Web Page</span></a>
         </li>
 
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Daily
+        </div>
+
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin.dashboard')}}">
