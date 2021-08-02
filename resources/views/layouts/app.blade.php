@@ -40,6 +40,7 @@
                     <li class="nav-item"><a class="nav-link menu hover-blue " href="{{ url('/') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('products')}}">Products</a></li>
                     <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('faq')}}">FAQ's</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('contact')}}">Contact Us</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

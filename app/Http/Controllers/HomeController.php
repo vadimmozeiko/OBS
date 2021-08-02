@@ -59,6 +59,11 @@ class HomeController extends Controller
         return view('faq');
     }
 
+    public function contact(): View
+    {
+        return view('contact');
+    }
+
     public function admin(): View
     {
         return view('admin_login');
