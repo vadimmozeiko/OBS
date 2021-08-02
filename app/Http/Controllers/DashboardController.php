@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Managers\ContactManager;
 use App\Managers\OrderManager;
 use App\Managers\ProductManager;
 use App\Managers\UserManager;
+use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -17,10 +19,13 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+
+
     public function __construct(
         private OrderManager $orderManager,
         private UserManager $userManager,
-        private ProductManager $productManager
+        private ProductManager $productManager,
+        private ContactManager $contactManager
     )
     {
     }

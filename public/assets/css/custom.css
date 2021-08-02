@@ -37,6 +37,14 @@ table {
     border-collapse: collapse;
 }
 
+.messages{
+    background-color: #fff;
+    color: #3c62d1;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
 .triangle-right {
     position: absolute;
     top: 0;

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactMessageRequest;
+use App\Http\Requests\ContactMessageCreateRequest;
+use App\Managers\ContactManager;
 use App\Managers\OrderManager;
 use App\Managers\ProductManager;
 use App\Managers\UserManager;
@@ -19,7 +20,8 @@ class HomeController extends Controller
     public function __construct(
         private OrderManager $orderManager,
         private UserManager $userManager,
-        private ProductManager $productManager
+        private ProductManager $productManager,
+        private ContactManager $contactManager,
     )
     {
     }
@@ -66,9 +68,11 @@ class HomeController extends Controller
         return view('contact');
     }
 
-    public function sendMessage(ContactMessageRequest $request)
+    public function sendMessage(ContactMessageCreateRequest $request)
     {
-       Contact::create($request->validated());
+        $this->contactManager->store($request);
+
+        return redirect()->back()->with('success_message', 'Your message was send successfully');
     }
 
     public function admin(): View

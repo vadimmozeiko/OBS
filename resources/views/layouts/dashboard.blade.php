@@ -53,6 +53,20 @@
                 <span>New bookings</span></a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('message.index')}}">
+                <i class="fas fa-envelope"></i>
+                <span>Messages
+                    <span class="messages">
+                    @if(\App\Models\Contact::getNumberOfMessages())
+                            {{\App\Models\Contact::getNumberOfMessages()}}
+                        @else
+                            0
+                        @endif
+                        </span>
+                    </span></a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

@@ -29,4 +29,9 @@ class Contact extends Model
         self::STATUS_READ,
         self::STATUS_COMPLETED,
     ];
+
+    public static function getNumberOfMessages(): int
+    {
+      return count(Contact::where('status', self::STATUS_NEW)->get());
+    }
 }

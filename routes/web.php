@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () {
         Route::get('', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::post('login/{user}', [DashboardController::class, 'loginAs'])->name('login.as');
+
+        Route::group(['prefix' => 'messages'], function () {
+            Route::get('', [ContactController::class, 'index'])->name('message.index');
+            Route::get('show/{contact}', [ContactController::class, 'show'])->name('message.show');
+            Route::post('update/{contact}', [ContactController::class, 'update'])->name('message.update');
+
+
+        });
 
         Route::group(['prefix' => 'orders'], function () {
             Route::get('', [DashboardController::class, 'listOrder'])->name('list.order');
