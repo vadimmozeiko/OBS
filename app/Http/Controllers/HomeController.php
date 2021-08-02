@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactMessageRequest;
 use App\Managers\OrderManager;
 use App\Managers\ProductManager;
 use App\Managers\UserManager;
+use App\Models\Contact;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -62,6 +64,11 @@ class HomeController extends Controller
     public function contact(): View
     {
         return view('contact');
+    }
+
+    public function sendMessage(ContactMessageRequest $request)
+    {
+       Contact::create($request->validated());
     }
 
     public function admin(): View

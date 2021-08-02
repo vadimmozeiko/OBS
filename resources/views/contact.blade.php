@@ -11,10 +11,11 @@
                 </div>
                 <div class="float-right w-50 pr-3 text-left">
                     <h2 class="mt-3 mb-4">Contact Us</h2>
-                    <form method="POST" action="">
+                    <form method="POST" action="{{route('send.message')}}">
+                        @csrf
                         <span class="input-group-addon d-block mt-3" id="basic-addon1">Name *</span>
                         <input class="form-control @error('name') is-invalid @enderror" type="text"
-                               name="name" value="{{old('name')}}">
+                               name="name" value="{{old('name', auth()->user()->name ?? '')}}">
                         @error('name')
                         <small class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -22,7 +23,7 @@
                         @enderror
                         <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
                         <input class="form-control @error('email') is-invalid @enderror" type="email"
-                               name="email" value="{{old('email')}}">
+                               name="email" value="{{old('email', auth()->user()->email ?? '')}}">
                         @error('email')
                         <small class="invalid-feedback " role="alert">
                             <strong>{{ $message }}</strong>
@@ -37,6 +38,7 @@
                         </small>
                         @enderror
                         <small class="d-block mb-3">* Required info</small>
+                        <input type="hidden" name="status" value="{{\App\Models\Contact::STATUS_NEW}}">
                         <button class="btn btn-primary btn-m mb-2" type="submit">Send</button>
                     </form>
                 </div>
