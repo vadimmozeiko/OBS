@@ -43,7 +43,7 @@
         <div class="form-group row">
             <label for="received_at" class="col-md-10 col-form-label text-md-left">Replied at</label>
             <div class="col-md-10">
-                <input id="received_at" type="text" class="form-control" name="created_at" value="{{$message->updated_at}}" disabled>
+                <input id="received_at" type="text" class="form-control" name="created_at" value="{{$message->status()->whenWas('replied')}}" disabled>
             </div>
         </div>
         @endif

@@ -4,7 +4,6 @@ namespace App\Managers;
 
 use App\Http\Controllers\MailController;
 use App\Http\Requests\ContactMessageCreateRequest;
-use App\Http\Requests\ContactMessageUpdateRequest;
 use App\Models\Contact;
 use App\Repositories\ContactRepository;
 use Illuminate\Http\Request;
@@ -23,10 +22,6 @@ class ContactManager
       return $this->contactRepository->getAllMessages();
     }
 
-    public function update(ContactMessageUpdateRequest $request, Contact $contact)
-    {
-        $this->contactRepository->update($request, $contact);
-    }
 
     public function store(ContactMessageCreateRequest $request)
     {

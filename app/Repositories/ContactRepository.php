@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Http\Requests\ContactMessageCreateRequest;
-use App\Http\Requests\ContactMessageUpdateRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -19,8 +18,4 @@ class ContactRepository extends BaseRepository
         Contact::create($request->validated());
     }
 
-    public function update(ContactMessageUpdateRequest $request, Contact $contact)
-    {
-        $contact->update($request->validated());
-    }
 }

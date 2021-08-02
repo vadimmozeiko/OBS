@@ -46,9 +46,9 @@ class ContactController extends Controller
     }
 
 
-    public function update(ContactMessageUpdateRequest $request, Contact $contact)
+    public function update(Contact $contact)
     {
-        $this->contactManager->update($request, $contact);
+        $contact->status()->transitionTo('read');
         return redirect()->back()->with('success_message', 'Message status updated successfully');
     }
 
@@ -57,10 +57,10 @@ class ContactController extends Controller
         return view('admin.messages.reply', ['message' => $contact]);
     }
 
-    public function sendReply(ContactMessageUpdateRequest $request, Contact $contact)
+    public function sendReply(Request $request, Contact $contact)
     {
         $this->contactManager->sendReply($contact, $request);
-        $this->contactManager->update($request, $contact);
+        $contact->status()->transitionTo('replied');
         return redirect()->route('message.index')->with('success_message', 'Message sent successfully');
     }
 

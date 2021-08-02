@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\StateMachines\MessageStatusStateMachine;
+use Asantibanez\LaravelEloquentStateMachines\Traits\HasStateMachines;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
     use HasFactory;
+    use HasStateMachines;
 
     protected $guarded = [];
 
@@ -28,6 +31,11 @@ class Contact extends Model
         self::STATUS_NEW,
         self::STATUS_READ,
         self::STATUS_REPLIED,
+    ];
+
+
+    public $stateMachines = [
+        'status' => MessageStatusStateMachine::class
     ];
 
     public static function getNumberOfMessages(): int
