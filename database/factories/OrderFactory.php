@@ -38,7 +38,7 @@ class OrderFactory extends Factory
             'address' => $randomUser->address,
             'date' => $this->faker->dateTimeBetween($startDate = "now", $endDate = "60 days")->format('Y-m-d'),
             'status' => $this->faker->randomElement(Order::STATUSES),
-            'price' => $randomProduct->price,
+            'price' => $randomProduct->price / 100,
             'user_id' => $randomUser->id,
             'product_id' => $randomProduct->id,
             'created_at' => date("Y-m-d H:i:s"),

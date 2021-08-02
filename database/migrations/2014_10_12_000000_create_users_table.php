@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('address')->nullable();
-            $table->string('phone', 32)->nullable();
+            $table->string('phone', 64)->nullable();
             $table->boolean('isAdmin')->default('0');
             $table->enum('status', User::STATUSES);
             $table->timestamp('email_verified_at')->nullable();

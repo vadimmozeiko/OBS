@@ -54,7 +54,7 @@ class ProductController extends Controller
 
     public function update(ProductCreateRequest $request, Product $product)
     {
-        if($product->image) {
+        if($product->image && $request->has('image')) {
             $this->productManager->deleteOldImage($product);
         }
 

@@ -26,7 +26,7 @@ class UserUpdateRequest extends FormRequest
         return [
             'name' => 'required | string | min:3 | max:255',
             'address' => 'required | string | min:3 | max:255',
-            'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9 | max:32',
+            'phone' => 'required | regex:/^([0-9\s\-\+\(\)]*)$/ | min:9',
             'email' => 'required | string | email | max:255'
         ];
     }
