@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
@@ -76,6 +78,16 @@ class MailController extends Controller
         Mail::send('mail.completed', $data, function ($message) use ($order, $pdf) {
             $message->to($order->email, $order->name)->subject
             ('Booking #'. $order->order_number . ' ' . 'invoice')->attachData($pdf, "$order->order_number.pdf");
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
+    public function sendReply(Contact $contact, Request $request)
+    {
+        $data = ['details' => $contact, 'request' => $request];
+        Mail::send('mail.reply', $data, function ($message) use ($contact, $request) {
+            $message->to($contact->email, $contact->name)
+                ->subject($request->subject);
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }

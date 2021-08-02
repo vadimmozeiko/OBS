@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class ContactController extends Controller
 {
     public function __construct(
-        private ContactManager $contactManager
+        private ContactManager $contactManager,
     )
     {
     }
@@ -51,6 +51,20 @@ class ContactController extends Controller
         $this->contactManager->update($request, $contact);
         return redirect()->back()->with('success_message', 'Message status updated successfully');
     }
+
+    public function replyForm(Contact $contact)
+    {
+        return view('admin.messages.reply', ['message' => $contact]);
+    }
+
+    public function sendReply(ContactMessageUpdateRequest $request, Contact $contact)
+    {
+        $this->contactManager->sendReply($contact, $request);
+        $this->contactManager->update($request, $contact);
+        return redirect()->route('message.index')->with('success_message', 'Message sent successfully');
+    }
+
+
 
 
     public function destroy(Contact $contact)

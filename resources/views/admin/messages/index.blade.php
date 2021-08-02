@@ -37,20 +37,10 @@
                                 <input type="hidden" name="status" value="{{\App\Models\Contact::STATUS_READ}}">
                                 <button type="submit" class="card-link btn btn-warning btn-sm m-1"
                                         @if($message->status == \App\Models\Contact::STATUS_READ||
-                                            $message->status == \App\Models\Contact::STATUS_COMPLETED)
+                                            $message->status == \App\Models\Contact::STATUS_REPLIED)
                                         disabled
                                     @endif
                                 >Mark as read
-                                </button>
-                                @csrf
-                            </form>
-                            <form action="{{route('message.update', $message)}}" method="POST">
-                                <input type="hidden" name="status" value="{{\App\Models\Contact::STATUS_COMPLETED}}">
-                                <button type="submit" class="card-link btn btn-success btn-sm m-1"
-                                        @if($message->status == \App\Models\Contact::STATUS_COMPLETED)
-                                        disabled
-                                    @endif
-                                >Complete
                                 </button>
                                 @csrf
                             </form>

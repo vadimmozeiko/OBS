@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::get('', [ContactController::class, 'index'])->name('message.index');
             Route::get('show/{contact}', [ContactController::class, 'show'])->name('message.show');
             Route::post('update/{contact}', [ContactController::class, 'update'])->name('message.update');
+            Route::get('reply/{contact}', [ContactController::class, 'replyForm'])->name('message.reply');
+            Route::post('send/reply/{contact}', [ContactController::class, 'sendReply'])->name('message.sendReply');
 
 
         });

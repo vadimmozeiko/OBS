@@ -2,15 +2,18 @@
 
 namespace App\Managers;
 
+use App\Http\Controllers\MailController;
 use App\Http\Requests\ContactMessageCreateRequest;
 use App\Http\Requests\ContactMessageUpdateRequest;
 use App\Models\Contact;
 use App\Repositories\ContactRepository;
+use Illuminate\Http\Request;
 
 class ContactManager
 {
     public function __construct(
-        private ContactRepository $contactRepository
+        private ContactRepository $contactRepository,
+        private MailController $mailController
     )
     {
     }
@@ -28,6 +31,11 @@ class ContactManager
     public function store(ContactMessageCreateRequest $request)
     {
         $this->contactRepository->store($request);
+    }
+
+    public function sendReply(Contact $contact, Request $request)
+    {
+        $this->mailController->sendReply($contact, $request);
     }
 
 }
