@@ -61,7 +61,8 @@
                 <span>New bookings
                    <span class="messages">
                     @if(\App\Models\Order::getNumberOfNewOrders())
-                       {{\App\Models\Order::getNumberOfNewOrders()}}
+                       {{\App\Models\Order::getNumberOfNewOrders()  >= 100 ?
+                            '99+' : \App\Models\Order::getNumberOfNewOrders()}}
                     @else
                       0
                     @endif
@@ -75,7 +76,8 @@
                 <span>New messages
                     <span class="messages">
                     @if(\App\Models\Contact::getNumberOfMessages())
-                            {{\App\Models\Contact::getNumberOfMessages()}}
+                            {{\App\Models\Contact::getNumberOfMessages() >= 100 ?
+                                '99+' : \App\Models\Contact::getNumberOfMessages()}}
                         @else
                             0
                         @endif
@@ -89,7 +91,8 @@
                 <span>Notifications
                    <span class="messages">
                     @if(\App\Models\Notification::getNumberOfNotifications())
-                           {{\App\Models\Notification::getNumberOfNotifications()}}
+                           {{\App\Models\Notification::getNumberOfNotifications() >= 100 ?
+                                '99+' : \App\Models\Notification::getNumberOfNotifications()}}
                        @else
                            0
                        @endif
