@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactMessageUpdateRequest;
 use App\Managers\ContactManager;
 use App\Models\Contact;
 use Illuminate\Http\Request;
@@ -15,10 +14,23 @@ class ContactController extends Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+
         $messages = $this->contactManager->getAllMessages();
-        return view('admin.messages.index',['messages' => $messages]);
+
+        if ($search) {
+            $messages = $this->contactManager->search($search);
+        }
+
+        return view('admin.messages.index',['messages' => $messages, 'search' => $search]);
+    }
+
+    public function newMessages()
+    {
+        $messages = $this->contactManager->getNewMessages();
+        return view('admin.messages.new',['messages' => $messages]);
     }
 
 
@@ -59,6 +71,7 @@ class ContactController extends Controller
 
     public function sendReply(Request $request, Contact $contact)
     {
+        $contact->update(['reply' => $request->get('reply')]);
         $this->contactManager->sendReply($contact, $request);
         $contact->status()->transitionTo('replied');
         return redirect()->route('message.index')->with('success_message', 'Message sent successfully');

@@ -41,7 +41,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="{{route('index')}}">
+            <a class="nav-link text-center text-uppercase" href="{{route('index')}}">
                 <i class="fas fa-globe"></i>
                 <span>Go to Web Page</span></a>
         </li>
@@ -58,13 +58,21 @@
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin.dashboard')}}">
                 <i class="fas fa-calendar-check"></i>
-                <span>New bookings</span></a>
+                <span>New bookings
+                   <span class="messages">
+                    @if(\App\Models\Order::getNumberOfNewOrders())
+                       {{\App\Models\Order::getNumberOfNewOrders()}}
+                    @else
+                      0
+                    @endif
+                   </span>
+                </span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{route('message.index')}}">
+            <a class="nav-link" href="{{route('message.new')}}">
                 <i class="fas fa-envelope"></i>
-                <span>Messages
+                <span>New messages
                     <span class="messages">
                     @if(\App\Models\Contact::getNumberOfMessages())
                             {{\App\Models\Contact::getNumberOfMessages()}}
@@ -80,12 +88,32 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
+            Messages
+        </div>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('create.order')}}">
+                <i class="fas fa-envelope-open"></i>
+                <span>Create new message</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('message.index')}}">
+                <i class="fas fa-inbox"></i>
+                <span>Manage messages </span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
             Bookings
         </div>
 
         <li class="nav-item">
             <a class="nav-link" href="{{route('create.order')}}">
-                <i class="fas fa-plus"></i>
+                <i class="fas fa-calendar-plus"></i>
                 <span>Create new booking</span></a>
         </li>
 

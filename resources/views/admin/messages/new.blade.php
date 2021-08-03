@@ -1,14 +1,8 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h2 class="mb-4">Manage messages</h2>
+    <h2 class="mb-4">New messages</h2>
     <div class="justify-content-center pl-md-5 pr-md-5">
-            <form action="{{route('message.index')}}">
-                <div class="form-group mb-2 d-flex">
-                    <input class="form-control" name="search" type="text" value="{{$search}}" placeholder="Quick search...">
-                    <button type="submit" class="btn btn-primary mb-2 ml-3">Search</button>
-                </div>
-            </form>
         @if($messages->isEmpty())
             <div class="d-flex text-center justify-content-center">
                 <h2 class="mt-5">No messages</h2>

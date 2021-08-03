@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h2 class="mb-4">Product list</h2>
+    <h2 class="mb-4">Manage products</h2>
     <div class="justify-content-center pl-md-5 pr-md-5">
         @if($products->isEmpty())
             <div class="d-flex text-center justify-content-center">

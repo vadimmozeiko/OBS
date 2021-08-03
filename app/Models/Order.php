@@ -68,4 +68,9 @@ class Order extends Model
         $value *= 100;
         $this->attributes['price'] = (int)$value;
     }
+
+    public static function getNumberOfNewOrders(): int
+    {
+        return count(Order::where('status', self::STATUS_NOT_CONFIRMED)->get());
+    }
 }

@@ -26,7 +26,7 @@ class ContactFactory extends Factory
             'email' => $this->faker->email,
             'message' => $this->faker->realTextBetween(100, 300),
             'status' => Contact::STATUS_NEW,
-            'created_at' => $this->faker->dateTimeBetween("-10 days"),
+            'created_at' => $this->faker->dateTimeBetween("-3 days"),
         ];
     }
 }

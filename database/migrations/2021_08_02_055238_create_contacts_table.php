@@ -19,6 +19,7 @@ class CreateContactsTable extends Migration
             $table->string('name', 32);
             $table->string('email', 128);
             $table->text('message');
+            $table->text('reply')->nullable(true);
             $table->enum('status', Contact::STATUSES);
             $table->timestamps();
         });

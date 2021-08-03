@@ -33,4 +33,14 @@ class ContactManager
         $this->mailController->sendReply($contact, $request);
     }
 
+    public function getNewMessages()
+    {
+        return $this->contactRepository->getNewMessages();
+    }
+
+    public function search(string $search)
+    {
+        return $this->contactRepository->search($search);
+    }
+
 }

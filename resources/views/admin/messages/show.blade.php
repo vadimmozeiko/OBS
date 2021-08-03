@@ -23,10 +23,19 @@
         <div class="form-group row">
             <label for="message" class="col-md-10 col-form-label text-md-left">Message </label>
             <div class="col-md-10">
-                    <textarea rows="10" class="form-control"
+                    <textarea rows="6" class="form-control"
                               name="message" disabled>{{$message->message}}</textarea>
             </div>
         </div>
+        @if($message->reply)
+        <div class="form-group row">
+            <label for="message" class="col-md-10 col-form-label text-md-left">Reply </label>
+            <div class="col-md-10">
+                    <textarea rows="6" class="form-control"
+                              name="message" disabled>{{$message->reply}}</textarea>
+            </div>
+        </div>
+        @endif
         <div class="form-group row">
             <label for="status" class="col-md-10 col-form-label text-md-left">Status</label>
             <div class="col-md-10">

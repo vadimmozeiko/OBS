@@ -31,9 +31,9 @@
             </div>
 
             <div class="form-group row">
-                <label for="answer" class="col-md-10 col-form-label text-md-left">Answer</label>
+                <label for="reply" class="col-md-10 col-form-label text-md-left">Reply</label>
                 <div class="col-md-10">
-                    <textarea id="answer" rows="10" class="form-control" name="message"></textarea>
+                    <textarea id="reply" rows="10" class="form-control" name="reply"></textarea>
                 </div>
             </div>
             <button type="submit" class="card-link btn btn-primary btn-m m-1">Send</button>
