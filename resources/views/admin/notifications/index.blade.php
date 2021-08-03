@@ -11,9 +11,9 @@
                 @foreach($notifications as $notification)
                 <div class="card mb-3">
                     <div class="card-body p-2">
-                        <p class="card-text d-inline-block float-left">{{$notification->event}}</p>
+                        <p class="card-text d-inline-block float-left gj-font-size-16 mb-0"><a href="{{route('edit.order', $notification->order_id)}}">{{$notification->event}}</a> </p>
                         <form method="POST" action="{{route('notifications.seen', $notification)}}">
-                            <button type="submit" class="btn pt-1 pb-1 btn-outline-success d-inline-block float-right">X</button>
+                            <button type="submit" class="btn pt-1 pb-1 btn-outline-success d-inline-block float-right"><i class="fas fa-check"></i></button>
                             @csrf
                         </form>
                     </div>

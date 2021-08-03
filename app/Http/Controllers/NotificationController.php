@@ -18,8 +18,9 @@ class NotificationController extends Controller
 
     public function store(string $event, Order $order)
     {
-        $event = $event. ' #'. $order->order_number;
+        $event = '#'. $order->order_number . ' ' . $event . " ($order->updated_at)";
         Notification::create([
+            'order_id' => $order->id,
             'event' => $event,
             'status' => Notification::STATUS_NEW
         ]);

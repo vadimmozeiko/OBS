@@ -16,6 +16,7 @@ class Notification extends Model
 
 
     protected $fillable = [
+        'order_id',
         'event',
         'status',
     ];

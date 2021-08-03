@@ -16,6 +16,7 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id');
             $table->string('event');
             $table->enum('status', Notification::STATUSES);
             $table->timestamps();

@@ -85,7 +85,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="{{route('notifications.index')}}">
-                <i class="fas fa-calendar-check"></i>
+                <i class="fas fa-bell"></i>
                 <span>Notifications
                    <span class="messages">
                     @if(\App\Models\Notification::getNumberOfNotifications())
