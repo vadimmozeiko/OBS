@@ -65,6 +65,7 @@ class DashboardController extends Controller
         $products = $this->orderManager->getAll(Product::class);
         $productsId = $request->get('product');
 
+        // TODO REFACTOR | create filter here
         if ($orderStatus) {
             $orders = $this->orderManager->getByStatus(Order::class, $orderStatus);
         }
@@ -178,7 +179,7 @@ class DashboardController extends Controller
     public function loginAs($user): RedirectResponse
     {
         auth()->logout();
-        Auth::loginUsingId($user, true);
+        auth()->loginUsingId($user, true);
         return redirect()->route('index');
     }
 

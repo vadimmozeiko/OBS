@@ -22,7 +22,11 @@ class ContactFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'message' => $this->faker->realTextBetween(100, 300),
+            'status' => Contact::STATUS_NEW,
+            'created_at' => $this->faker->dateTimeBetween("-10 days"),
         ];
     }
 }

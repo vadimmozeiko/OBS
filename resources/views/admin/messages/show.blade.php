@@ -39,9 +39,17 @@
                 <input id="received_at" type="text" class="form-control" name="created_at" value="{{$message->created_at}}" disabled>
             </div>
         </div>
+        @if($message->status == \App\Models\Contact::STATUS_READ)
+            <div class="form-group row">
+                <label for="read_at" class="col-md-10 col-form-label text-md-left">Read</label>
+                <div class="col-md-10">
+                    <input id="received_at" type="text" class="form-control" name="read_at" value="{{$message->status()->whenWas('read')}}" disabled>
+                </div>
+            </div>
+        @endif
         @if($message->status == \App\Models\Contact::STATUS_REPLIED)
         <div class="form-group row">
-            <label for="received_at" class="col-md-10 col-form-label text-md-left">Replied at</label>
+            <label for="received_at" class="col-md-10 col-form-label text-md-left">Replied</label>
             <div class="col-md-10">
                 <input id="received_at" type="text" class="form-control" name="created_at" value="{{$message->status()->whenWas('replied')}}" disabled>
             </div>
