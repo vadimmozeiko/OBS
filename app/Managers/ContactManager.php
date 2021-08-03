@@ -43,4 +43,9 @@ class ContactManager
         return $this->contactRepository->search($search);
     }
 
+    public function sendMessage(Request $request)
+    {
+        $this->mailController->sendMessage($request);
+    }
+
 }

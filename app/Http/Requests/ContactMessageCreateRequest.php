@@ -24,10 +24,11 @@ class ContactMessageCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required | string | min:3 | max:32',
+            'name' => 'sometimes | string | max:32',
             'email' => 'required | string | email | max:128',
+            'subject' =>'sometimes',
             'message' => 'required | min: 3 | max: 1000',
-            'status' => 'required | string | in:new',
+            'status' => 'sometimes | string | in:new',
         ];
     }
 }

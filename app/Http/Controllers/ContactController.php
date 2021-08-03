@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactMessageCreateRequest;
 use App\Managers\ContactManager;
+use App\Managers\UserManager;
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
     public function __construct(
         private ContactManager $contactManager,
+        private UserManager $userManager,
     )
     {
     }
@@ -34,9 +38,11 @@ class ContactController extends Controller
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $userName = $request->get('name');
+        $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
+        return view('admin.messages.create', ['users' => $users, 'userName' => $userName]);
     }
 
 
@@ -67,6 +73,12 @@ class ContactController extends Controller
     public function replyForm(Contact $contact)
     {
         return view('admin.messages.reply', ['message' => $contact]);
+    }
+
+    public function sendMessage(ContactMessageCreateRequest $request)
+    {
+        $this->contactManager->sendMessage($request);
+        return redirect()->back()->with('success_message', 'Message sent successfully');
     }
 
     public function sendReply(Request $request, Contact $contact)

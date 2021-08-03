@@ -50,6 +50,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
         Route::group(['prefix' => 'messages'], function () {
             Route::get('', [ContactController::class, 'index'])->name('message.index');
+            Route::get('create', [ContactController::class, 'create'])->name('message.create');
+            Route::post('store', [ContactController::class, 'sendMessage'])->name('message.sendMessage');
             Route::get('new', [ContactController::class, 'newMessages'])->name('message.new');
             Route::get('show/{contact}', [ContactController::class, 'show'])->name('message.show');
             Route::post('update/{contact}', [ContactController::class, 'update'])->name('message.update');

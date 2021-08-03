@@ -103,4 +103,14 @@ class MailController extends Controller
         });
     }
 
+    public function sendMessage(Request $request)
+    {
+        $data = ['request' => $request];
+        Mail::send('mail.new', $data, function ($message) use ($request) {
+            $message->to($request->email, $request->name)
+                ->subject($request->subject);
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
 }

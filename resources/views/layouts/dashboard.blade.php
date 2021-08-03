@@ -92,7 +92,7 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{route('create.order')}}">
+            <a class="nav-link" href="{{route('message.create')}}">
                 <i class="fas fa-envelope-open"></i>
                 <span>Create new message</span></a>
         </li>
