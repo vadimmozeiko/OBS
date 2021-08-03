@@ -83,6 +83,20 @@
                     </span></a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('notifications.index')}}">
+                <i class="fas fa-calendar-check"></i>
+                <span>Notifications
+                   <span class="messages">
+                    @if(\App\Models\Notification::getNumberOfNotifications())
+                           {{\App\Models\Notification::getNumberOfNotifications()}}
+                       @else
+                           0
+                       @endif
+                   </span>
+                </span></a>
+        </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 

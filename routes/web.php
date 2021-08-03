@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -16,8 +17,6 @@ Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/products/all', [HomeController::class, 'products'])->name('products');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact/message', [HomeController::class, 'sendMessage'])->name('send.message');
-
-
 
 
 Auth::routes(['verify' => true]);
@@ -48,6 +47,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::post('login/{user}', [DashboardController::class, 'loginAs'])->name('login.as');
 
+        Route::group(['prefix' => 'notifications'], function () {
+            Route::get('', [NotificationController::class, 'index'])->name('notifications.index');
+            Route::post('seen/{notification}', [NotificationController::class, 'seen'])->name('notifications.seen');
+        });
+
         Route::group(['prefix' => 'messages'], function () {
             Route::get('', [ContactController::class, 'index'])->name('message.index');
             Route::get('create', [ContactController::class, 'create'])->name('message.create');
@@ -57,8 +61,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::post('update/{contact}', [ContactController::class, 'update'])->name('message.update');
             Route::get('reply/{contact}', [ContactController::class, 'replyForm'])->name('message.reply');
             Route::post('send/reply/{contact}', [ContactController::class, 'sendReply'])->name('message.sendReply');
-
-
         });
 
         Route::group(['prefix' => 'orders'], function () {

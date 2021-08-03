@@ -18,7 +18,8 @@ class OrderController extends Controller
 
     public function __construct(
         private OrderManager $orderManager,
-        private UserManager $userManager)
+        private UserManager $userManager,
+        private NotificationController $notificationController)
     {
     }
 
@@ -77,7 +78,7 @@ class OrderController extends Controller
         $this->orderManager->update($request, $order);
         $user = $this->userManager->getAuthUser();
         $this->orderManager->SendOrderChange($order);
-
+        $this->notificationController->store('Order updated',$order);
         return redirect()->route('user.orders', $user)->with('success_message', 'Booking details changed successfully');
     }
 
@@ -86,6 +87,7 @@ class OrderController extends Controller
         $this->orderManager->changeOrderStatus($order, Order::STATUS_CANCELLED);
         $this->orderManager->save($order);
         $this->orderManager->SendCancelled($order);
+        $this->notificationController->store('Order cancelled',$order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
 }
