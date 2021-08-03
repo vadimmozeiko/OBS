@@ -124,14 +124,13 @@
                 <table>
                     <tr>
                         <td>
-                            OBS, Inc.<br />
-                            12345 Sunny Road<br />
-                            Sunnyville, CA 12345
+                            OBS Financial<br />
+                            6330 Levis Commons Blvd<br />
+                            Perrysburg, OH 43551,
                         </td>
 
                         <td style="width: 50%;">
                             {{$order->name}}<br />
-                            {{$order->email}}<br />
                             {{$order->address}}
                         </td>
                     </tr>
