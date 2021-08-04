@@ -37,12 +37,17 @@
                         </small>
                         @enderror
                         <small class="d-block mb-3">* Required info</small>
-                        <div class="g-recaptcha" data-sitekey="6Ldg9NgbAAAAAAHwVnIMw1VPGOW2Kzp1PEBR-PqA"></div>
+                        <div class="g-recaptcha" data-callback="enableBtn" data-sitekey="6Ldg9NgbAAAAAAHwVnIMw1VPGOW2Kzp1PEBR-PqA"></div>
                         <input type="hidden" name="status" value="{{\App\Models\Contact::STATUS_NEW}}">
-                        <button class="btn btn-primary btn-m mb-2 mt-2" type="submit">Send</button>
+                        <button id="submit" class="btn btn-primary btn-m mb-2 mt-2" type="submit" disabled>Send</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function enableBtn(){
+            document.getElementById("submit").disabled = false;
+        }
+    </script>
 @endsection

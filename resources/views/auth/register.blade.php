@@ -86,12 +86,12 @@
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <div class="g-recaptcha mt-3" data-callback="enableBtn" data-sitekey="6Ldg9NgbAAAAAAHwVnIMw1VPGOW2Kzp1PEBR-PqA"></div>
                             </div>
                         </div>
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" id="submit" class="btn btn-primary" disabled>
                                     {{ __('Sign Up') }}
                                 </button>
                             </div>
@@ -102,4 +102,9 @@
         </div>
     </div>
 </div>
+<script>
+    function enableBtn(){
+        document.getElementById("submit").disabled = false;
+    }
+</script>
 @endsection
