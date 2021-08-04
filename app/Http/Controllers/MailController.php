@@ -97,8 +97,7 @@ class MailController extends Controller
     {
         $data = ['details' => $contact, 'request' => $request];
         Mail::send('mail.reply', $data, function ($message) use ($contact, $request) {
-            $message->to($contact->email, $contact->name)
-                ->subject($request->subject);
+            $message->to($contact->email, $contact->name)->subject($request->subject);
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }
@@ -107,8 +106,7 @@ class MailController extends Controller
     {
         $data = ['request' => $request];
         Mail::send('mail.new', $data, function ($message) use ($request) {
-            $message->to($request->email, $request->name)
-                ->subject($request->subject);
+            $message->to($request->email, $request->name)->subject($request->subject);
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }

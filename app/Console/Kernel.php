@@ -24,7 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('notifications:delete')->weekly();
+        $schedule->command('notifications:delete')
+            ->description('deletes week old notifications')
+            ->weekly();
     }
 
     /**
