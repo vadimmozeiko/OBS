@@ -51,7 +51,7 @@ class DashboardController extends Controller
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
         $order = $this->orderManager->store($request);
-        $this->orderManager->SendNotConfirmed($order);
+        $this->orderManager->sendNotConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
 
@@ -131,8 +131,7 @@ class DashboardController extends Controller
 
         $this->orderManager->update($request, $order);
 
-        // TODO configure mail send here
-//        $this->mail->orderChange($order);
+        $this->orderManager->sendOrderChange($order);
 
         return redirect()->back()->with('success_message', 'Booking details changed successfully');
     }
@@ -162,15 +161,14 @@ class DashboardController extends Controller
 
         if ($status == Order::STATUS_COMPLETED) {
             $pdf = $this->orderManager->generateInvoiceAndSave($order);
-            $this->orderManager->SendCompleted($order, $pdf);
+            $this->orderManager->sendCompleted($order, $pdf);
             $this->orderManager->storeToFile($order, $pdf);
 
         }
         $this->orderManager->changeOrderStatus($order, $status);
         $this->orderManager->save($order);
 
-        // TODO configure status change mail send here
-//        $this->mail->statusChange($order);
+        $this->orderManager->sendStatusChange($order);
 
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 

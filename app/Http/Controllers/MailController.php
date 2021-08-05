@@ -35,7 +35,7 @@ class MailController extends Controller
 
     public function orderChange(Order $order)
     {
-        $data = ['name' => auth()->user()->name, 'order' => $order];
+        $data = ['order' => $order];
         Mail::send('mail.change', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' details were changed');
@@ -45,7 +45,7 @@ class MailController extends Controller
 
     public function statusChange(Order $order)
     {
-        $data = ['name' => auth()->user()->name, 'order' => $order];
+        $data = ['order' => $order];
         Mail::send('mail.change', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' status was changed');
@@ -55,7 +55,7 @@ class MailController extends Controller
 
     public function cancelled(Order $order)
     {
-        $data = ['name' => auth()->user()->name, 'order' => $order];
+        $data = ['order' => $order];
         Mail::send('mail.cancelled', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' was cancelled');
@@ -88,7 +88,7 @@ class MailController extends Controller
         $data = ['order' => $order];
         Mail::send('mail.completed', $data, function ($message) use ($order, $pdf) {
             $message->to($order->email, $order->name)->subject
-            ('Booking #'. $order->order_number . ' ' . 'invoice')->attachData($pdf, "$order->order_number.pdf");
+            ('Booking #'. $order->order_number . ' ' . 'invoice')->attachData(base64_decode($pdf), "$order->order_number.pdf");
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }
