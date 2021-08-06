@@ -4,7 +4,6 @@
 namespace App\Managers;
 
 
-use App\Http\Controllers\MailController;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Jobs\SendEmailJob;
@@ -12,6 +11,7 @@ use App\Models\Order;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
+use App\Services\MailService;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 
@@ -22,10 +22,10 @@ class OrderManager
      * OrderManager constructor.
      */
     public function __construct(
-        private OrderRepository $orderRepository,
+        private OrderRepository   $orderRepository,
         private ProductRepository $productRepository,
-        private MailController $mailController,
-        private UserRepository $userRepository)
+        private MailService       $mailService,
+        private UserRepository    $userRepository)
     {
     }
 
@@ -93,32 +93,32 @@ class OrderManager
 
     public function sendNotConfirmed(Order $order): void
     {
-        dispatch(new SendEmailJob($this->mailController,'notConfirmed', $order))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob($this->mailService,'notConfirmed', $order))->delay(now()->addSeconds(30));
 //        $this->mailController->notConfirmed($order);
     }
 
     public function sendOrderChange(Order $order): void
     {
-        dispatch(new SendEmailJob($this->mailController,'orderChange', $order))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob($this->mailService,'orderChange', $order))->delay(now()->addSeconds(30));
 //        $this->mailController->orderChange($order);
     }
 
     public function sendCancelled(Order $order)
     {
-        dispatch(new SendEmailJob($this->mailController,'cancelled', $order))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob($this->mailService,'cancelled', $order))->delay(now()->addSeconds(30));
 //        $this->mailController->cancelled($order);
     }
 
     public function sendCompleted(Order $order, $pdf)
     {
-        dispatch(new SendEmailJob($this->mailController,'completed', $order, $pdf))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob($this->mailService,'completed', $order, $pdf))->delay(now()->addSeconds(30));
 //        $this->mailController->completed($order, $pdf);
     }
 
 
     public function sendStatusChange(Order $order)
     {
-        dispatch(new SendEmailJob($this->mailController,'statusChange', $order))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob($this->mailService,'statusChange', $order))->delay(now()->addSeconds(30));
     }
 
 

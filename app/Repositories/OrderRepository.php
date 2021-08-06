@@ -7,10 +7,7 @@ namespace App\Repositories;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
-use App\Models\Product;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use function React\Promise\all;
 
 class OrderRepository extends BaseRepository
 {

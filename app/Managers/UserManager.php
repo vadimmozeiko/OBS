@@ -4,13 +4,13 @@
 namespace App\Managers;
 
 
-use App\Http\Controllers\MailController;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Services\MailService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -22,7 +22,7 @@ class UserManager
      */
     public function __construct(
         private UserRepository $userRepository,
-        private MailController $mailController
+        private MailService $mailService
     )
     {
     }
@@ -103,14 +103,14 @@ class UserManager
         $user->sendPasswordResetNotification($token);
     }
 
-    public function SendRegister(User $user)
+    public function sendRegister(User $user)
     {
-        $this->mailController->register($user);
+        $this->mailService->register($user);
     }
 
-    public function SendWelcome($user, $products)
+    public function sendWelcome($user, $products)
     {
-        $this->mailController->welcome($user, $products);
+        $this->mailService->welcome($user, $products);
     }
 
 }

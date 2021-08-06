@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Controllers\MailController;
+use App\Services\MailService;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -16,7 +16,7 @@ class SendEmailJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
-    public function __construct(private MailController $mailController,
+    public function __construct(private MailService $mailService,
                                 private ?string        $event = null,
                                 private ?Order         $order = null,
                                 private                $pdf = null)
@@ -28,11 +28,11 @@ class SendEmailJob implements ShouldQueue
     public function handle()
     {
         match ($this->event) {
-            'notConfirmed' => $this->mailController->notConfirmed($this->order),
-            'orderChange' => $this->mailController->orderChange($this->order),
-            'cancelled' => $this->mailController->cancelled($this->order),
-            'completed' => $this->mailController->completed($this->order, $this->pdf),
-            'statusChange' => $this->mailController->statusChange($this->order),
+            'notConfirmed' => $this->mailService->notConfirmed($this->order),
+            'orderChange' => $this->mailService->orderChange($this->order),
+            'cancelled' => $this->mailService->cancelled($this->order),
+            'completed' => $this->mailService->completed($this->order, $this->pdf),
+            'statusChange' => $this->mailService->statusChange($this->order),
         };
     }
 }

@@ -88,7 +88,7 @@ class RegisterController extends Controller
         ];
 
         $products = $this->productManager->getAll(Product::class);
-        $this->userManager->SendWelcome($emailData, $products);
+        $this->userManager->sendWelcome($emailData, $products);
 
         return $user;
     }

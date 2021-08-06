@@ -25,7 +25,6 @@ class DashboardController extends Controller
         private OrderManager $orderManager,
         private UserManager $userManager,
         private ProductManager $productManager,
-//        private ContactManager $contactManager
     )
     {
     }

@@ -2,17 +2,17 @@
 
 namespace App\Managers;
 
-use App\Http\Controllers\MailController;
 use App\Http\Requests\ContactMessageCreateRequest;
 use App\Models\Contact;
 use App\Repositories\ContactRepository;
+use App\Services\MailService;
 use Illuminate\Http\Request;
 
 class ContactManager
 {
     public function __construct(
         private ContactRepository $contactRepository,
-        private MailController $mailController
+        private MailService $mailService
     )
     {
     }
@@ -30,7 +30,7 @@ class ContactManager
 
     public function sendReply(Contact $contact, Request $request)
     {
-        $this->mailController->sendReply($contact, $request);
+        $this->mailService->sendReply($contact, $request);
     }
 
     public function getNewMessages()
@@ -45,7 +45,7 @@ class ContactManager
 
     public function sendMessage(Request $request)
     {
-        $this->mailController->sendMessage($request);
+        $this->mailService->sendMessage($request);
     }
 
 }
