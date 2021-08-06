@@ -160,15 +160,17 @@ class DashboardController extends Controller
         }
 
         if ($status == Order::STATUS_COMPLETED) {
-            $pdf = $this->orderManager->generateInvoiceAndSave($order);
+            $pdf = $this->orderManager->generateInvoice($order);
             $this->orderManager->sendCompleted($order, $pdf);
             $this->orderManager->storeToFile($order, $pdf);
-
+        } else {
+            $this->orderManager->sendStatusChange($order);
         }
+
         $this->orderManager->changeOrderStatus($order, $status);
         $this->orderManager->save($order);
 
-        $this->orderManager->sendStatusChange($order);
+
 
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 

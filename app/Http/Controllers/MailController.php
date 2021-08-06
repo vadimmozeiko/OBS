@@ -46,7 +46,7 @@ class MailController extends Controller
     public function statusChange(Order $order)
     {
         $data = ['order' => $order];
-        Mail::send('mail.change', $data, function ($message) use ($order) {
+        Mail::send('mail.status', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' status was changed');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');

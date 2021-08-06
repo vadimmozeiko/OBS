@@ -29,6 +29,7 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products');
+            $table->string('invoice')->nullable();
             $table->timestamps();
         });
     }

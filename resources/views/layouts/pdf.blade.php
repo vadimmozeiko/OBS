@@ -147,7 +147,7 @@
         <tr class="details">
             <td>Bank transfer</td>
 
-            <td>{{$order->price / 100}} Eur</td>
+            <td>{{number_format($order->price / 100, 2)}} Eur</td>
         </tr>
 
         <tr class="heading">
@@ -159,13 +159,13 @@
         <tr class="item">
             <td>{{$order->orderProducts->title}}</td>
 
-            <td>{{$order->price / 100}} Eur</td>
+            <td>{{number_format($order->price / 100, 2)}} Eur</td>
         </tr>
 
         <tr class="total">
             <td></td>
 
-            <td>Total: {{$order->price / 100}} Eur</td>
+            <td>Total: {{number_format($order->price / 100, 2)}} Eur</td>
         </tr>
     </table>
 </div>

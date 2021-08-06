@@ -43,7 +43,8 @@ class Order extends Model
         'date',
         'price',
         'user_id',
-        'product_id'
+        'product_id',
+        'invoice'
     ];
 
     public const STATUS_NOT_CONFIRMED = 'not confirmed';

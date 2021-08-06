@@ -178,7 +178,7 @@ class OrderManager
         return $this->productRepository->getBookableOnly($products);
     }
 
-    public function generateInvoiceAndSave(Order $order)
+    public function generateInvoice(Order $order)
     {
         $time = Carbon::now()->timezone('Europe/Vilnius');
         $pdf = PDF::loadView('layouts.pdf', ['order' => $order, 'time' => $time]);
@@ -188,6 +188,9 @@ class OrderManager
     public function storeToFile(Order $order, $pdf)
     {
         $fileName = "$order->order_number" . '.pdf';
-        file_put_contents(public_path() . '/assets/invoices/'.$fileName, $pdf);
+        $path = public_path() . '/assets/invoices/' . $fileName;
+        file_put_contents($path, $pdf);
+        $order->update(['invoice' => $path]);
+
     }
 }
