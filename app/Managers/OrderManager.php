@@ -25,8 +25,7 @@ class OrderManager
         private OrderRepository $orderRepository,
         private ProductRepository $productRepository,
         private MailController $mailController,
-        private UserRepository $userRepository,
-        private SendEmailJob $emailJob)
+        private UserRepository $userRepository)
     {
     }
 

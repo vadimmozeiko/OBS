@@ -65,6 +65,8 @@
                     <td>{{$order->orderProducts->title}}</td>
                     <td class="mobile-hide">{{$order->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
+{{--                        TODO REFACTOR | change to DB column path_to pdf--}}
+{{--                        if($order->path_to_pdf)--}}
                         @if(file_exists(public_path(). '/assets/invoices/'.$order->order_number . '.pdf'))
                             <a href="{{asset('/assets/invoices/'. $order->order_number . '.pdf')}}" class="card-link btn btn-outline-success btn-sm m-1"
                             >Invoice

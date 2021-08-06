@@ -27,7 +27,7 @@ class ContactMessageCreateRequest extends FormRequest
             'name' => 'sometimes | string | max:32',
             'email' => 'required | string | email | max:128',
             'subject' =>'sometimes',
-            'message' => 'required | min: 3 | max: 1000',
+            'message' => 'required | min: 3 | max: 60000',
             'status' => 'sometimes | string | in:new',
         ];
     }

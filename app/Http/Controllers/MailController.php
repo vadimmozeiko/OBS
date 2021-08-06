@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-
+// TODO REFACTOR | change to Service
 class MailController extends Controller
 {
     private Payment $bankDetails;
