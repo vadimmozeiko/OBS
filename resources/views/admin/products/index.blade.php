@@ -15,8 +15,8 @@
                     <th scope="col">Title</th>
                     <th scope="col">Status</th>
                     <th class="mobile-hide" scope="col">Price</th>
-                    <th class="mobile-hide" scope="col">Unavailable since</th>
-                    <th class="mobile-hide" scope="col">Broken since</th>
+                    <th class="mobile-hide text-center" scope="col">Unavailable since</th>
+                    <th class="mobile-hide text-center" scope="col">Broken since</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -28,14 +28,14 @@
                         <td>{{$product->status}}</td>
                         <td class="mobile-hide">{{number_format($product->price / 100, 2)}} Eur</td>
                         @if($product->status == \App\Models\Product::STATUS_UNAVAILABLE)
-                            <td>{{$product->status()->whenWas('unavailable')}}</td>
+                            <td class="text-center">{{$product->status()->whenWas('unavailable')}}</td>
                         @else
-                            <td>---</td>
+                            <td class="text-center">---</td>
                         @endif
                         @if($product->status == \App\Models\Product::STATUS_BROKEN)
-                            <td>{{$product->status()->whenWas('broken')}}</td>
+                            <td class="text-center">{{$product->status()->whenWas('broken')}}</td>
                         @else
-                            <td>---</td>
+                            <td class="text-center">---</td>
                         @endif
                         <td class="d-flex mobile-hide justify-content-end">
                             <form action="{{route('product.edit', $product)}}">

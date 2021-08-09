@@ -10,14 +10,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 
-
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/products/all', [HomeController::class, 'products'])->name('products');
+Route::get('/products/show/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact/message', [ContactController::class, 'store'])->name('send.message');
-
 
 Auth::routes(['verify' => true]);
 
@@ -80,16 +79,15 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::post('update/{user}', [DashboardController::class, 'updateUser'])->name('update.user');
             Route::post('reset/{user}', [UserController::class, 'passReset'])->name('pass.reset');
         });
-    });
-});
 
-Route::group(['prefix' => 'products'], function () {
-    Route::get('', [ProductController::class, 'index'])->name('product.index');
-    Route::get('create', [ProductController::class, 'create'])->name('product.create');
-    Route::post('store', [ProductController::class, 'store'])->name('product.store');
-    Route::get('edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::post('update/{product}', [ProductController::class, 'update'])->name('product.update');
-    Route::post('change/{product}', [ProductController::class, 'changeStatus'])->name('product.changeStatus');
-    Route::get('show/{product}', [ProductController::class, 'show'])->name('product.show');
+        Route::group(['prefix' => 'products'], function () {
+            Route::get('', [ProductController::class, 'index'])->name('product.index');
+            Route::get('create', [ProductController::class, 'create'])->name('product.create');
+            Route::post('store', [ProductController::class, 'store'])->name('product.store');
+            Route::get('edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
+            Route::post('update/{product}', [ProductController::class, 'update'])->name('product.update');
+            Route::post('change/{product}', [ProductController::class, 'changeStatus'])->name('product.changeStatus');
+        });
+    });
 });
 
