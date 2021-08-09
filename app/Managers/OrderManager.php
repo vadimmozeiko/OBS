@@ -92,12 +92,17 @@ class OrderManager
 
     public function sendNotConfirmed(Order $order): void
     {
-        dispatch(new SendEmailJob('notConfirmed', $order))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob('not confirmed', $order))->delay(now()->addSeconds(30));
+    }
+
+    public function sendConfirmed(Order $order): void
+    {
+        dispatch(new SendEmailJob('confirmed', $order))->delay(now()->addSeconds(30));
     }
 
     public function sendOrderChange(Order $order): void
     {
-        dispatch(new SendEmailJob('orderChange', $order))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob('order change', $order))->delay(now()->addSeconds(30));
     }
 
     public function sendCancelled(Order $order)
@@ -109,13 +114,6 @@ class OrderManager
     {
         dispatch(new SendEmailJob('completed', $order, $pdf))->delay(now()->addSeconds(30));
     }
-
-
-    public function sendStatusChange(Order $order)
-    {
-        dispatch(new SendEmailJob('statusChange', $order))->delay(now()->addSeconds(30));
-    }
-
 
     public function changeOrderStatus(Order $order, string $status): void
     {

@@ -129,12 +129,15 @@ class DashboardController extends Controller
             return redirect()->back()->with('info_message', 'Cannot change to same status');
         }
 
+        match ($orderStatus) {
+            Order::STATUS_CONFIRMED => $this->orderManager->sendConfirmed($order),
+            Order::STATUS_CANCELLED => $this->orderManager->sendCancelled($order),
+        };
+
         if ($status == Order::STATUS_COMPLETED) {
             $pdf = $this->orderManager->generateInvoice($order);
             $this->orderManager->sendCompleted($order, $pdf);
             $this->orderManager->storeToFile($order, $pdf);
-        } else {
-            $this->orderManager->sendStatusChange($order);
         }
 
         $this->orderManager->changeOrderStatus($order, $status);

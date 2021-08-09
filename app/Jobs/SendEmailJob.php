@@ -29,9 +29,11 @@ class SendEmailJob implements ShouldQueue
     public function handle()
     {
         match ($this->event) {
-            'notConfirmed' => $this->mailService->notConfirmed($this->order),
+            'not confirmed' => $this->mailService->notConfirmed($this->order),
+            'confirmed' => $this->mailService->confirmed($this->order),
             'cancelled' => $this->mailService->cancelled($this->order),
             'completed' => $this->mailService->completed($this->order, $this->pdf),
+            'order change' => $this->mailService->orderChange($this->order),
         };
     }
 }
