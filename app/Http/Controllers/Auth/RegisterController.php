@@ -91,7 +91,6 @@ class RegisterController extends Controller
 
         $products = $this->productManager->getAll(Product::class);
 
-        // TODO | refactor to job
         $this->userManager->sendWelcome($emailData, $products);
 
         return $user;

@@ -22,8 +22,8 @@ class DashboardController extends Controller
 
 
     public function __construct(
-        private OrderManager $orderManager,
-        private UserManager $userManager,
+        private OrderManager   $orderManager,
+        private UserManager    $userManager,
         private ProductManager $productManager,
     )
     {
@@ -59,39 +59,10 @@ class DashboardController extends Controller
         $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
         $userId = $request->get('user_id');
         $orderStatus = $request->get('order_status');
+        $orders = Order::filter($request)->paginate(10)->withQueryString();
         $search = $request->get('search');
-        $orders = $this->orderManager->getAllOrderDate();
         $products = $this->orderManager->getAll(Product::class);
         $productsId = $request->get('product');
-
-        // TODO REFACTOR | create filter here
-        if ($orderStatus) {
-            $orders = $this->orderManager->getByStatus(Order::class, $orderStatus);
-        }
-
-        if ($userId) {
-            $orders = $this->orderManager->getByUser(Order::class, $userId);
-        }
-
-        if ($productsId) {
-            $orders = $this->orderManager->getByProductId($productsId);
-        }
-
-        if ($userId && $orderStatus) {
-            $orders = $this->orderManager->getOrdersByIdByStatus($userId, $orderStatus);
-        }
-
-        if ($userId && $productsId) {
-            $orders = $this->orderManager->getOrdersByIdByProduct($userId, $productsId);
-        }
-
-        if ($userId && $orderStatus && $productsId) {
-            $orders = $this->orderManager->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
-        }
-
-        if ($search) {
-            $orders = $this->orderManager->search($search);
-        }
 
         return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
@@ -168,7 +139,6 @@ class DashboardController extends Controller
 
         $this->orderManager->changeOrderStatus($order, $status);
         $this->orderManager->save($order);
-
 
 
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
