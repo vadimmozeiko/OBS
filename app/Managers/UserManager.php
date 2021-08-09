@@ -8,10 +8,14 @@ use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Jobs\SendEmailJob;
+use App\Jobs\SendRegisterEmail;
+use App\Jobs\SendWelcomeEmail;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\MailService;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
@@ -105,12 +109,12 @@ class UserManager
 
     public function sendRegister(User $user)
     {
-        $this->mailService->register($user);
+        dispatch(new SendRegisterEmail($this->mailService, $user))->delay(now()->addSeconds(30));
     }
 
-    public function sendWelcome($user, $products)
+    public function sendWelcome(array $user, $products)
     {
-        $this->mailService->welcome($user, $products);
+        dispatch(new SendWelcomeEmail($this->mailService, $user, $products))->delay(now()->addSeconds(30));
     }
 
 }
