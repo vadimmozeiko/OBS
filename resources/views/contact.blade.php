@@ -37,17 +37,17 @@
                         </small>
                         @enderror
                         <small class="d-block mb-3">* Required info</small>
-                        <div class="g-recaptcha" data-callback="enableBtn" data-sitekey="6Ldg9NgbAAAAAAHwVnIMw1VPGOW2Kzp1PEBR-PqA"></div>
+                        <div class="g-recaptcha" data-callback="enableBtn" data-sitekey="{{env('RECAPTCHA_SITE_KEY')}}"></div>
+                        @if($errors->has('g-recaptcha-response'))
+                            <small class="invalid-feedback" role="alert">
+                                <strong>{{$errors->first('g-recaptcha-response')}}</strong>
+                            </small>
+                        @endif
                         <input type="hidden" name="status" value="{{\App\Models\Contact::STATUS_NEW}}">
-                        <button id="submit" class="btn btn-primary btn-m mb-2 mt-2" type="submit" disabled>Send</button>
+                        <button id="submit" class="btn btn-primary btn-m mb-2 mt-2" type="submit">Send</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function enableBtn(){
-            document.getElementById("submit").disabled = false;
-        }
-    </script>
 @endsection

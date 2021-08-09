@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Captcha;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContactMessageCreateRequest extends FormRequest
@@ -29,6 +30,7 @@ class ContactMessageCreateRequest extends FormRequest
             'subject' =>'sometimes',
             'message' => 'required | min: 3 | max: 60000',
             'status' => 'sometimes | string | in:new',
+            'g-recaptcha-response' => new Captcha(),
         ];
     }
 }

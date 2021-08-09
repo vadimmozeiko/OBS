@@ -113,6 +113,7 @@
                         <td>
                             Invoice #: {{$order->order_number}}<br />
                             Created: {{$time}}<br />
+                            Formed by: {{auth()->user()->name}}<br />
                         </td>
                     </tr>
                 </table>

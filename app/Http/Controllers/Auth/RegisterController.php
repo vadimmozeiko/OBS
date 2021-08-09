@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\Captcha;
 
 class RegisterController extends Controller
 {
@@ -62,6 +63,7 @@ class RegisterController extends Controller
             'phone' => ['required', 'numeric', 'min:11'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'g-recaptcha-response' => new Captcha(),
         ]);
     }
 
@@ -88,6 +90,8 @@ class RegisterController extends Controller
         ];
 
         $products = $this->productManager->getAll(Product::class);
+
+        // TODO | refactor to job
         $this->userManager->sendWelcome($emailData, $products);
 
         return $user;
