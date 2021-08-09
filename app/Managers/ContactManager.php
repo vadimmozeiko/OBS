@@ -3,6 +3,8 @@
 namespace App\Managers;
 
 use App\Http\Requests\ContactMessageCreateRequest;
+use App\Jobs\SendNewEmail;
+use App\Jobs\SendReplyEmail;
 use App\Models\Contact;
 use App\Repositories\ContactRepository;
 use App\Services\MailService;
@@ -28,9 +30,9 @@ class ContactManager
         $this->contactRepository->store($request);
     }
 
-    public function sendReply(Contact $contact, Request $request)
+    public function sendReply(Contact $contact, array $reply)
     {
-        $this->mailService->sendReply($contact, $request);
+        dispatch(new SendReplyEmail($contact, $reply))->delay(now()->addSeconds(30));
     }
 
     public function getNewMessages()
@@ -43,9 +45,9 @@ class ContactManager
         return $this->contactRepository->search($search);
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage(array $request)
     {
-        $this->mailService->sendMessage($request);
+        dispatch(new SendNewEmail($request))->delay(now()->addSeconds(30));
     }
 
 }

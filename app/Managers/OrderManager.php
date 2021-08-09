@@ -24,7 +24,6 @@ class OrderManager
     public function __construct(
         private OrderRepository   $orderRepository,
         private ProductRepository $productRepository,
-        private MailService       $mailService,
         private UserRepository    $userRepository)
     {
     }
@@ -93,32 +92,28 @@ class OrderManager
 
     public function sendNotConfirmed(Order $order): void
     {
-        dispatch(new SendEmailJob($this->mailService,'notConfirmed', $order))->delay(now()->addSeconds(30));
-//        $this->mailController->notConfirmed($order);
+        dispatch(new SendEmailJob('notConfirmed', $order))->delay(now()->addSeconds(30));
     }
 
     public function sendOrderChange(Order $order): void
     {
-        dispatch(new SendEmailJob($this->mailService,'orderChange', $order))->delay(now()->addSeconds(30));
-//        $this->mailController->orderChange($order);
+        dispatch(new SendEmailJob('orderChange', $order))->delay(now()->addSeconds(30));
     }
 
     public function sendCancelled(Order $order)
     {
-        dispatch(new SendEmailJob($this->mailService,'cancelled', $order))->delay(now()->addSeconds(30));
-//        $this->mailController->cancelled($order);
+        dispatch(new SendEmailJob('cancelled', $order))->delay(now()->addSeconds(30));
     }
 
     public function sendCompleted(Order $order, $pdf)
     {
-        dispatch(new SendEmailJob($this->mailService,'completed', $order, $pdf))->delay(now()->addSeconds(30));
-//        $this->mailController->completed($order, $pdf);
+        dispatch(new SendEmailJob('completed', $order, $pdf))->delay(now()->addSeconds(30));
     }
 
 
     public function sendStatusChange(Order $order)
     {
-        dispatch(new SendEmailJob($this->mailService,'statusChange', $order))->delay(now()->addSeconds(30));
+        dispatch(new SendEmailJob('statusChange', $order))->delay(now()->addSeconds(30));
     }
 
 
@@ -158,15 +153,15 @@ class OrderManager
         return $this->orderRepository->getByProductId($productsId);
     }
 
-    public function getOrdersByIdByProduct(int $userId, int $productsId)
-    {
-        return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
-    }
+//    public function getOrdersByIdByProduct(int $userId, int $productsId)
+//    {
+//        return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
+//    }
 
-    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
-    {
-        return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
-    }
+//    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
+//    {
+//        return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
+//    }
 
     public function getNotAvailable(string $orderDate)
     {

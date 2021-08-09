@@ -120,20 +120,20 @@ class OrderRepository extends BaseRepository
         return Order::where('product_id', $productsId)->paginate(10)->withQueryString();
     }
 
-    public function getOrdersByIdByProduct(int $userId, int $productsId)
-    {
-        return Order::where([['user_id', $userId], ['product_id', $productsId]])
-            ->orderBy('date', 'desc')
-            ->paginate(10)
-            ->withQueryString();
-    }
+//    public function getOrdersByIdByProduct(int $userId, int $productsId)
+//    {
+//        return Order::where([['user_id', $userId], ['product_id', $productsId]])
+//            ->orderBy('date', 'desc')
+//            ->paginate(10)
+//            ->withQueryString();
+//    }
 
-    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
-    {
-        return Order::where([['user_id', $userId], ['status', $orderStatus] ,['product_id', $productsId]])
-            ->orderBy('date', 'desc')
-            ->paginate(10)
-            ->withQueryString();
-    }
+//    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
+//    {
+//        return Order::where([['user_id', $userId], ['status', $orderStatus] ,['product_id', $productsId]])
+//            ->orderBy('date', 'desc')
+//            ->paginate(10)
+//            ->withQueryString();
+//    }
 
 }

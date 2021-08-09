@@ -45,10 +45,11 @@ class ContactController extends Controller
         return view('admin.messages.create', ['users' => $users, 'userName' => $userName]);
     }
 
-
-    public function store(Request $request)
+    public function store(ContactMessageCreateRequest $request)
     {
-        //
+        $this->contactManager->store($request);
+
+        return redirect()->back()->with('success_message', 'Your message was send successfully');
     }
 
 
@@ -56,13 +57,6 @@ class ContactController extends Controller
     {
         return view('admin.messages.show', ['message' => $contact]);
     }
-
-
-    public function edit(Contact $contact)
-    {
-        //
-    }
-
 
     public function update(Contact $contact)
     {
@@ -77,23 +71,16 @@ class ContactController extends Controller
 
     public function sendMessage(ContactMessageCreateRequest $request)
     {
-        $this->contactManager->sendMessage($request);
+        $this->contactManager->sendMessage($request->all());
         return redirect()->back()->with('success_message', 'Message sent successfully');
     }
 
     public function sendReply(Request $request, Contact $contact)
     {
         $contact->update(['reply' => $request->get('reply')]);
-        $this->contactManager->sendReply($contact, $request);
+        $this->contactManager->sendReply($contact, $request->all());
         $contact->status()->transitionTo('replied');
         return redirect()->route('message.index')->with('success_message', 'Message sent successfully');
     }
 
-
-
-
-    public function destroy(Contact $contact)
-    {
-        //
-    }
 }

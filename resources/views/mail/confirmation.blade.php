@@ -1,6 +1,5 @@
 <div
     style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#ffffff;color:#718096;height:100%;line-height:1.4;margin:0;padding:0;width:100%!important">
-
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation"
            style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';background-color:#edf2f7;margin:0;padding:0;width:100%">
         <tbody>
@@ -19,7 +18,9 @@
                                 <tr>
                                     <td align="center"
                                         style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
-                                        <img style="width: 100px; height: 100px;" src="https://i.ibb.co/zXv8ddR/Online-Booking-System-logos-transparent.png" alt="Online-Booking-System-logos-transparent" border="0">
+                                        <img style="width: 100px; height: 100px;"
+                                             src="https://i.ibb.co/zXv8ddR/Online-Booking-System-logos-transparent.png"
+                                             alt="Online-Booking-System-logos-transparent" border="0">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -68,7 +69,8 @@
                                                     <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
                                                         <b>Payment reference:</b> #{{ $order->order_number }}</p>
                                                     <p style="box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';font-size:16px;line-height:1.5em;margin-top:0;text-align:left">
-                                                        <b>Total:</b> {{number_format($order->orderProducts->price / 100, 2)}} Eur</p>
+                                                        <b>Total:</b> {{number_format($order->orderProducts->price / 100, 2)}}
+                                                        Eur</p>
                                                 </td>
                                             </tr>
                                             <tr>

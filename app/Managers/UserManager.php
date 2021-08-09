@@ -109,12 +109,12 @@ class UserManager
 
     public function sendRegister(User $user)
     {
-        dispatch(new SendRegisterEmail($this->mailService, $user))->delay(now()->addSeconds(30));
+        dispatch(new SendRegisterEmail($user))->delay(now()->addSeconds(30));
     }
 
     public function sendWelcome(array $user, $products)
     {
-        dispatch(new SendWelcomeEmail($this->mailService, $user, $products))->delay(now()->addSeconds(30));
+        dispatch(new SendWelcomeEmail($user, $products))->delay(now()->addSeconds(30));
     }
 
 }

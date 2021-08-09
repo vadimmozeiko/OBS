@@ -21,7 +21,6 @@ class HomeController extends Controller
         private OrderManager $orderManager,
         private UserManager $userManager,
         private ProductManager $productManager,
-        private ContactManager $contactManager,
     )
     {
     }
@@ -66,13 +65,6 @@ class HomeController extends Controller
     public function contact(): View
     {
         return view('contact');
-    }
-
-    public function sendMessage(ContactMessageCreateRequest $request)
-    {
-        $this->contactManager->store($request);
-
-        return redirect()->back()->with('success_message', 'Your message was send successfully');
     }
 
     public function admin(): View

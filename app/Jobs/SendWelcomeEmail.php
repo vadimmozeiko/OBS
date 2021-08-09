@@ -14,15 +14,17 @@ class SendWelcomeEmail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+
+    private MailService $mailService;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(private MailService $mailService,
-                                private array       $user,
+    public function __construct(private array       $user,
                                 private             $products)
     {
+        $this->mailService = new MailService();
     }
 
     /**

@@ -15,13 +15,14 @@ class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private MailService $mailService;
 
-    public function __construct(private MailService $mailService,
-                                private ?string        $event = null,
+    public function __construct(private ?string        $event = null,
                                 private ?Order         $order = null,
                                 private                $pdf = null)
     {
         $this->pdf = base64_encode($pdf);
+        $this->mailService = new MailService();
     }
 
 
@@ -29,10 +30,8 @@ class SendEmailJob implements ShouldQueue
     {
         match ($this->event) {
             'notConfirmed' => $this->mailService->notConfirmed($this->order),
-            'orderChange' => $this->mailService->orderChange($this->order),
             'cancelled' => $this->mailService->cancelled($this->order),
             'completed' => $this->mailService->completed($this->order, $this->pdf),
-            'statusChange' => $this->mailService->statusChange($this->order),
         };
     }
 }

@@ -41,6 +41,16 @@ class MailService
         });
     }
 
+    public function confirmed(Order $order)
+    {
+        $data = ['order' => $order];
+        Mail::send('mail.confirmed', $data, function ($message) use ($order) {
+            $message->to($order->email, $order->name)->subject
+            ('Your booking#' . $order->order_number . ' is now confirmed!');
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
     public function statusChange(Order $order)
     {
         $data = ['order' => $order];
@@ -91,20 +101,20 @@ class MailService
         });
     }
 
-    public function sendReply(Contact $contact, Request $request)
+    public function sendReply(Contact $contact, array $request)
     {
         $data = ['details' => $contact, 'request' => $request];
         Mail::send('mail.reply', $data, function ($message) use ($contact, $request) {
-            $message->to($contact->email, $contact->name)->subject($request->subject);
+            $message->to($contact->email, $contact->name)->subject($request['subject']);
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }
 
-    public function sendMessage(Request $request)
+    public function sendMessage(array $request)
     {
         $data = ['request' => $request];
         Mail::send('mail.new', $data, function ($message) use ($request) {
-            $message->to($request->email, $request->name)->subject($request->subject);
+            $message->to($request['email'], $request['name'])->subject($request['subject']);
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }
