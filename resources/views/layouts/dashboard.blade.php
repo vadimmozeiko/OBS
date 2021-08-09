@@ -55,7 +55,7 @@
         </div>
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('admin.dashboard')}}">
                 <i class="fas fa-calendar-check"></i>
                 <span>New bookings
@@ -69,8 +69,7 @@
                    </span>
                 </span></a>
         </li>
-
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/messages/new') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('message.new')}}">
                 <i class="fas fa-envelope"></i>
                 <span>New messages
@@ -85,7 +84,7 @@
                     </span></a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/notifications') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('notifications.index')}}">
                 <i class="fas fa-bell"></i>
                 <span>Notifications
@@ -108,13 +107,13 @@
             Messages
         </div>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/messages/create') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('message.create')}}">
                 <i class="fas fa-envelope-open"></i>
                 <span>Create new message</span></a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/messages') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('message.index')}}">
                 <i class="fas fa-inbox"></i>
                 <span>Manage messages </span></a>
@@ -128,13 +127,13 @@
             Bookings
         </div>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/orders/create') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('create.order')}}">
                 <i class="fas fa-calendar-plus"></i>
                 <span>Create new booking</span></a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/orders') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('list.order')}}">
                 <i class="fas fa-list-alt"></i>
                 <span>Manage bookings </span></a>
@@ -148,13 +147,13 @@
             Users
         </div>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/users/create') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('user.create')}}">
                 <i class="fas fa-user-plus"></i>
                 <span>Register new user</span></a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/users') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('list.user')}}">
                 <i class="fas fa-user-friends"></i>
                 <span>Manage users</span></a>
@@ -169,14 +168,14 @@
         </div>
 
         <!-- Nav Item - Charts -->
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/products/create') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('product.create')}}">
                 <i class="far fa-plus-square"></i>
                 <span>Add new product</span></a>
         </li>
 
         <!-- Nav Item - Tables -->
-        <li class="nav-item">
+        <li class="nav-item {{ request()->is('dashboard/products') ? 'active-link' : '' }}">
             <a class="nav-link" href="{{route('product.index')}}">
                 <i class="fas fa-list"></i>
                 <span>Manage products</span></a>

@@ -222,6 +222,20 @@ table {
     background-size: cover;
 }
 
+/*.sidebar-dark .nav-item .nav-link.active-link,*/
+/*.sidebar-dark .nav-item .nav-link i.active-link{*/
+/*    color: #fff;*/
+/*}*/
+
+.sidebar .nav-item.active-link a,
+.sidebar .nav-item.active-link i{
+    color: #fff;
+}
+
+.bg-blue {
+    background-color: #3490dc;
+}
+
 @media only screen and (max-width: 1100px) {
     .main-title {
         font-size: 75px;

@@ -38,10 +38,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link menu hover-blue " href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('products')}}">Products</a></li>
-                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('faq')}}">FAQ's</a></li>
-                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('contact')}}">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('/') ? 'bg-blue' : '' }}" href="{{ url('/') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('products*') ? 'bg-blue' : '' }}" href="{{route('products')}}">Products</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('faq*') ? 'bg-blue' : '' }}" href="{{route('faq')}}">FAQ's</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('contact*') ? 'bg-blue' : '' }}" href="{{route('contact')}}">Contact Us</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
