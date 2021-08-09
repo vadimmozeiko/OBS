@@ -74,7 +74,7 @@ class ProductController extends Controller
     public function changeStatus(Product $product, Request $request)
     {
         $status = $request->get('status');
-        $this->productManager->changeStatus($product, $status);
+        $product->status()->transitionTo($status);
 
         return redirect()->route('product.index')->with('success_message', 'Product status changed successfully');
     }

@@ -7,14 +7,12 @@ use App\Jobs\SendNewEmail;
 use App\Jobs\SendReplyEmail;
 use App\Models\Contact;
 use App\Repositories\ContactRepository;
-use App\Services\MailService;
-use Illuminate\Http\Request;
+
 
 class ContactManager
 {
     public function __construct(
         private ContactRepository $contactRepository,
-        private MailService $mailService
     )
     {
     }

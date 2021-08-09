@@ -4,7 +4,7 @@ namespace App\StateMachines;
 
 use Asantibanez\LaravelEloquentStateMachines\StateMachines\StateMachine;
 
-class NotificationStatusStateMachine extends StateMachine
+class ProductStatusStateMachine extends StateMachine
 {
     public function recordHistory(): bool
     {
@@ -14,12 +14,14 @@ class NotificationStatusStateMachine extends StateMachine
     public function transitions(): array
     {
         return [
-            'new' => ['seen']
+            'available' => ['unavailable', 'broken'],
+            'unavailable' => ['available', 'broken'],
+            'broken' => ['unavailable', 'available'],
         ];
     }
 
     public function defaultState(): ?string
     {
-        return 'new';
+        return 'available';
     }
 }
