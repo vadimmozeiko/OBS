@@ -26,7 +26,6 @@ class UserManager
      */
     public function __construct(
         private UserRepository $userRepository,
-        private MailService $mailService
     )
     {
     }
