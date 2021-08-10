@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h2 class="mb-4">Product list</h2>
+    <h2 class="mb-4">Manage products</h2>
     <div class="justify-content-center pl-md-5 pr-md-5">
         @if($products->isEmpty())
             <div class="d-flex text-center justify-content-center">
@@ -15,7 +15,8 @@
                     <th scope="col">Title</th>
                     <th scope="col">Status</th>
                     <th class="mobile-hide" scope="col">Price</th>
-
+                    <th class="mobile-hide text-center" scope="col">Unavailable since</th>
+                    <th class="mobile-hide text-center" scope="col">Broken since</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -26,6 +27,16 @@
                         <td>{{$product->title}}</td>
                         <td>{{$product->status}}</td>
                         <td class="mobile-hide">{{number_format($product->price / 100, 2)}} Eur</td>
+                        @if($product->status == \App\Models\Product::STATUS_UNAVAILABLE)
+                            <td class="text-center">{{$product->status()->whenWas('unavailable')}}</td>
+                        @else
+                            <td class="text-center">---</td>
+                        @endif
+                        @if($product->status == \App\Models\Product::STATUS_BROKEN)
+                            <td class="text-center">{{$product->status()->whenWas('broken')}}</td>
+                        @else
+                            <td class="text-center">---</td>
+                        @endif
                         <td class="d-flex mobile-hide justify-content-end">
                             <form action="{{route('product.edit', $product)}}">
                                 <button type="submit" class="card-link btn btn-info btn-sm m-1"

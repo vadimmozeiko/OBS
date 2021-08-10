@@ -19,7 +19,9 @@ class ProductRepository extends BaseRepository
             $unavailable[] = $order->product_id;
         }
 
-        return Product::whereNotIn('id', $unavailable)->get();
+        return Product::whereNotIn('id', $unavailable)
+            ->where('status', Product::STATUS_AVAILABLE)
+            ->get();
     }
 
     public function getFirstProductById(OrderCreateRequest $request)

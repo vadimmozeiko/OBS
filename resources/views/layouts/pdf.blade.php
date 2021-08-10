@@ -113,6 +113,7 @@
                         <td>
                             Invoice #: {{$order->order_number}}<br />
                             Created: {{$time}}<br />
+                            Formed by: {{auth()->user()->name}}<br />
                         </td>
                     </tr>
                 </table>
@@ -124,14 +125,13 @@
                 <table>
                     <tr>
                         <td>
-                            OBS, Inc.<br />
-                            12345 Sunny Road<br />
-                            Sunnyville, CA 12345
+                            OBS Financial<br />
+                            6330 Levis Commons Blvd<br />
+                            Perrysburg, OH 43551,
                         </td>
 
                         <td style="width: 50%;">
                             {{$order->name}}<br />
-                            {{$order->email}}<br />
                             {{$order->address}}
                         </td>
                     </tr>
@@ -148,7 +148,7 @@
         <tr class="details">
             <td>Bank transfer</td>
 
-            <td>{{$order->price / 100}} Eur</td>
+            <td>{{number_format($order->price / 100, 2)}} Eur</td>
         </tr>
 
         <tr class="heading">
@@ -160,13 +160,13 @@
         <tr class="item">
             <td>{{$order->orderProducts->title}}</td>
 
-            <td>{{$order->price / 100}} Eur</td>
+            <td>{{number_format($order->price / 100, 2)}} Eur</td>
         </tr>
 
         <tr class="total">
             <td></td>
 
-            <td>Total: {{$order->price / 100}} Eur</td>
+            <td>Total: {{number_format($order->price / 100, 2)}} Eur</td>
         </tr>
     </table>
 </div>

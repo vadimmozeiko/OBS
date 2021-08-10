@@ -7,10 +7,7 @@ namespace App\Repositories;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
-use App\Models\Product;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use function React\Promise\all;
 
 class OrderRepository extends BaseRepository
 {
@@ -123,20 +120,20 @@ class OrderRepository extends BaseRepository
         return Order::where('product_id', $productsId)->paginate(10)->withQueryString();
     }
 
-    public function getOrdersByIdByProduct(int $userId, int $productsId)
-    {
-        return Order::where([['user_id', $userId], ['product_id', $productsId]])
-            ->orderBy('date', 'desc')
-            ->paginate(10)
-            ->withQueryString();
-    }
+//    public function getOrdersByIdByProduct(int $userId, int $productsId)
+//    {
+//        return Order::where([['user_id', $userId], ['product_id', $productsId]])
+//            ->orderBy('date', 'desc')
+//            ->paginate(10)
+//            ->withQueryString();
+//    }
 
-    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
-    {
-        return Order::where([['user_id', $userId], ['status', $orderStatus] ,['product_id', $productsId]])
-            ->orderBy('date', 'desc')
-            ->paginate(10)
-            ->withQueryString();
-    }
+//    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
+//    {
+//        return Order::where([['user_id', $userId], ['status', $orderStatus] ,['product_id', $productsId]])
+//            ->orderBy('date', 'desc')
+//            ->paginate(10)
+//            ->withQueryString();
+//    }
 
 }

@@ -65,9 +65,9 @@
                     <td>{{$order->orderProducts->title}}</td>
                     <td class="mobile-hide">{{$order->status}}</td>
                     <td class="d-flex mobile-hide justify-content-end">
-                        @if(file_exists(public_path(). '/assets/invoices/'.$order->order_number . '.pdf'))
+                        @if($order->invoice)
                             <a href="{{asset('/assets/invoices/'. $order->order_number . '.pdf')}}" class="card-link btn btn-outline-success btn-sm m-1"
-                            >Invoiced
+                            >Invoice
                             </a>
                         @endif
                         <form action="{{route('edit.order', $order)}}">

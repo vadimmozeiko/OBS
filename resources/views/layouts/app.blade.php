@@ -21,6 +21,7 @@
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body style="background-image: url({{asset('assets/img/bg.jpg')}});">
 <div id="app">
@@ -37,9 +38,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link menu hover-blue " href="{{ url('/') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('products')}}">Products</a></li>
-                    <li class="nav-item"><a class="nav-link menu hover-blue" href="{{route('faq')}}">FAQ's</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('/') ? 'bg-blue' : '' }}" href="{{ url('/') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('products*') ? 'bg-blue' : '' }}" href="{{route('products')}}">Products</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('faq*') ? 'bg-blue' : '' }}" href="{{route('faq')}}">FAQ's</a></li>
+                    <li class="nav-item"><a class="nav-link menu hover-blue {{ request()->is('contact*') ? 'bg-blue' : '' }}" href="{{route('contact')}}">Contact Us</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

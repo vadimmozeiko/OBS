@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\StateMachines\ProductStatusStateMachine;
+use Asantibanez\LaravelEloquentStateMachines\Traits\HasStateMachines;
 use Barryvdh\LaravelIdeHelper\Eloquent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +28,7 @@ use Illuminate\Support\Carbon;
 class Product extends Model
 {
     use HasFactory;
+    use HasStateMachines;
 
     protected $guarded = [];
 
@@ -47,6 +50,10 @@ class Product extends Model
         self::STATUS_AVAILABLE,
         self::STATUS_UNAVAILABLE,
         self::STATUS_BROKEN,
+    ];
+
+    public array $stateMachines = [
+        'status' => ProductStatusStateMachine::class
     ];
 
     public function setPriceAttribute($value){

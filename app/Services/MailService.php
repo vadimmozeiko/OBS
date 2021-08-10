@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
+use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-
-class MailController extends Controller
+class MailService
 {
     private Payment $bankDetails;
 
@@ -32,7 +33,7 @@ class MailController extends Controller
 
     public function orderChange(Order $order)
     {
-        $data = ['name' => auth()->user()->name, 'order' => $order];
+        $data = ['order' => $order];
         Mail::send('mail.change', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' details were changed');
@@ -40,10 +41,20 @@ class MailController extends Controller
         });
     }
 
+    public function confirmed(Order $order)
+    {
+        $data = ['order' => $order];
+        Mail::send('mail.confirmed', $data, function ($message) use ($order) {
+            $message->to($order->email, $order->name)->subject
+            ('Your booking#' . $order->order_number . ' is now confirmed!');
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
     public function statusChange(Order $order)
     {
-        $data = ['name' => auth()->user()->name, 'order' => $order];
-        Mail::send('mail.change', $data, function ($message) use ($order) {
+        $data = ['order' => $order];
+        Mail::send('mail.status', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' status was changed');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
@@ -52,7 +63,7 @@ class MailController extends Controller
 
     public function cancelled(Order $order)
     {
-        $data = ['name' => auth()->user()->name, 'order' => $order];
+        $data = ['order' => $order];
         Mail::send('mail.cancelled', $data, function ($message) use ($order) {
             $message->to($order->email, $order->name)->subject
             ('Your booking#' . $order->order_number . ' was cancelled');
@@ -60,11 +71,21 @@ class MailController extends Controller
         });
     }
 
-    public function welcome(User $user)
+    public function register(User $user)
     {
-        $data = ['name' => auth()->user()->name, 'user' => $user];
-        Mail::send('mail.welcome', $data, function ($message) use ($user) {
+        $data = ['user' => $user];
+        Mail::send('mail.register', $data, function ($message) use ($user) {
             $message->to($user->email, $user->name)->subject
+            ('Welcome to OBS');
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
+    public function welcome($user, $products)
+    {
+        $data = ['user' => $user, 'products' => $products];
+        Mail::send('mail.welcome', $data, function ($message) use ($user) {
+            $message->to($user['email'], $user['name'])->subject
             ('Welcome to OBS');
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
@@ -75,7 +96,25 @@ class MailController extends Controller
         $data = ['order' => $order];
         Mail::send('mail.completed', $data, function ($message) use ($order, $pdf) {
             $message->to($order->email, $order->name)->subject
-            ('Booking #'. $order->order_number . ' ' . 'invoice')->attachData($pdf, "$order->order_number.pdf");
+            ('Booking #'. $order->order_number . ' ' . 'invoice')->attachData(base64_decode($pdf), "$order->order_number.pdf");
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
+    public function sendReply(Contact $contact, array $request)
+    {
+        $data = ['details' => $contact, 'request' => $request];
+        Mail::send('mail.reply', $data, function ($message) use ($contact, $request) {
+            $message->to($contact->email, $contact->name)->subject($request['subject']);
+            $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
+        });
+    }
+
+    public function sendMessage(array $request)
+    {
+        $data = ['request' => $request];
+        Mail::send('mail.new', $data, function ($message) use ($request) {
+            $message->to($request['email'], $request['name'])->subject($request['subject']);
             $message->from(env('MAIL_FROM_ADDRESS'), 'OBS');
         });
     }

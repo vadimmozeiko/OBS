@@ -8,7 +8,7 @@
               autocomplete="off"
               enctype="multipart/form-data">
             <div class="mt-3">
-                <select id="user" class="form-control select-search w-100" name="user_id">
+                <select id="user" class="form-control select-search" name="user_id">
                     <option value="" selected>Select user</option>
                     @forelse($users as $user)
                         <option value="{{$user->id}}"

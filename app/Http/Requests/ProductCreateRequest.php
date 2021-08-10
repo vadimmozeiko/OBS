@@ -29,7 +29,7 @@ class ProductCreateRequest extends FormRequest
             'title' => 'required | string | min:3 | max:64',
             'category' => 'required | string | min:3 | max:64',
             'description' => 'sometimes',
-            'status' => 'required | string | in:available, unavailable, broken',
+            'status' => 'required | string',
             'price' => 'required |'
         ];
     }

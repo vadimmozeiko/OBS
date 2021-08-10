@@ -48,7 +48,7 @@
                                        type="text" name="date" value="{{old('date', $order->date)}}" readonly>
                                 <small class="d-block mt-3 mb-3">* Required info</small>
                                 <input type="hidden" name="product_id" value="{{$order->orderProducts->id}}">
-                                <input type="hidden" name="price" value="{{$order->orderProducts->price}}">
+                                <input type="hidden" name="price" value="{{$order->orderProducts->price / 100}}">
                                 <button class="btn btn-primary btn-m" type="submit">Save</button>
                                 @csrf
                             </form>

@@ -4,15 +4,14 @@
 namespace App\Managers;
 
 
-use App\Http\Controllers\MailController;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Jobs\SendEmailJob;
 use App\Models\Order;
-use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
-//use Barryvdh\DomPDF\PDF;
+use App\Services\MailService;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 
@@ -23,10 +22,9 @@ class OrderManager
      * OrderManager constructor.
      */
     public function __construct(
-        private OrderRepository $orderRepository,
+        private OrderRepository   $orderRepository,
         private ProductRepository $productRepository,
-        private MailController $mailController,
-        private UserRepository $userRepository)
+        private UserRepository    $userRepository)
     {
     }
 
@@ -92,29 +90,29 @@ class OrderManager
         $this->orderRepository->save($order);
     }
 
-    public function SendNotConfirmed(Order $order): void
+    public function sendNotConfirmed(Order $order): void
     {
-        $this->mailController->notConfirmed($order);
+        dispatch(new SendEmailJob('not confirmed', $order))->delay(now()->addSeconds(30));
     }
 
-    public function SendOrderChange(Order $order): void
+    public function sendConfirmed(Order $order): void
     {
-        $this->mailController->orderChange($order);
+        dispatch(new SendEmailJob('confirmed', $order))->delay(now()->addSeconds(30));
     }
 
-    public function SendCancelled(Order $order)
+    public function sendOrderChange(Order $order): void
     {
-        $this->mailController->cancelled($order);
+        dispatch(new SendEmailJob('order change', $order))->delay(now()->addSeconds(30));
     }
 
-    public function SendCompleted(Order $order, $pdf)
+    public function sendCancelled(Order $order)
     {
-        $this->mailController->completed($order, $pdf);
+        dispatch(new SendEmailJob('cancelled', $order))->delay(now()->addSeconds(30));
     }
 
-    public function SendWelcome(User $user)
+    public function sendCompleted(Order $order, $pdf)
     {
-        $this->mailController->welcome($user);
+        dispatch(new SendEmailJob('completed', $order, $pdf))->delay(now()->addSeconds(30));
     }
 
     public function changeOrderStatus(Order $order, string $status): void
@@ -153,15 +151,15 @@ class OrderManager
         return $this->orderRepository->getByProductId($productsId);
     }
 
-    public function getOrdersByIdByProduct(int $userId, int $productsId)
-    {
-        return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
-    }
+//    public function getOrdersByIdByProduct(int $userId, int $productsId)
+//    {
+//        return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
+//    }
 
-    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
-    {
-        return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
-    }
+//    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
+//    {
+//        return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
+//    }
 
     public function getNotAvailable(string $orderDate)
     {
@@ -173,7 +171,7 @@ class OrderManager
         return $this->productRepository->getBookableOnly($products);
     }
 
-    public function generateInvoiceAndSave(Order $order)
+    public function generateInvoice(Order $order)
     {
         $time = Carbon::now()->timezone('Europe/Vilnius');
         $pdf = PDF::loadView('layouts.pdf', ['order' => $order, 'time' => $time]);
@@ -183,6 +181,9 @@ class OrderManager
     public function storeToFile(Order $order, $pdf)
     {
         $fileName = "$order->order_number" . '.pdf';
-        file_put_contents(public_path() . '/assets/invoices/'.$fileName, $pdf);
+        $path = public_path() . '/assets/invoices/' . $fileName;
+        file_put_contents($path, $pdf);
+        $order->update(['invoice' => $path]);
+
     }
 }

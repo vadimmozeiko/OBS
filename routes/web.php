@@ -1,20 +1,22 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 
-
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/products/all', [HomeController::class, 'products'])->name('products');
-
-
+Route::get('/products/show/{product}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact/message', [ContactController::class, 'store'])->name('send.message');
 
 Auth::routes(['verify' => true]);
 
@@ -44,6 +46,22 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::post('login/{user}', [DashboardController::class, 'loginAs'])->name('login.as');
 
+        Route::group(['prefix' => 'notifications'], function () {
+            Route::get('', [NotificationController::class, 'index'])->name('notifications.index');
+            Route::post('seen/{notification}', [NotificationController::class, 'seen'])->name('notifications.seen');
+        });
+
+        Route::group(['prefix' => 'messages'], function () {
+            Route::get('', [ContactController::class, 'index'])->name('message.index');
+            Route::get('create', [ContactController::class, 'create'])->name('message.create');
+            Route::post('store', [ContactController::class, 'sendMessage'])->name('message.sendMessage');
+            Route::get('new', [ContactController::class, 'newMessages'])->name('message.new');
+            Route::get('show/{contact}', [ContactController::class, 'show'])->name('message.show');
+            Route::post('update/{contact}', [ContactController::class, 'update'])->name('message.update');
+            Route::get('reply/{contact}', [ContactController::class, 'replyForm'])->name('message.reply');
+            Route::post('send/reply/{contact}', [ContactController::class, 'sendReply'])->name('message.sendReply');
+        });
+
         Route::group(['prefix' => 'orders'], function () {
             Route::get('', [DashboardController::class, 'listOrder'])->name('list.order');
             Route::get('create', [DashboardController::class, 'createOrder'])->name('create.order');
@@ -61,17 +79,15 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
             Route::post('update/{user}', [DashboardController::class, 'updateUser'])->name('update.user');
             Route::post('reset/{user}', [UserController::class, 'passReset'])->name('pass.reset');
         });
-    });
-});
 
-Route::group(['prefix' => 'products'], function () {
-    Route::get('', [ProductController::class, 'index'])->name('product.index');
-    Route::get('details/{product}', [ProductController::class, 'details'])->name('product.details');
-    Route::get('create', [ProductController::class, 'create'])->name('product.create');
-    Route::post('store', [ProductController::class, 'store'])->name('product.store');
-    Route::get('edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::post('update/{product}', [ProductController::class, 'update'])->name('product.update');
-    Route::post('change/{product}', [ProductController::class, 'changeStatus'])->name('product.changeStatus');
-    Route::get('show/{product}', [ProductController::class, 'show'])->name('product.show');
+        Route::group(['prefix' => 'products'], function () {
+            Route::get('', [ProductController::class, 'index'])->name('product.index');
+            Route::get('create', [ProductController::class, 'create'])->name('product.create');
+            Route::post('store', [ProductController::class, 'store'])->name('product.store');
+            Route::get('edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
+            Route::post('update/{product}', [ProductController::class, 'update'])->name('product.update');
+            Route::post('change/{product}', [ProductController::class, 'changeStatus'])->name('product.changeStatus');
+        });
+    });
 });
 

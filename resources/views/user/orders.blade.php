@@ -32,7 +32,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($userOrders as$order)
+                                @foreach($userOrders as $order)
                                 <tr
                                     @if($order->status != \App\Models\Order::STATUS_COMPLETED &&
                                         $order->status != \App\Models\Order::STATUS_CANCELLED)
@@ -46,6 +46,11 @@
                                     <td class="d-flex mobile-hide">
                                         <a class="card-link btn btn-primary btn-sm m-1"
                                            href="{{route('order.show', $order)}}">Details</a>
+                                        @if($order->invoice)
+                                            <a href="{{asset('/assets/invoices/'. $order->order_number . '.pdf')}}" class="card-link btn btn-outline-success btn-sm m-1"
+                                            >Invoice
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

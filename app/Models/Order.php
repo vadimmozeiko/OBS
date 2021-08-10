@@ -3,7 +3,9 @@
 namespace App\Models;
 
 
+use App\Filters\OrderFilter;
 use Barryvdh\LaravelIdeHelper\Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -32,6 +34,11 @@ class Order extends Model
 
     protected $guarded = [];
 
+    public function scopeFilter(Builder $builder, $request): Builder
+    {
+        return (new OrderFilter($request))->filter($builder);
+    }
+
     protected $fillable = [
         'order_number',
         'name',
@@ -43,7 +50,8 @@ class Order extends Model
         'date',
         'price',
         'user_id',
-        'product_id'
+        'product_id',
+        'invoice'
     ];
 
     public const STATUS_NOT_CONFIRMED = 'not confirmed';
@@ -67,5 +75,10 @@ class Order extends Model
     public function setPriceAttribute($value){
         $value *= 100;
         $this->attributes['price'] = (int)$value;
+    }
+
+    public static function getNumberOfNewOrders(): int
+    {
+        return count(Order::where('status', self::STATUS_NOT_CONFIRMED)->get());
     }
 }

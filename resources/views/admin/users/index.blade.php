@@ -55,14 +55,14 @@
                         </form>
                         <form method="POST" action="{{route('pass.reset', $user)}}">
                             <button type="submit" class="card-link btn btn-warning btn-sm m-1"
-                                {{$user->status_id == \App\Models\User::STATUS_DELETED ? 'disabled' : ''}}
+                                {{$user->status == \App\Models\User::STATUS_DELETED ? 'disabled' : ''}}
                             >Reset Password
                             </button>
                             @csrf
                         </form>
                         <form method="POST" action="{{route('login.as', $user)}}">
                             <button type="submit" class="card-link btn btn-dark btn-sm m-1"
-                                {{$user->status_id == \App\Models\User::STATUS_DELETED ? 'disabled' : ''}}
+                                {{$user->status == \App\Models\User::STATUS_DELETED ? 'disabled' : ''}}
                             >Login As
                             </button>
                             @csrf

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactMessageCreateRequest;
+use App\Managers\ContactManager;
 use App\Managers\OrderManager;
 use App\Managers\ProductManager;
 use App\Managers\UserManager;
+use App\Models\Contact;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -17,7 +20,7 @@ class HomeController extends Controller
     public function __construct(
         private OrderManager $orderManager,
         private UserManager $userManager,
-        private ProductManager $productManager
+        private ProductManager $productManager,
     )
     {
     }
@@ -57,6 +60,11 @@ class HomeController extends Controller
     public function faq(): View
     {
         return view('faq');
+    }
+
+    public function contact(): View
+    {
+        return view('contact');
     }
 
     public function admin(): View

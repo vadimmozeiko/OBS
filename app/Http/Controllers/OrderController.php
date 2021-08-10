@@ -18,7 +18,8 @@ class OrderController extends Controller
 
     public function __construct(
         private OrderManager $orderManager,
-        private UserManager $userManager)
+        private UserManager $userManager,
+        private NotificationController $notificationController)
     {
     }
 
@@ -49,7 +50,7 @@ class OrderController extends Controller
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
         $order = $this->orderManager->store($request);
-        $this->orderManager->SendNotConfirmed($order);
+        $this->orderManager->sendNotConfirmed($order);
         return redirect()->route('order.index')->with(['order' => $order, 'product' => $product, 'date' => $date]);
     }
 
@@ -76,8 +77,8 @@ class OrderController extends Controller
         $this->orderManager->changeOrderStatus($order, Order::STATUS_NOT_CONFIRMED);
         $this->orderManager->update($request, $order);
         $user = $this->userManager->getAuthUser();
-        $this->orderManager->SendOrderChange($order);
-
+        $this->orderManager->sendOrderChange($order);
+        $this->notificationController->store('updated',$order);
         return redirect()->route('user.orders', $user)->with('success_message', 'Booking details changed successfully');
     }
 
@@ -85,7 +86,8 @@ class OrderController extends Controller
     {
         $this->orderManager->changeOrderStatus($order, Order::STATUS_CANCELLED);
         $this->orderManager->save($order);
-        $this->orderManager->SendCancelled($order);
+        $this->orderManager->sendCancelled($order);
+        $this->notificationController->store('cancelled',$order);
         return redirect()->back()->with('success_message', 'Booking cancellation submitted successfully');
     }
 }

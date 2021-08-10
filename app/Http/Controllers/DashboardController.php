@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Managers\ContactManager;
 use App\Managers\OrderManager;
 use App\Managers\ProductManager;
 use App\Managers\UserManager;
+use App\Models\Contact;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -17,10 +19,12 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+
+
     public function __construct(
-        private OrderManager $orderManager,
-        private UserManager $userManager,
-        private ProductManager $productManager
+        private OrderManager   $orderManager,
+        private UserManager    $userManager,
+        private ProductManager $productManager,
     )
     {
     }
@@ -46,7 +50,7 @@ class DashboardController extends Controller
             return redirect()->back()->with('info_message', 'Not available for selected date');
         }
         $order = $this->orderManager->store($request);
-        $this->orderManager->SendNotConfirmed($order);
+        $this->orderManager->sendNotConfirmed($order);
         return redirect()->back()->with('success_message', 'Booking created successfully');
     }
 
@@ -55,38 +59,10 @@ class DashboardController extends Controller
         $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
         $userId = $request->get('user_id');
         $orderStatus = $request->get('order_status');
+        $orders = Order::filter($request)->paginate(10)->withQueryString();
         $search = $request->get('search');
-        $orders = $this->orderManager->getAllOrderDate();
         $products = $this->orderManager->getAll(Product::class);
         $productsId = $request->get('product');
-
-        if ($orderStatus) {
-            $orders = $this->orderManager->getByStatus(Order::class, $orderStatus);
-        }
-
-        if ($userId) {
-            $orders = $this->orderManager->getByUser(Order::class, $userId);
-        }
-
-        if ($productsId) {
-            $orders = $this->orderManager->getByProductId($productsId);
-        }
-
-        if ($userId && $orderStatus) {
-            $orders = $this->orderManager->getOrdersByIdByStatus($userId, $orderStatus);
-        }
-
-        if ($userId && $productsId) {
-            $orders = $this->orderManager->getOrdersByIdByProduct($userId, $productsId);
-        }
-
-        if ($userId && $orderStatus && $productsId) {
-            $orders = $this->orderManager->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
-        }
-
-        if ($search) {
-            $orders = $this->orderManager->search($search);
-        }
 
         return view('admin.orders.index',
             ['orders' => $orders, 'orderStatus' => $orderStatus ?? 0, 'users' => $users, 'userId' => $userId,
@@ -125,8 +101,7 @@ class DashboardController extends Controller
 
         $this->orderManager->update($request, $order);
 
-        // TODO configure mail send here
-//        $this->mail->orderChange($order);
+        $this->orderManager->sendOrderChange($order);
 
         return redirect()->back()->with('success_message', 'Booking details changed successfully');
     }
@@ -154,17 +129,23 @@ class DashboardController extends Controller
             return redirect()->back()->with('info_message', 'Cannot change to same status');
         }
 
-        if ($status == Order::STATUS_COMPLETED) {
-            $pdf = $this->orderManager->generateInvoiceAndSave($order);
-            $this->orderManager->SendCompleted($order, $pdf);
-            $this->orderManager->storeToFile($order, $pdf);
-
+        if ($status == Order::STATUS_CANCELLED) {
+            $this->orderManager->sendCancelled($order);
         }
+
+        if ($status == Order::STATUS_CONFIRMED) {
+            $this->orderManager->sendConfirmed($order);
+        }
+
+        if ($status == Order::STATUS_COMPLETED) {
+            $pdf = $this->orderManager->generateInvoice($order);
+            $this->orderManager->sendCompleted($order, $pdf);
+            $this->orderManager->storeToFile($order, $pdf);
+        }
+
         $this->orderManager->changeOrderStatus($order, $status);
         $this->orderManager->save($order);
 
-        // TODO configure status change mail send here
-//        $this->mail->statusChange($order);
 
         return redirect()->back()->with('success_message', 'Booking status updated successfully');
 
@@ -173,7 +154,7 @@ class DashboardController extends Controller
     public function loginAs($user): RedirectResponse
     {
         auth()->logout();
-        Auth::loginUsingId($user, true);
+        auth()->loginUsingId($user, true);
         return redirect()->route('index');
     }
 

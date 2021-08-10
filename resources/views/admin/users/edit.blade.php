@@ -2,7 +2,7 @@
 
 @section('content')
     <h2 class="">User #{{$user->id}} details</h2>
-    <div class="input-group ">
+    <div class="input-group">
         <form style="width: 100%;" method="POST" action="{{route('update.user', $user)}}"
               enctype="multipart/form-data">
             <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
