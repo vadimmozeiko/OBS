@@ -1842,6 +1842,12 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+$(document).ready(function () {
+  $("#filterBtn").click(function () {
+    $('#filters').toggle();
+  });
+});
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

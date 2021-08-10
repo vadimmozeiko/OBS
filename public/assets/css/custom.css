@@ -37,6 +37,10 @@ table {
     border-collapse: collapse;
 }
 
+.select2 {
+    width:100%!important;
+}
+
 .messages{
     background-color: #fff;
     color: #3c62d1;

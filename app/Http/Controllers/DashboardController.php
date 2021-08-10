@@ -59,7 +59,7 @@ class DashboardController extends Controller
         $users = $this->userManager->getAllUsers(User::class)->sortBy('name');
         $userId = $request->get('user_id');
         $orderStatus = $request->get('order_status');
-        $orders = Order::filter($request)->sortable()->paginate(10)->withQueryString();
+        $orders = Order::filter($request)->sortable()->orderBy('name')->paginate(10)->withQueryString();
         $search = $request->get('search');
         $products = $this->orderManager->getAll(Product::class);
         $productsId = $request->get('product');

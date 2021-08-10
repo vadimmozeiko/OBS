@@ -3,6 +3,8 @@
 @section('content')
     <h2 class="">Manage bookings</h2>
     <div class="justify-content-center pl-md-5 pr-md-5">
+        <button type="button" id="filterBtn" class="btn btn-dark w-100 mb-3">FILTERS</button>
+        <div id="filters" style="display: none">
         <form class="mb-4" action="{{route('list.order')}}" method="GET">
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>
             <select class="form-control mb-3" name="order_status">
@@ -12,7 +14,7 @@
                         {{$status}}</option>
                 @endforeach
             </select>
-            <div class="mt-3 mb-3">
+            <div class="mt-3 mb-3 w-100">
                 <span class="input-group-addon" id="basic-addon1">Filter by user</span>
                 <select class="form-control select-search w-100" name="user_id">
                     <option value="0" selected>All</option>
@@ -35,6 +37,7 @@
             <button class="btn btn-info">Filter</button>
             <a href="{{route('list.order')}}" class="btn btn-info">Reset</a>
         </form>
+        </div>
         <form action="{{route('list.order')}}">
             <div class="form-group mb-2 d-flex">
                 <input class="form-control" name="search" type="text" value="{{$search}}" placeholder="Quick search...">
