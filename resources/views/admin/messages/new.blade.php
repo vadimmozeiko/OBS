@@ -11,11 +11,11 @@
             <table class="table table-sortable">
                 <thead>
                 <tr>
-                    <th class="mobile-hide" scope="col">#</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Status</th>
+                    <th class="mobile-hide" scope="col">@sortablelink('id', '#')</th>
+                    <th scope="col">@sortablelink('created_at', 'Date')</th>
+                    <th scope="col">@sortablelink('name', 'Name')</th>
+                    <th scope="col">@sortablelink('email', 'Email')</th>
+                    <th scope="col">@sortablelink('status', 'Status')</th>
                     <th scope="col"></th>
                 </tr>
                 </thead>

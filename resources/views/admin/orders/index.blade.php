@@ -44,15 +44,11 @@
         <table class="table table-sortable">
             <thead>
             <tr>
-                <th class="sort-order sortable mobile-hide" scope="col"># <i class="order fas fa-sort-numeric-up"></i>
-                </th>
-                <th class="sort-date sortable" scope="col">Date <i class="date fas fa-sort-numeric-up"></i>
-                </th>
-                <th class="sort-name sortable mobile-hide" scope="col">Name <i class="name fas fa-sort-alpha-up"></i>
-                </th>
-                <th class="sort-title sortable" scope="col">Product <i class="title fas fa-sort-alpha-up"></i></th>
-                <th class="sort-status sortable mobile-hide" scope="col">Status <i
-                        class="status fas fa-sort-alpha-up"></i></th>
+                <th class="mobile-hide" scope="col">@sortablelink('order_number', '#')</th>
+                <th scope="col">@sortablelink('date', 'Date')</th>
+                <th class="mobile-hide" scope="col">@sortablelink('name', 'Name')</th>
+                <th scope="col">@sortablelink('product_id', 'Product')</th>
+                <th class="mobile-hide" scope="col">@sortablelink('status', 'Status')</th>
                 <th scope="col"></th>
             </tr>
             </thead>

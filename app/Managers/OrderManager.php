@@ -123,7 +123,12 @@ class OrderManager
 
     public function getByUser($model, int $userId)
     {
-        return $this->userRepository->getByUser($model, $userId);
+        return $model::select('*')
+            ->where('user_id', $userId)
+            ->sortable()
+            ->orderBy('date', 'desc')
+            ->paginate(10)
+            ->withQueryString();
     }
 
     public function getOrdersByIdByStatus(int $userId, string $orderStatus)
@@ -150,16 +155,6 @@ class OrderManager
     {
         return $this->orderRepository->getByProductId($productsId);
     }
-
-//    public function getOrdersByIdByProduct(int $userId, int $productsId)
-//    {
-//        return $this->orderRepository->getOrdersByIdByProduct($userId, $productsId);
-//    }
-
-//    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
-//    {
-//        return $this->orderRepository->getOrdersByIdByStatusByProduct($userId, $orderStatus, $productsId);
-//    }
 
     public function getNotAvailable(string $orderDate)
     {

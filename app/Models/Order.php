@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * App\Models\Order
@@ -31,6 +32,7 @@ use Illuminate\Support\Carbon;
 class Order extends Model
 {
     use HasFactory;
+    use Sortable;
 
     protected $guarded = [];
 
@@ -53,6 +55,16 @@ class Order extends Model
         'product_id',
         'invoice'
     ];
+
+    public $sortable = [
+        'order_number',
+        'product_id',
+        'name',
+        'email',
+        'phone',
+        'address',
+        'date',
+        'status'];
 
     public const STATUS_NOT_CONFIRMED = 'not confirmed';
     public const STATUS_CONFIRMED = 'confirmed';

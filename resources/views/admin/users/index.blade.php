@@ -24,13 +24,10 @@
         <table class="table table-sortable">
             <thead>
             <tr>
-                <th class="sort-order sortable mobile-hide" scope="col"># <i class="order fas fa-sort-numeric-up"></i>
-                </th>
-                <th class="sort-date sortable" scope="col">Name <i class="date fas fa-sort-numeric-up"></i>
-                </th>
-                <th class="sort-name sortable mobile-hide" scope="col">Email <i class="name fas fa-sort-alpha-up"></i>
-                </th>
-                <th class="sort-title sortable" scope="col">Status <i class="title fas fa-sort-alpha-up"></i></th>
+                <th class="mobile-hide" scope="col">@sortablelink('id', '#')</th>
+                <th scope="col">@sortablelink('name', 'Name')</th>
+                <th class="mobile-hide" scope="col">@sortablelink('email', 'Email')</th>
+                <th scope="col">@sortablelink('status', 'Status') </th>
                 <th scope="col"></th>
             </tr>
             </thead>

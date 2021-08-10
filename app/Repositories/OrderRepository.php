@@ -40,6 +40,7 @@ class OrderRepository extends BaseRepository
     public function getByStatusOrderDate(string $status)
     {
         return Order::where('status', $status)
+            ->sortable()
             ->orderBy('date')
             ->paginate(10)
             ->withQueryString();
@@ -87,7 +88,7 @@ class OrderRepository extends BaseRepository
 
     public function getLastOrderNumber(): int
     {
-       return Order::orderBy('order_number', 'desc')->first()->order_number;
+        return Order::orderBy('order_number', 'desc')->first()->order_number;
     }
 
     public function store(OrderCreateRequest $request)
@@ -119,21 +120,4 @@ class OrderRepository extends BaseRepository
     {
         return Order::where('product_id', $productsId)->paginate(10)->withQueryString();
     }
-
-//    public function getOrdersByIdByProduct(int $userId, int $productsId)
-//    {
-//        return Order::where([['user_id', $userId], ['product_id', $productsId]])
-//            ->orderBy('date', 'desc')
-//            ->paginate(10)
-//            ->withQueryString();
-//    }
-
-//    public function getOrdersByIdByStatusByProduct(int $userId, string $orderStatus, int $productsId)
-//    {
-//        return Order::where([['user_id', $userId], ['status', $orderStatus] ,['product_id', $productsId]])
-//            ->orderBy('date', 'desc')
-//            ->paginate(10)
-//            ->withQueryString();
-//    }
-
 }

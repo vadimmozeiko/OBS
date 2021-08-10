@@ -11,10 +11,10 @@
             <table class="table table-sortable">
                 <thead>
                 <tr>
-                    <th class="mobile-hide" scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Status</th>
-                    <th class="mobile-hide" scope="col">Price</th>
+                    <th class="mobile-hide" scope="col">@sortablelink('id', '#')</th>
+                    <th scope="col">@sortablelink('title', 'Title')</th>
+                    <th scope="col">@sortablelink('status', 'Status')</th>
+                    <th class="mobile-hide" scope="col">@sortablelink('price', 'Price')</th>
                     <th class="mobile-hide text-center" scope="col">Unavailable since</th>
                     <th class="mobile-hide text-center" scope="col">Broken since</th>
                     <th scope="col"></th>

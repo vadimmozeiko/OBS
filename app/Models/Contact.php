@@ -6,14 +6,22 @@ use App\StateMachines\MessageStatusStateMachine;
 use Asantibanez\LaravelEloquentStateMachines\Traits\HasStateMachines;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class Contact extends Model
 {
     use HasFactory;
     use HasStateMachines;
+    use Sortable;
 
     protected $guarded = [];
 
+    public $sortable = [
+        'id',
+        'created_at',
+        'name',
+        'email',
+        'status'];
 
     protected $fillable = [
         'name',

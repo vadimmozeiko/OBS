@@ -9,7 +9,7 @@ class ContactRepository extends BaseRepository
 {
     public function getAllMessages()
     {
-        return Contact::orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        return Contact::sortable()->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
     }
 
     public function store(ContactMessageCreateRequest $request)
@@ -21,6 +21,7 @@ class ContactRepository extends BaseRepository
     {
        return Contact::where('status', Contact::STATUS_NEW)
            ->Orwhere('status', Contact::STATUS_READ)
+           ->sortable()
            ->orderBy('created_at')
            ->paginate(10)->withQueryString();
     }

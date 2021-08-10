@@ -30,7 +30,7 @@ class ProductManager
 
     public function getAll($model)
     {
-       return $this->productRepository->getAll($model);
+       return $model::sortable()->paginate(10)->withQueryString();
     }
 
     public function store(ProductCreateRequest $request)

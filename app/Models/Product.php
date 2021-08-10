@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * App\Models\Product
@@ -29,8 +30,15 @@ class Product extends Model
 {
     use HasFactory;
     use HasStateMachines;
+    use Sortable;
 
     protected $guarded = [];
+
+    public $sortable = [
+        'id',
+        'title',
+        'price',
+        'status'];
 
     protected $fillable = [
         'image',

@@ -11,6 +11,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * App\Models\User
@@ -32,10 +33,15 @@ use Illuminate\Support\Carbon;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, Sortable;
 
     protected $guarded = [];
 
+    public $sortable = [
+        'id',
+        'name',
+        'email',
+        'status'];
 
     public const STATUS_NOT_VERIFIED = 'not verified';
     public const STATUS_ACTIVE = 'active';
