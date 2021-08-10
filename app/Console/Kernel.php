@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('notifications:delete')
             ->description('deletes week old notifications')
-            ->weekly();
+            ->daily();
     }
 
     /**

@@ -25,8 +25,6 @@ class UserRepository extends BaseRepository
         return $model::all();
     }
 
-
-
     public function getByStatusOrderName(string $status)
     {
         return User::where('status', $status)->orderBy('name')->paginate(10)->withQueryString();

@@ -13,7 +13,7 @@
                                   enctype="multipart/form-data">
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
                                 <input class="form-control @error('name') is-invalid @enderror" type="text"
-                                       name="name" value="{{old('name', $user->name)}}">
+                                       name="name" value="{{old('name', $user->name ?? '')}}">
                                 @error('name')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -21,7 +21,7 @@
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Email *</span>
                                 <input class="form-control @error('email') is-invalid @enderror" type="email"
-                                       name="email" value="{{old('email', $user->email)}}">
+                                       name="email" value="{{old('email', $user->email ?? '')}}">
                                 @error('email')
                                 <small class="invalid-feedback " role="alert">
                                     <strong>{{ $message }}</strong>
@@ -29,7 +29,7 @@
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Address *</span>
                                 <input class="form-control @error('address') is-invalid @enderror" type="text"
-                                       name="address" value="{{old('address', $user->address)}}">
+                                       name="address" value="{{old('address', $user->address ?? '')}}">
                                 @error('address')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -37,7 +37,7 @@
                                 @enderror
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Phone no. *</span>
                                 <input class="form-control @error('phone') is-invalid @enderror" type="number"
-                                       name="phone" value="{{old('phone', $user->phone)}}">
+                                       name="phone" value="{{old('phone', $user->phone ?? '')}}">
                                 @error('phone')
                                 <small class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -48,9 +48,9 @@
                                        value="{{old('date', $request->order_date)}}" readonly>
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Message</span>
                                 <textarea class="form-control mb-3"
-                                          name="message">{{old('message', $request->message)}}</textarea>
+                                          name="message">{{old('message', $request->message ?? '')}}</textarea>
                                 <small class="d-block mb-3">* Required info</small>
-                                <input type="hidden" name="user_id" value="{{$user->id}}">
+                                <input type="hidden" name="user_id" value="{{$user->id ?? ''}}">
                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                 <input type="hidden" name="status" value="{{\App\Models\Order::STATUS_NOT_CONFIRMED}}">
                                 <input type="hidden" name="order_number" value="{{$orderNumber}}">

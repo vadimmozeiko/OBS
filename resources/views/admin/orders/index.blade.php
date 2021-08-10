@@ -3,7 +3,7 @@
 @section('content')
     <h2 class="">Manage bookings</h2>
     <div class="justify-content-center pl-md-5 pr-md-5">
-        <button type="button" id="filterBtn" class="btn btn-dark w-100 mb-3">FILTERS</button>
+        <button type="button" id="filterBtn" class="btn btn-outline-info w-100 mb-3">FILTERS</button>
         <div id="filters" style="display: none">
         <form class="mb-4" action="{{route('list.order')}}" method="GET">
             <span class="input-group-addon" id="basic-addon1">Filter by status</span>

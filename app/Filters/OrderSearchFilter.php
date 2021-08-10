@@ -8,6 +8,7 @@ class OrderSearchFilter
     {
         return $builder->where('date', 'like', "%$value%")
         ->orWhere('name', 'like', "%$value%")
+        ->orWhere('email', 'like', "%$value%")
         ->orWhere('order_number', 'like', "%$value%")
         ->orderBy('date')
         ->paginate(10)

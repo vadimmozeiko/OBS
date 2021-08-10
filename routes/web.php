@@ -17,6 +17,9 @@ Route::get('/products/all', [HomeController::class, 'products'])->name('products
 Route::get('/products/show/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact/message', [ContactController::class, 'store'])->name('send.message');
+Route::get('create/{product}', [OrderController::class, 'create'])->name('order.create');
+Route::get('success', [OrderController::class, 'index'])->name('order.index');
+Route::post('store', [OrderController::class, 'store'])->name('order.store');
 
 Auth::routes(['verify' => true]);
 
@@ -33,9 +36,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::post('delete/{user}', [UserController::class, 'destroy'])->name('user.destroy');
     });
     Route::group(['prefix' => 'orders'], function () {
-        Route::get('', [OrderController::class, 'index'])->name('order.index');
-        Route::get('create/{product}', [OrderController::class, 'create'])->name('order.create');
-        Route::post('store', [OrderController::class, 'store'])->name('order.store');
         Route::get('edit/{order}', [OrderController::class, 'edit'])->name('order.edit');
         Route::post('update/{order}', [OrderController::class, 'update'])->name('order.update');
         Route::post('delete/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
