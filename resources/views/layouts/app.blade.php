@@ -50,13 +50,13 @@
                     @guest
                         @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Sign In') }}</a>
+                                <a class="nav-link menu hover-blue {{ request()->is('login') ? 'bg-blue' : '' }}" href="{{ route('login') }}">{{ __('Sign In') }}</a>
                             </li>
                         @endif
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Sign Up') }}</a>
+                                <a class="nav-link menu hover-blue {{ request()->is('register') ? 'bg-blue' : '' }}" href="{{ route('register') }}">{{ __('Sign Up') }}</a>
                             </li>
                         @endif
                     @else

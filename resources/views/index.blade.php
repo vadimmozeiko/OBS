@@ -9,7 +9,7 @@
                 <div class="form-row text-center d-flex flex-wrap justify-content-center">
                     <div class="col-12 col-sm-6 col-md-6 col-lg-6">
                         <input id="datepicker" class="search form-control mb-3" type="text"
-                               name="order_date" placeholder="Pick the date" autocomplete="off" required>
+                               name="order_date" placeholder="Pick the date" autocomplete="off">
                     </div>
                     <div>
                         <button class="btn btn-primary search" type="submit">Check availability</button>

@@ -80,7 +80,7 @@ class UserManager
         $this->userRepository->delete($user);
     }
 
-    public function checkPass(string $currentPass, string $inputCurrentPass): bool
+    public function checkPass(string $currentPass, string|null $inputCurrentPass): bool
     {
        return Hash::check($inputCurrentPass, $currentPass);
     }

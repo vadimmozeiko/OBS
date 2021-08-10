@@ -9,7 +9,7 @@
                            class="datepicker form-control mb-3 text-center" type="text"
                            name="order_date"
                            @if(!empty(request()->has('order_date'))) value="{{request()->get('order_date')}}"
-                           @else placeholder="Pick the date" @endif autocomplete="off" required>
+                           @else placeholder="Pick the date" @endif autocomplete="off" >
                 </div>
                 <div class="col-12 col-sm-12">
                     <button class="btn btn-primary mb-3" type="submit">Check availability</button>
@@ -29,7 +29,7 @@
                         <div class="card-body">
                             <h2 class="product-title mb-3">{{$product->title}}</h2>
                             <p>{{$product->category}}</p>
-                            <p> &#128;{{number_format($product->price / 100, 2)}} / 12 hours</p>
+                            <p> {{number_format($product->price / 100, 2)}} Eur / 12 hours</p>
                         </div>
                     </div>
                     <div class="card-body p-0">
