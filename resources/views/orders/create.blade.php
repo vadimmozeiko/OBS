@@ -9,6 +9,10 @@
                     <div class="card-body">
                         <h2 class="">Fill the form</h2>
                         <div class="input-group">
+                            @if(!auth()->check())
+                                <p>Have an account? <a class="btn btn-primary btn-sm"
+                                                       href="{{route('login')}}">Login</a></p>
+                            @endif
                             <form style="width: 100%;" method="POST" action="{{route('order.store')}}"
                                   enctype="multipart/form-data">
                                 <span class="input-group-addon d-block mt-3" id="basic-addon1">Full name *</span>
