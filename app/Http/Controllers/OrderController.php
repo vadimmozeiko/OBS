@@ -43,6 +43,8 @@ class OrderController extends Controller
 
     public function store(OrderCreateRequest $request): RedirectResponse
     {
+
+//        dd($request);
         $product = $this->orderManager->getFirstProductById($request);
         $date = str_replace('-', '', "$request->date");
 

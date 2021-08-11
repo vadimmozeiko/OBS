@@ -15,12 +15,11 @@ use Kyslik\ColumnSortable\Sortable;
  * App\Models\Product
  *
  * @property int $id
- * @property string $image
+ * @property string|null $image
  * @property string $category
  * @property string $title
  * @property string $price
- * @property string $short_description
- * @property string $description
+ * @property string|null $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
 
@@ -38,7 +37,8 @@ class Product extends Model
         'id',
         'title',
         'price',
-        'status'];
+        'status'
+    ];
 
     protected $fillable = [
         'image',
