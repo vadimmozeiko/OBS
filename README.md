@@ -10,6 +10,13 @@
 
 #### Project available at: http://vadim-dev.sytes.net/obs/public
 
+```
+Login
+
+email: admin@admin.com
+password: adminpass
+```
+
 This project is for PHP development and practicing only. 
 
 During this project my tasks are:
