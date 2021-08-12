@@ -4,10 +4,11 @@
 ![PHP](https://img.shields.io/badge/code-PHP-blue)
 ![Laravel](https://img.shields.io/badge/framework-Laravel-red)
 
-
 # Online booking system
 
 ### _PHP Academy Final Project_
+
+#### Project available at: http://vadim-dev.sytes.net/obs/public
 
 This project is for PHP development and practicing only. 
 
