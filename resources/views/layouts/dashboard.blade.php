@@ -50,7 +50,7 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
+        <div style="color: #fff" class="sidebar-heading">
             Daily
         </div>
 
@@ -103,7 +103,7 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
+        <div style="color: #fff" class="sidebar-heading">
             Messages
         </div>
 
@@ -123,7 +123,7 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
+        <div style="color: #fff" class="sidebar-heading">
             Bookings
         </div>
 
@@ -143,7 +143,7 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
+        <div style="color: #fff" class="sidebar-heading">
             Users
         </div>
 
@@ -163,7 +163,7 @@
         <hr class="sidebar-divider">
 
         <!-- Heading -->
-        <div class="sidebar-heading">
+        <div style="color: #fff" class="sidebar-heading">
             Products
         </div>
 
